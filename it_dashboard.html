@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Dashboard - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --it-primary: #17a2b8;
+            --it-secondary: #3498db;
+            --it-success: #28a745;
+            --it-danger: #dc3545;
+            --it-warning: #ffc107;
+            --it-info: #17a2b8;
+            --it-dark: #2c3e50;
+            --it-light: #ecf0f1;
+        }
+
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .it-header {
+            background: linear-gradient(135deg, var(--it-primary) 0%, var(--it-secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .navbar-brand i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--it-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--it-light);
+        }
+
+        .dropdown-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        .it-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        .it-sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 2rem 0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: var(--it-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: var(--it-light);
+            border-left-color: var(--it-primary);
+        }
+
+        .sidebar-link i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .it-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            color: var(--it-dark);
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .content-header p {
+            color: #636e72;
+            margin: 0.5rem 0 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.primary { background: rgba(23, 162, 184, 0.1); color: var(--it-primary); }
+        .stat-icon.success { background: rgba(40, 167, 69, 0.1); color: var(--it-success); }
+        .stat-icon.warning { background: rgba(255, 193, 7, 0.1); color: var(--it-warning); }
+        .stat-icon.danger { background: rgba(220, 53, 69, 0.1); color: var(--it-danger); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--it-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--it-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            color: var(--it-dark);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .system-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--it-primary);
+        }
+
+        .system-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .system-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .system-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--it-dark);
+            margin: 0;
+        }
+
+        .system-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .system-status.operational {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--it-success);
+        }
+
+        .system-status.maintenance {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--it-warning);
+        }
+
+        .system-status.issue {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--it-danger);
+        }
+
+        .system-status.offline {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+        }
+
+        .system-details {
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .detail-label {
+            color: #636e72;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--it-dark);
+        }
+
+        .system-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-maintain {
+            background: var(--it-warning);
+            color: white;
+        }
+
+        .btn-view {
+            background: var(--it-info);
+            color: white;
+        }
+
+        .btn-restart {
+            background: var(--it-danger);
+            color: white;
+        }
+
+        .btn-action:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .support-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--it-success);
+        }
+
+        .support-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .support-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .support-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--it-dark);
+            margin: 0;
+        }
+
+        .support-priority {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .support-priority.high {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--it-danger);
+        }
+
+        .support-priority.medium {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--it-warning);
+        }
+
+        .support-priority.low {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--it-success);
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--it-primary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--it-success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--it-warning);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--it-danger);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .it-container {
+                flex-direction: column;
+            }
+
+            .it-sidebar {
+                width: 100%;
+                padding: 1rem 0;
+            }
+
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+
+            .sidebar-link {
+                white-space: nowrap;
+                padding: 0.75rem 1rem;
+            }
+
+            .it-content {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .content-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- IT Header -->
+    <header class="it-header">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-laptop-code"></i>
+                IT Dashboard
+            </div>
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="dashboard_enhanced.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <div class="user-dropdown">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">
+                        <i class="fas fa-user"></i>
+                        <span id="userName">IT Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                        <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #eee;">
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="it-container">
+        <!-- Sidebar -->
+        <aside class="it-sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link active" data-section="overview">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Overview
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="systems">
+                        <i class="fas fa-server"></i>
+                        Systems
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="support">
+                        <i class="fas fa-headset"></i>
+                        User Support
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="security">
+                        <i class="fas fa-shield-alt"></i>
+                        Security
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="backup">
+                        <i class="fas fa-database"></i>
+                        Backup
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="logs">
+                        <i class="fas fa-file-alt"></i>
+                        System Logs
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="it-content">
+            <!-- Overview Section -->
+            <div class="main-content active" id="overview">
+                <div class="content-header">
+                    <h1>IT Overview</h1>
+                    <p>System status and IT management dashboard.</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <span class="stat-change positive">+2</span>
+                        </div>
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Total Systems</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <span class="stat-change positive">+1</span>
+                        </div>
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Operational</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <span class="stat-change negative">-1</span>
+                        </div>
+                        <div class="stat-value">1</div>
+                        <div class="stat-label">Maintenance</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon danger">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <span class="stat-change">0</span>
+                        </div>
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Issues</div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent IT Activity</h3>
+                        <button class="btn btn-primary">View All</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>System maintenance</strong> - Application software update completed</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Backup completed</strong> - Daily backup successful</p>
+                                    <span class="activity-time">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Security update</strong> - Firewall rules updated</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Systems Section -->
+            <div class="main-content" id="systems">
+                <div class="content-header">
+                    <h1>System Management</h1>
+                    <p>Monitor and manage all IT systems.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>IT Systems</h3>
+                        <button class="btn btn-primary">Add System</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="system-grid">
+                            <div class="system-card">
+                                <div class="system-header">
+                                    <h3 class="system-title">Main Server</h3>
+                                    <span class="system-status operational">Operational</span>
+                                </div>
+                                <div class="system-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Type:</span>
+                                        <span class="detail-value">Hardware</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Last Maintenance:</span>
+                                        <span class="detail-value">Mar 1, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Next Maintenance:</span>
+                                        <span class="detail-value">Apr 1, 2024</span>
+                                    </div>
+                                </div>
+                                <div class="system-actions">
+                                    <button class="btn-action btn-maintain">Maintain</button>
+                                    <button class="btn-action btn-view">View</button>
+                                </div>
+                            </div>
+
+                            <div class="system-card">
+                                <div class="system-header">
+                                    <h3 class="system-title">Network Infrastructure</h3>
+                                    <span class="system-status operational">Operational</span>
+                                </div>
+                                <div class="system-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Type:</span>
+                                        <span class="detail-value">Network</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Last Maintenance:</span>
+                                        <span class="detail-value">Mar 5, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Next Maintenance:</span>
+                                        <span class="detail-value">Apr 5, 2024</span>
+                                    </div>
+                                </div>
+                                <div class="system-actions">
+                                    <button class="btn-action btn-maintain">Maintain</button>
+                                    <button class="btn-action btn-view">View</button>
+                                </div>
+                            </div>
+
+                            <div class="system-card">
+                                <div class="system-header">
+                                    <h3 class="system-title">Backup System</h3>
+                                    <span class="system-status operational">Operational</span>
+                                </div>
+                                <div class="system-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Type:</span>
+                                        <span class="detail-value">Backup</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Last Maintenance:</span>
+                                        <span class="detail-value">Mar 10, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Next Maintenance:</span>
+                                        <span class="detail-value">Mar 24, 2024</span>
+                                    </div>
+                                </div>
+                                <div class="system-actions">
+                                    <button class="btn-action btn-maintain">Maintain</button>
+                                    <button class="btn-action btn-view">View</button>
+                                </div>
+                            </div>
+
+                            <div class="system-card">
+                                <div class="system-header">
+                                    <h3 class="system-title">Security Systems</h3>
+                                    <span class="system-status operational">Operational</span>
+                                </div>
+                                <div class="system-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Type:</span>
+                                        <span class="detail-value">Security</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Last Maintenance:</span>
+                                        <span class="detail-value">Mar 8, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Next Maintenance:</span>
+                                        <span class="detail-value">Apr 8, 2024</span>
+                                    </div>
+                                </div>
+                                <div class="system-actions">
+                                    <button class="btn-action btn-maintain">Maintain</button>
+                                    <button class="btn-action btn-view">View</button>
+                                </div>
+                            </div>
+
+                            <div class="system-card">
+                                <div class="system-header">
+                                    <h3 class="system-title">Application Software</h3>
+                                    <span class="system-status maintenance">Maintenance</span>
+                                </div>
+                                <div class="system-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Type:</span>
+                                        <span class="detail-value">Software</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Last Maintenance:</span>
+                                        <span class="detail-value">Mar 15, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Next Maintenance:</span>
+                                        <span class="detail-value">Mar 20, 2024</span>
+                                    </div>
+                                </div>
+                                <div class="system-actions">
+                                    <button class="btn-action btn-maintain">Maintain</button>
+                                    <button class="btn-action btn-restart">Restart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Section -->
+            <div class="main-content" id="support">
+                <div class="content-header">
+                    <h1>User Support</h1>
+                    <p>Manage user support requests and tickets.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Support Tickets</h3>
+                        <button class="btn btn-primary">New Ticket</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="support-grid">
+                            <div class="support-card">
+                                <div class="support-header">
+                                    <h3 class="support-title">Login Issue</h3>
+                                    <span class="support-priority high">High</span>
+                                </div>
+                                <div class="system-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">User:</span>
+                                        <span class="detail-value">John Doe</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Department:</span>
+                                        <span class="detail-value">Agriculture</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Created:</span>
+                                        <span class="detail-value">2 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="system-actions">
+                                    <button class="btn-action btn-view">View</button>
+                                </div>
+                            </div>
+
+                            <div class="support-card">
+                                <div class="support-header">
+                                    <h3 class="support-title">Printer Not Working</h3>
+                                    <span class="support-priority medium">Medium</span>
+                                </div>
+                                <div class="system-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">User:</span>
+                                        <span class="detail-value">Jane Smith</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Department:</span>
+                                        <span class="detail-value">Training</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Created:</span>
+                                        <span class="detail-value">5 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="system-actions">
+                                    <button class="btn-action btn-view">View</button>
+                                </div>
+                            </div>
+
+                            <div class="support-card">
+                                <div class="support-header">
+                                    <h3 class="support-title">Password Reset</h3>
+                                    <span class="support-priority low">Low</span>
+                                </div>
+                                <div class="system-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">User:</span>
+                                        <span class="detail-value">Mike Johnson</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Department:</span>
+                                        <span class="detail-value">Management</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Created:</span>
+                                        <span class="detail-value">1 day ago</span>
+                                    </div>
+                                </div>
+                                <div class="system-actions">
+                                    <button class="btn-action btn-view">View</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Section -->
+            <div class="main-content" id="security">
+                <div class="content-header">
+                    <h1>Security Management</h1>
+                    <p>Monitor and manage system security.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Security Overview</h3>
+                        <button class="btn btn-primary">Security Audit</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon success">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">100%</div>
+                                <div class="stat-label">Firewall Status</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon success">
+                                        <i class="fas fa-virus"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">Threats Detected</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon warning">
+                                        <i class="fas fa-user-shield"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">42</div>
+                                <div class="stat-label">Active Users</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon success">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">Up to Date</div>
+                                <div class="stat-label">Antivirus Status</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backup Section -->
+            <div class="main-content" id="backup">
+                <div class="content-header">
+                    <h1>Backup Management</h1>
+                    <p>Manage system backups and recovery.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Backup Status</h3>
+                        <button class="btn btn-primary">Create Backup</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="system-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Last Backup:</span>
+                                <span class="detail-value">Mar 10, 2024 08:00 AM</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Backup Size:</span>
+                                <span class="detail-value">2.4 GB</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value" style="color: var(--it-success);">Completed Successfully</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Next Scheduled:</span>
+                                <span class="detail-value">Mar 11, 2024 08:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logs Section -->
+            <div class="main-content" id="logs">
+                <div class="content-header">
+                    <h1>System Logs</h1>
+                    <p>View and analyze system logs.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Logs</h3>
+                        <button class="btn btn-primary">Export Logs</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>System Info</strong> - User login: it_admin</p>
+                                    <span class="activity-time">Mar 15, 2024 09:15 AM</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Maintenance</strong> - System maintenance completed</p>
+                                    <span class="activity-time">Mar 15, 2024 08:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Backup</strong> - Daily backup completed successfully</p>
+                                    <span class="activity-time">Mar 14, 2024 08:00 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize IT Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeIT();
+        });
+
+        function initializeIT() {
+            // Check if user is logged in as IT
+            const user = JSON.parse(localStorage.getItem('ayikb_user') || sessionStorage.getItem('ayikb_user'));
+            if (!user || user.role !== 'it') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Set user name
+            document.getElementById('userName').textContent = user.name || 'IT Admin';
+
+            // Setup event listeners
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // Sidebar navigation
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and sections
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    document.querySelectorAll('.main-content').forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sectionId = this.dataset.section;
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function logout() {
+            localStorage.removeItem('ayikb_user');
+            sessionStorage.removeItem('ayikb_user');
+            window.location.href = 'login.html';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('userDropdown');
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            
+            if (!dropdownToggle.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

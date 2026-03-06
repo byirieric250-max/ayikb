@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Programs - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --training-primary: #2ecc71;
+            --training-secondary: #3498db;
+            --training-success: #27ae60;
+            --training-danger: #e74c3c;
+            --training-warning: #f39c12;
+            --training-info: #17a2b8;
+            --training-dark: #2c3e50;
+            --training-light: #ecf0f1;
+        }
+
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .training-header {
+            background: linear-gradient(135deg, var(--training-secondary) 0%, var(--training-info) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .navbar-brand i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--training-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--training-light);
+        }
+
+        .dropdown-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        .training-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            color: var(--training-dark);
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .content-header p {
+            color: #636e72;
+            margin: 0.5rem 0 0;
+        }
+
+        .training-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .form-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--training-light);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border: 1px solid var(--training-light);
+            border-radius: 8px;
+            width: 250px;
+            font-size: 0.9rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #636e72;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--training-primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--training-secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--training-success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--training-warning);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--training-danger);
+            color: white;
+        }
+
+        .btn-info {
+            background: var(--training-info);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+
+        .stat-icon.primary { background: rgba(46, 204, 113, 0.1); color: var(--training-primary); }
+        .stat-icon.success { background: rgba(39, 174, 96, 0.1); color: var(--training-success); }
+        .stat-icon.warning { background: rgba(243, 156, 18, 0.1); color: var(--training-warning); }
+        .stat-icon.info { background: rgba(23, 162, 184, 0.1); color: var(--training-info); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--training-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .training-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--training-secondary);
+        }
+
+        .training-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .training-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .training-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--training-dark);
+            margin: 0;
+        }
+
+        .training-category {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .training-category.agriculture {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--training-primary);
+        }
+
+        .training-category.livestock {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--training-warning);
+        }
+
+        .training-category.business {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--training-secondary);
+        }
+
+        .training-category.technology {
+            background: rgba(149, 165, 166, 0.1);
+            color: #7f8c8d;
+        }
+
+        .training-category.other {
+            background: rgba(155, 89, 182, 0.1);
+            color: #9b59b6;
+        }
+
+        .training-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .training-status.upcoming {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--training-secondary);
+        }
+
+        .training-status.ongoing {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--training-primary);
+        }
+
+        .training-status.completed {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--training-success);
+        }
+
+        .training-status.cancelled {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--training-danger);
+        }
+
+        .training-details {
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .detail-label {
+            color: #636e72;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--training-dark);
+        }
+
+        .training-description {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #636e72;
+            line-height: 1.4;
+        }
+
+        .training-trainer {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: var(--training-light);
+            border-radius: 8px;
+        }
+
+        .trainer-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .trainer-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--training-secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .trainer-details {
+            flex: 1;
+        }
+
+        .trainer-name {
+            font-weight: 600;
+            color: var(--training-dark);
+            margin: 0;
+        }
+
+        .trainer-contact {
+            font-size: 0.8rem;
+            color: #636e72;
+            margin: 0;
+        }
+
+        .participant-progress {
+            margin-bottom: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--training-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--training-secondary), var(--training-info));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .training-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .btn-register {
+            background: var(--training-primary);
+            color: white;
+        }
+
+        .btn-view {
+            background: var(--training-info);
+            color: white;
+        }
+
+        .btn-edit {
+            background: var(--training-warning);
+            color: white;
+        }
+
+        .btn-certificate {
+            background: var(--training-success);
+            color: white;
+        }
+
+        .btn-action:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        .calendar-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-header h3 {
+            margin: 0;
+            color: var(--training-dark);
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            color: var(--training-dark);
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--training-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: var(--training-light);
+        }
+
+        .calendar-day.today {
+            background: var(--training-secondary);
+            color: white;
+            border-color: var(--training-secondary);
+        }
+
+        .calendar-day.has-training {
+            border-color: var(--training-primary);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .training-indicator {
+            position: absolute;
+            bottom: 2px;
+            width: 6px;
+            height: 6px;
+            background: var(--training-primary);
+            border-radius: 50%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--training-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--training-dark);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--training-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #636e72;
+        }
+
+        .close-btn:hover {
+            color: var(--training-dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--training-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--training-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--training-secondary);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--training-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: rgba(0, 184, 148, 0.1);
+            color: var(--training-success);
+            border: 1px solid rgba(0, 184, 148, 0.3);
+        }
+
+        .alert-danger {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--training-danger);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .certificate-preview {
+            background: white;
+            border: 2px solid var(--training-primary);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .certificate-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .certificate-header h2 {
+            color: var(--training-primary);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .certificate-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .participant-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--training-dark);
+            margin: 0.5rem 0;
+        }
+
+        .certificate-footer {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+        }
+
+        .signature {
+            text-align: center;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .training-container {
+                padding: 1rem;
+            }
+
+            .training-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .training-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calendar-grid {
+                gap: 0.25rem;
+            }
+
+            .navbar {
+                padding: 0 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .content-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Training Header -->
+    <header class="training-header">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-graduation-cap"></i>
+                Training Programs
+            </div>
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="dashboard_enhanced.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <div class="user-dropdown">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">
+                        <i class="fas fa-user"></i>
+                        <span id="userName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                        <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #eee;">
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="training-container">
+        <!-- Content Header -->
+        <div class="content-header">
+            <h1>Training Programs</h1>
+            <p>Manage training schedules, participant registration, and certification.</p>
+        </div>
+
+        <!-- Training Actions -->
+        <div class="training-actions">
+            <div class="filters">
+                <select class="form-select" id="statusFilter" onchange="filterTraining()">
+                    <option value="all">All Status</option>
+                    <option value="upcoming">Upcoming</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                <select class="form-select" id="categoryFilter" onchange="filterTraining()">
+                    <option value="all">All Categories</option>
+                    <option value="agriculture">Agriculture</option>
+                    <option value="livestock">Livestock</option>
+                    <option value="business">Business</option>
+                    <option value="technology">Technology</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search training..." onkeyup="searchTraining()">
+            </div>
+            <button class="btn btn-primary" onclick="showAddTrainingModal()">
+                <i class="fas fa-plus"></i> Add Training
+            </button>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon primary">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="stat-value" id="totalTraining">4</div>
+                <div class="stat-label">Total Programs</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon info">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-value" id="upcomingTraining">1</div>
+                <div class="stat-label">Upcoming</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon success">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="stat-value" id="ongoingTraining">1</div>
+                <div class="stat-label">Ongoing</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon warning">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-value" id="completedTraining">2</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+
+        <!-- Calendar Section -->
+        <div class="calendar-section">
+            <div class="calendar-header">
+                <h3>Training Calendar</h3>
+                <div class="calendar-nav">
+                    <button class="btn btn-secondary" onclick="previousMonth()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="btn btn-secondary" onclick="nextMonth()">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Calendar will be generated here -->
+            </div>
+        </div>
+
+        <!-- Training Grid -->
+        <div class="training-grid" id="trainingGrid">
+            <!-- Training Cards will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Add Training Modal -->
+    <div class="modal" id="addTrainingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Training Program</h3>
+                <button class="close-btn" onclick="closeModal('addTrainingModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addTrainingForm">
+                    <div class="form-group">
+                        <label class="form-label">Training Name *</label>
+                        <input type="text" class="form-control" id="trainingName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category *</label>
+                        <select class="form-select" id="trainingCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="agriculture">Agriculture</option>
+                            <option value="livestock">Livestock</option>
+                            <option value="business">Business</option>
+                            <option value="technology">Technology</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description *</label>
+                        <textarea class="form-control" id="trainingDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Start Date *</label>
+                        <input type="date" class="form-control" id="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">End Date *</label>
+                        <input type="date" class="form-control" id="endDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Start Time *</label>
+                        <input type="time" class="form-control" id="startTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">End Time *</label>
+                        <input type="time" class="form-control" id="endTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location *</label>
+                        <input type="text" class="form-control" id="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Trainer Name *</label>
+                        <input type="text" class="form-control" id="trainerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Trainer Contact</label>
+                        <input type="text" class="form-control" id="trainerContact">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Maximum Participants *</label>
+                        <input type="number" class="form-control" id="maxParticipants" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addTrainingModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addTraining()">Add Training</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div class="modal" id="registrationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Training Registration</h3>
+                <button class="close-btn" onclick="closeModal('registrationModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" class="form-control" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone *</label>
+                        <input type="tel" class="form-control" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Sector</label>
+                        <input type="text" class="form-control" id="sector">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Occupation</label>
+                        <input type="text" class="form-control" id="occupation">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Motivation</label>
+                        <textarea class="form-control" id="motivation" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('registrationModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="submitRegistration()">Register</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certificate Modal -->
+    <div class="modal" id="certificateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Training Certificate</h3>
+                <button class="close-btn" onclick="closeModal('certificateModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="certificate-preview">
+                    <div class="certificate-header">
+                        <h2>AgriYouth Innovation Kirehe Business</h2>
+                        <p>Certificate of Completion</p>
+                    </div>
+                    <div class="certificate-body">
+                        <p>This is to certify that</p>
+                        <div class="participant-name" id="certificateParticipantName">Participant Name</div>
+                        <p>has successfully completed the training program</p>
+                        <div class="training-title" id="certificateTrainingTitle">Training Title</div>
+                        <p>on <span id="certificateDate">Date</span></p>
+                    </div>
+                    <div class="certificate-footer">
+                        <div class="signature">
+                            <div class="signature-line">Trainer Signature</div>
+                            <p>Trainer</p>
+                        </div>
+                        <div class="signature">
+                            <div class="signature-line">Director Signature</div>
+                            <p>Director</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('certificateModal')">Close</button>
+                <button class="btn btn-success" onclick="downloadCertificate()">
+                    <i class="fas fa-download"></i> Download
+                </button>
+                <button class="btn btn-info" onclick="printCertificate()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Training Management
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTraining();
+        });
+
+        function initializeTraining() {
+            // Check if user is logged in
+            const user = JSON.parse(localStorage.getItem('ayikb_user') || sessionStorage.getItem('ayikb_user'));
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Set user name
+            document.getElementById('userName').textContent = user.name || 'User';
+
+            // Load training programs
+            loadTrainingPrograms();
+            
+            // Generate calendar
+            generateCalendar();
+        }
+
+        function loadTrainingPrograms() {
+            const trainingPrograms = [
+                {
+                    id: 1,
+                    name: 'Uburyo bwo guhinga bwiza',
+                    category: 'agriculture',
+                    description: 'Amahugurwa ajyanye n\'uburyo bwo guhinga bwiza',
+                    startDate: '2024-04-20',
+                    endDate: '2024-04-20',
+                    startTime: '09:00',
+                    endTime: '17:00',
+                    location: 'AYIKB Office, Nyagahama',
+                    trainerName: 'MINAGRI Expert',
+                    trainerContact: '0788123456',
+                    maxParticipants: 50,
+                    currentParticipants: 30,
+                    status: 'upcoming'
+                },
+                {
+                    id: 2,
+                    name: 'Ubworozi bw\'Ingurube',
+                    category: 'livestock',
+                    description: 'Amahugurwa ajyanye n\'ubworozi bw\'ingurube',
+                    startDate: '2024-03-15',
+                    endDate: '2024-04-15',
+                    startTime: '08:00',
+                    endTime: '16:00',
+                    location: 'AYIKB Farm',
+                    trainerName: 'RAB Veterinarian',
+                    trainerContact: '0788234567',
+                    maxParticipants: 25,
+                    currentParticipants: 25,
+                    status: 'ongoing'
+                },
+                {
+                    id: 3,
+                    name: 'Ubucuruzi bw\'Umusaruro',
+                    category: 'business',
+                    description: 'Amahugurwa ajyanye n\'ubucuruzi bw\'umusaruro',
+                    startDate: '2024-02-10',
+                    endDate: '2024-02-10',
+                    startTime: '09:00',
+                    endTime: '15:00',
+                    location: 'AYIKB Office',
+                    trainerName: 'Business Consultant',
+                    trainerContact: '0788345678',
+                    maxParticipants: 40,
+                    currentParticipants: 40,
+                    status: 'completed'
+                },
+                {
+                    id: 4,
+                    name: 'Technology in Agriculture',
+                    category: 'technology',
+                    description: 'Modern technology applications in farming',
+                    startDate: '2024-01-20',
+                    endDate: '2024-01-20',
+                    startTime: '10:00',
+                    endTime: '14:00',
+                    location: 'AYIKB Office',
+                    trainerName: 'Tech Expert',
+                    trainerContact: '0788456789',
+                    maxParticipants: 30,
+                    currentParticipants: 28,
+                    status: 'completed'
+                }
+            ];
+
+            displayTrainingPrograms(trainingPrograms);
+        }
+
+        function displayTrainingPrograms(trainingPrograms) {
+            const grid = document.getElementById('trainingGrid');
+            grid.innerHTML = '';
+
+            trainingPrograms.forEach(program => {
+                const card = createTrainingCard(program);
+                grid.appendChild(card);
+            });
+
+            updateStats(trainingPrograms);
+        }
+
+        function createTrainingCard(program) {
+            const card = document.createElement('div');
+            card.className = 'training-card';
+            card.dataset.status = program.status;
+            card.dataset.category = program.category;
+
+            const categoryLabels = {
+                'agriculture': 'Agriculture',
+                'livestock': 'Livestock',
+                'business': 'Business',
+                'technology': 'Technology',
+                'other': 'Other'
+            };
+
+            const statusLabels = {
+                'upcoming': 'Upcoming',
+                'ongoing': 'Ongoing',
+                'completed': 'Completed',
+                'cancelled': 'Cancelled'
+            };
+
+            const progressPercentage = Math.round((program.currentParticipants / program.maxParticipants) * 100);
+
+            card.innerHTML = `
+                <div class="training-header">
+                    <h3 class="training-title">${program.name}</h3>
+                    <span class="training-category ${program.category}">${categoryLabels[program.category]}</span>
+                </div>
+                <div class="training-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Date:</span>
+                        <span class="detail-value">${formatDate(program.startDate)} - ${formatDate(program.endDate)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Time:</span>
+                        <span class="detail-value">${program.startTime} - ${program.endTime}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Location:</span>
+                        <span class="detail-value">${program.location}</span>
+                    </div>
+                </div>
+                <div class="training-description">
+                    ${program.description}
+                </div>
+                <div class="training-trainer">
+                    <div class="trainer-info">
+                        <div class="trainer-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="trainer-details">
+                            <p class="trainer-name">${program.trainerName}</p>
+                            <p class="trainer-contact">${program.trainerContact}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="participant-progress">
+                    <div class="progress-label">
+                        <span>Participants</span>
+                        <span>${program.currentParticipants}/${program.maxParticipants}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progressPercentage}%"></div>
+                    </div>
+                </div>
+                <span class="training-status ${program.status}">${statusLabels[program.status]}</span>
+                <div class="training-actions">
+                    ${program.status === 'upcoming' ? `
+                        <button class="btn-action btn-register" onclick="registerTraining(${program.id})">
+                            <i class="fas fa-user-plus"></i> Register
+                        </button>
+                    ` : ''}
+                    <button class="btn-action btn-view" onclick="viewTraining(${program.id})">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                    <button class="btn-action btn-edit" onclick="editTraining(${program.id})">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    ${program.status === 'completed' ? `
+                        <button class="btn-action btn-certificate" onclick="viewCertificate(${program.id})">
+                            <i class="fas fa-certificate"></i> Certificate
+                        </button>
+                    ` : ''}
+                </div>
+            `;
+
+            return card;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('rw-RW');
+        }
+
+        function updateStats(trainingPrograms) {
+            document.getElementById('totalTraining').textContent = trainingPrograms.length;
+            document.getElementById('upcomingTraining').textContent = trainingPrograms.filter(t => t.status === 'upcoming').length;
+            document.getElementById('ongoingTraining').textContent = trainingPrograms.filter(t => t.status === 'ongoing').length;
+            document.getElementById('completedTraining').textContent = trainingPrograms.filter(t => t.status === 'completed').length;
+        }
+
+        function generateCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            const today = new Date();
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+            
+            // Clear existing calendar
+            calendarGrid.innerHTML = '';
+            
+            // Add day headers
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'calendar-day-header';
+                header.textContent = day;
+                calendarGrid.appendChild(header);
+            });
+            
+            // Get first day of month and number of days
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            
+            // Add empty cells for days before month starts
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendarGrid.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                // Check if this day has training
+                const trainingDate = new Date(currentYear, currentMonth, day);
+                if (hasTrainingOnDate(trainingDate)) {
+                    dayElement.classList.add('has-training');
+                    dayElement.innerHTML = `${day} <span class="training-indicator"></span>`;
+                }
+                
+                // Highlight today
+                if (day === today.getDate()) {
+                    dayElement.classList.add('today');
+                }
+                
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        function hasTrainingOnDate(date) {
+            // This would check against actual training dates
+            // For demo, we'll just return true for some dates
+            const trainingDates = [
+                new Date(2024, 3, 20), // April 20, 2024
+                new Date(2024, 2, 15), // March 15, 2024
+                new Date(2024, 1, 10), // February 10, 2024
+                new Date(2024, 0, 20)  // January 20, 2024
+            ];
+            
+            return trainingDates.some(trainingDate => 
+                trainingDate.getDate() === date.getDate() &&
+                trainingDate.getMonth() === date.getMonth() &&
+                trainingDate.getFullYear() === date.getFullYear()
+            );
+        }
+
+        function filterTraining() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const trainingCards = document.querySelectorAll('.training-card');
+
+            trainingCards.forEach(card => {
+                const cardStatus = card.dataset.status;
+                const cardCategory = card.dataset.category;
+
+                const statusMatch = statusFilter === 'all' || cardStatus === statusFilter;
+                const categoryMatch = categoryFilter === 'all' || cardCategory === categoryFilter;
+
+                if (statusMatch && categoryMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function searchTraining() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const trainingCards = document.querySelectorAll('.training-card');
+
+            trainingCards.forEach(card => {
+                const title = card.querySelector('.training-title').textContent.toLowerCase();
+                const description = card.querySelector('.training-description').textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function showAddTrainingModal() {
+            document.getElementById('addTrainingModal').classList.add('show');
+        }
+
+        function showRegistrationModal() {
+            document.getElementById('registrationModal').classList.add('show');
+        }
+
+        function showCertificateModal() {
+            document.getElementById('certificateModal').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+            // Reset form if it exists
+            const form = document.querySelector(`#${modalId} form`);
+            if (form) form.reset();
+        }
+
+        function addTraining() {
+            const formData = {
+                name: document.getElementById('trainingName').value,
+                category: document.getElementById('trainingCategory').value,
+                description: document.getElementById('trainingDescription').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                startTime: document.getElementById('startTime').value,
+                endTime: document.getElementById('endTime').value,
+                location: document.getElementById('location').value,
+                trainerName: document.getElementById('trainerName').value,
+                trainerContact: document.getElementById('trainerContact').value,
+                maxParticipants: document.getElementById('maxParticipants').value
+            };
+
+            // Validate form
+            if (!formData.name || !formData.category || !formData.description || 
+                !formData.startDate || !formData.endDate || !formData.startTime || 
+                !formData.endTime || !formData.location || !formData.trainerName || !formData.maxParticipants) {
+                showAlert('Please fill all required fields', 'danger');
+                return;
+            }
+
+            // Create new training
+            const newTraining = {
+                id: Date.now(),
+                name: formData.name,
+                category: formData.category,
+                description: formData.description,
+                startDate: formData.startDate,
+                endDate: formData.endDate,
+                startTime: formData.startTime,
+                endTime: formData.endTime,
+                location: formData.location,
+                trainerName: formData.trainerName,
+                trainerContact: formData.trainerContact,
+                maxParticipants: parseInt(formData.maxParticipants),
+                currentParticipants: 0,
+                status: 'upcoming'
+            };
+
+            // Add to grid
+            const grid = document.getElementById('trainingGrid');
+            const card = createTrainingCard(newTraining);
+            grid.insertBefore(card, grid.firstChild);
+
+            // Close modal
+            closeModal('addTrainingModal');
+
+            // Show success message
+            showAlert('Training program added successfully!', 'success');
+
+            // Reload to update stats
+            loadTrainingPrograms();
+        }
+
+        function registerTraining(trainingId) {
+            // Store training ID for registration
+            window.currentTrainingId = trainingId;
+            showRegistrationModal();
+        }
+
+        function submitRegistration() {
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                sector: document.getElementById('sector').value,
+                occupation: document.getElementById('occupation').value,
+                motivation: document.getElementById('motivation').value
+            };
+
+            // Validate form
+            if (!formData.fullName || !formData.email || !formData.phone) {
+                showAlert('Please fill all required fields', 'danger');
+                return;
+            }
+
+            // Close modal
+            closeModal('registrationModal');
+
+            // Show success message
+            showAlert('Registration submitted successfully! We will contact you soon.', 'success');
+        }
+
+        function viewTraining(trainingId) {
+            showAlert(`Viewing details for training ${trainingId}`, 'info');
+        }
+
+        function editTraining(trainingId) {
+            showAlert(`Editing training ${trainingId}`, 'info');
+        }
+
+        function viewCertificate(trainingId) {
+            // Set certificate details
+            document.getElementById('certificateParticipantName').textContent = 'Participant Name';
+            document.getElementById('certificateTrainingTitle').textContent = 'Training Title';
+            document.getElementById('certificateDate').textContent = new Date().toLocaleDateString('rw-RW');
+            
+            showCertificateModal();
+        }
+
+        function downloadCertificate() {
+            showAlert('Certificate download started...', 'info');
+            setTimeout(() => {
+                showAlert('Certificate downloaded successfully!', 'success');
+            }, 2000);
+        }
+
+        function printCertificate() {
+            window.print();
+        }
+
+        function previousMonth() {
+            // Implement month navigation
+            showAlert('Previous month navigation', 'info');
+        }
+
+        function nextMonth() {
+            // Implement month navigation
+            showAlert('Next month navigation', 'info');
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function logout() {
+            localStorage.removeItem('ayikb_user');
+            sessionStorage.removeItem('ayikb_user');
+            window.location.href = 'login.html';
+        }
+
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(alert);
+            alert.style.position = 'fixed';
+            alert.style.top = '20px';
+            alert.style.right = '20px';
+            alert.style.zIndex = '3000';
+            alert.style.minWidth = '300px';
+            
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 5000);
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('userDropdown');
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            
+            if (!dropdownToggle.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

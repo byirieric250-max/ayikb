@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYIKB Login - AgriYouth Innovation Kirehe Business</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .login-header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .login-header p {
+            margin: 0.5rem 0 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .login-body {
+            padding: 2rem;
+        }
+        
+        .role-selector {
+            margin-bottom: 2rem;
+        }
+        
+        .role-label {
+            display: block;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .role-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .role-btn {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .role-btn:hover {
+            border-color: #2ecc71;
+            background: #f8f9fa;
+        }
+        
+        .role-btn.active {
+            border-color: #2ecc71;
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .role-btn i {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #2ecc71;
+            box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .remember-me input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .forgot-link {
+            color: #2ecc71;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .login-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading .loading-spinner {
+            display: inline-block;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e9ecef;
+        }
+        
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .back-to-home {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .back-to-home a {
+            color: #2ecc71;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-to-home a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            display: none;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert.show {
+            display: block;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .login-card {
+                margin: 0 10px;
+            }
+            
+            .role-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .login-header {
+                padding: 1.5rem;
+            }
+            
+            .login-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .login-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1><i class="fas fa-seedling"></i> AYIKB</h1>
+                <p>AgriYouth Innovation Kirehe Business</p>
+            </div>
+            
+            <div class="login-body">
+                <div id="alert-container"></div>
+                
+                <div class="role-selector">
+                    <label class="role-label">Hitamo urwego rwawe</label>
+                    <div class="role-buttons">
+                        <button class="role-btn active" data-role="admin">
+                            <i class="fas fa-user-shield"></i>
+                            <span>Admin</span>
+                        </button>
+                        <button class="role-btn" data-role="ceo">
+                            <i class="fas fa-crown"></i>
+                            <span>CEO</span>
+                        </button>
+                        <button class="role-btn" data-role="it">
+                            <i class="fas fa-laptop-code"></i>
+                            <span>IT</span>
+                        </button>
+                        <button class="role-btn" data-role="auditor">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Auditor</span>
+                        </button>
+                        <button class="role-btn" data-role="council">
+                            <i class="fas fa-users"></i>
+                            <span>Council</span>
+                        </button>
+                        <button class="role-btn" data-role="manager">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Manager</span>
+                        </button>
+                        <button class="role-btn" data-role="coordinator">
+                            <i class="fas fa-user-cog"></i>
+                            <span>Coordinator</span>
+                        </button>
+                        <button class="role-btn" data-role="accountable">
+                            <i class="fas fa-user-check"></i>
+                            <span>Accountable</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Imeri</label>
+                        <input type="email" id="email" name="email" placeholder="Shyiramo email yawe" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Ijambo banga</label>
+                        <input type="password" id="password" name="password" placeholder="Shyiramo ijambobanga" required>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="rememberMe" name="rememberMe">
+                            <label for="rememberMe">Tibagirira</label>
+                        </div>
+                        <a href="#" class="forgot-link" onclick="showPasswordReset()">Wibagiwe ijambobanga?</a>
+                    </div>
+                    
+                    <button type="submit" class="login-btn" id="loginBtn">
+                        <span class="btn-text">Injira</span>
+                        <div class="loading-spinner"></div>
+                    </button>
+                </form>
+                
+                <div class="divider">
+                    <span>Cyangwa</span>
+                </div>
+                
+                <div class="back-to-home">
+                    <a href="index.html">
+                        <i class="fas fa-home"></i> Subira kuri Ahabanza
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="access_control.js"></script>
+    <script src="database_service.js"></script>
+    <script>
+        // Real login system
+        let selectedRole = 'admin';
+        let loginAttempts = 0;
+        const maxLoginAttempts = 3;
+        
+        // User credentials (in real system, this would be in database)
+        const userCredentials = {
+            'admin@ayikb.rw': { password: 'admin123', role: 'admin', fullName: 'Marie Uwimana' },
+            'ceo@ayikb.rw': { password: 'ceo123', role: 'ceo', fullName: 'Jean Pierre Nsengiyumva' },
+            'it@ayikb.rw': { password: 'it123', role: 'it', fullName: 'Eric Mugisha' },
+            'auditor@ayikb.rw': { password: 'audit123', role: 'auditor', fullName: 'Grace Mukandayisenga' },
+            'council@ayikb.rw': { password: 'council123', role: 'council', fullName: 'Jean Paul' },
+            'manager@ayikb.rw': { password: 'manager123', role: 'manager', fullName: 'Alice Mukamana' },
+            'coordinator@ayikb.rw': { password: 'coordinator123', role: 'coordinator', fullName: 'Joseph Niyonzima' },
+            'accountable@ayikb.rw': { password: 'accountable123', role: 'accountable', fullName: 'Claudine Uwimana' }
+        };
+        
+        // Initialize role selection
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in
+            const existingUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+            if (existingUser) {
+                try {
+                    const user = JSON.parse(existingUser);
+                    // Redirect based on role
+                    redirectUser(user.role);
+                    return;
+                } catch (error) {
+                    console.error('Error parsing existing user:', error);
+                }
+            }
+            
+            // Set up role button listeners
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedRole = this.dataset.role;
+                });
+            });
+            
+            // Set up form submission
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        });
+        
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            if (loginAttempts >= maxLoginAttempts) {
+                showAlert('Urarishije urugeragezo rwinshi. Mwongere mu minota 5.', 'danger');
+                lockLogin();
+                return;
+            }
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            // Validate input
+            if (!email || !password) {
+                showAlert("Nyamuneka email n'ijambo banga!", "danger");
+                return;
+            }
+            
+            // Show loading state
+            setLoading(true);
+            
+            // Simulate authentication delay
+            setTimeout(() => {
+                authenticateUser(email, password, rememberMe);
+            }, 1000);
+        }
+        
+        function authenticateUser(email, password, rememberMe) {
+            // Check credentials against user database
+            const user = userCredentials[email];
+            
+            if (user && user.password === password) {
+                // Check if selected role matches user role
+                if (selectedRole !== user.role) {
+                    showAlert(`Urwego wawe ni ${user.role}, ariyo ${selectedRole}. Hitamo urwego wanzwe.`, 'danger');
+                    setLoading(false);
+                    return;
+                }
+                
+                // Create user session
+                const userData = {
+                    email: email,
+                    role: user.role,
+                    fullName: user.fullName,
+                    loginTime: new Date().toISOString(),
+                    rememberMe: rememberMe
+                };
+                
+                // Store session
+                const storage = rememberMe ? localStorage : sessionStorage;
+                storage.setItem('currentUser', JSON.stringify(userData));
+                
+                // Log successful login
+                console.log('User logged in:', userData);
+                
+                // Show success message
+                showAlert('Washakanye neza! Urasubira kuri dashboard...', 'success');
+                
+                // Redirect user
+                setTimeout(() => {
+                    redirectUser(user.role);
+                }, 1500);
+                
+            } else {
+                // Invalid credentials
+                loginAttempts++;
+                showAlert(`Imeri cyangwa ijambobanga. Gerageza nanone (${loginAttempts}/${maxLoginAttempts})`, 'danger');
+                setLoading(false);
+                
+                // Clear password field
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        }
+        
+        function redirectUser(role) {
+            // Redirect based on user role
+            const redirects = {
+                'admin': 'admin_management_manual_logout.html',
+                'ceo': 'admin_management_manual_logout.html',
+                'it': 'dashboard_updated.html',
+                'auditor': 'dashboard_updated.html',
+                'council': 'dashboard_updated.html',
+                'manager': 'dashboard_updated.html',
+                'coordinator': 'dashboard_updated.html',
+                'accountable': 'dashboard_updated.html'
+            };
+            
+            const redirectUrl = redirects[role] || 'index.html';
+            window.location.href = redirectUrl;
+        }
+        
+        function setLoading(loading) {
+            const btn = document.getElementById('loginBtn');
+            const btnText = btn.querySelector('.btn-text');
+            
+            if (loading) {
+                btn.classList.add('loading');
+                btnText.textContent = 'Injira...';
+                btn.disabled = true;
+            } else {
+                btn.classList.remove('loading');
+                btnText.textContent = 'Injira';
+                btn.disabled = false;
+            }
+        }
+        
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alert-container');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} show`;
+            alertDiv.textContent = message;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                alertDiv.classList.remove('show');
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.parentNode.removeChild(alertDiv);
+                    }
+                }, 300);
+            }, 5000);
+        }
+        
+        function lockLogin() {
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.textContent = 'Kureka iminota 5...';
+            
+            // Start countdown
+            let countdown = 300; // 5 minutes in seconds
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                const minutes = Math.floor(countdown / 60);
+                const seconds = countdown % 60;
+                btn.textContent = `Kureka ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    btn.disabled = false;
+                    btn.innerHTML = '<span class="btn-text">Injira</span><div class="loading-spinner"></div>';
+                    loginAttempts = 0; // Reset attempts
+                }
+            }, 1000);
+        }
+        
+        function showPasswordReset() {
+            const message = "Kubijwe ijambobanga: \n\n1. Ohereza email yawe kuri admin@ayikb.rw \n2. Subiramo 'Password Reset' mu mutwe \n3. Tegereza ijambobanga rishya rizoherezwa kuri email yawe";
+            alert(message);
+        }
+        
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            // Tab navigation between role buttons
+            if (e.key === 'Tab' && document.activeElement.classList.contains('role-btn')) {
+                e.preventDefault();
+                const buttons = Array.from(document.querySelectorAll('.role-btn'));
+                const currentIndex = buttons.indexOf(document.activeElement);
+                const nextIndex = (currentIndex + 1) % buttons.length;
+                buttons[nextIndex].focus();
+            }
+        });
+        
+        // Add enter key support for role buttons
+        document.querySelectorAll('.role-btn').forEach(btn => {
+            btn.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    this.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

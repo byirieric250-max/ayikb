@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abafatanyabikorwa - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>AYIKB</h1>
+                    <p>AgriYouth Innovation Kirehe Business</p>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">Ahabanza</a>
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="projects.html" class="nav-link">Projects</a>
+                    <a href="training.html" class="nav-link">Amahugurwa</a>
+                    <a href="partners.html" class="nav-link active">Abafatanyabikorwa</a>
+                    <a href="reports.html" class="nav-link" id="reportsLink" style="display: none;">Raporo</a>
+                    <a href="admin_management.html" class="nav-link btn btn-primary">Admin</a>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero partners-hero">
+            <div class="hero-content">
+                <h1>Abafatanyabikorwa Bacu</h1>
+                <p>Abafatanyabikorwa bacu badufasha mu iterambere ry'ikigo</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>4</h3>
+                        <p>Abafatanyabikorwa</p>
+                    </div>
+                    <div class="stat">
+                        <h3>4.5M</h3>
+                        <p>Inkunga (Frw)</p>
+                    </div>
+                    <div class="stat">
+                        <h3>11</h3>
+                        <p>Imishinga</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partners Actions Section -->
+        <section class="partners-actions">
+            <div class="container">
+                <div class="actions-header">
+                    <h2><i class="fas fa-handshake"></i> Gucunga Abafatanyabikorwa</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showAddPartnerModal()">
+                            <i class="fas fa-user-plus"></i> Ohereza Umufatanyabikorwa
+                        </button>
+                        <div class="filter-controls">
+                            <select id="typeFilter" onchange="filterPartners()">
+                                <option value="all">Byose</option>
+                                <option value="government">Leta</option>
+                                <option value="private">Ibigenga</option>
+                                <option value="ngo">NGOs</option>
+                            </select>
+                            <select id="sortBy" onchange="sortPartners()">
+                                <option value="name">Izina</option>
+                                <option value="funding">Inkunga</option>
+                                <option value="projects">Imishinga</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partners Grid Section -->
+        <section class="partners-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-handshake"></i> Abafatanyabikorwa Bacu</h2>
+                    <p>Reba abafatanyabikorwa dukorana nabo</p>
+                </div>
+
+                <div class="partners-grid" id="partnersGrid">
+                    <!-- Partners will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Partner Details Modal -->
+        <div id="partnerModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalPartnerTitle">Ibisobanuro by'Umufatanyabikorwa</h3>
+                    <button class="close-btn" onclick="closePartnerModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalPartnerBody">
+                    <!-- Partner details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AYIKB</h3>
+                    <p>AgriYouth Innovation Kirehe Business</p>
+                    <p>Iteka ry'urubyirugo ryiza mu buhinzi n'ubworozi</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Uburyo bwo Kwamamaza</h4>
+                    <ul>
+                        <li>Imbuga nkoranyambaga</li>
+                        <li>Ubukangurambaga ku masoko</li>
+                        <li>Amatangazo yamamaza</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Umusozo</h4>
+                    <p>AYIKB ni igitekerezo cy'urubyirugo kigamije guteza imbere ubukungu n'imibereho myiza y'urubyirugo mu Karere ka Kirehe.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AYIKB - AgriYouth Innovation Kirehe Business. Irembere yose irarinzwe.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="admin_data_loader.js"></script>
+    <script>
+        // Partners page specific functionality
+        function showAddPartnerModal() {
+            alert('Ohereza umufatanyabikorwa mushya - Iyi feature izaba ikora vuba!');
+        }
+
+        function filterPartners() {
+            const typeFilter = document.getElementById('typeFilter').value;
+            const partners = document.querySelectorAll('.partner-card');
+
+            partners.forEach(partner => {
+                let show = true;
+
+                if (typeFilter !== 'all') {
+                    const partnerType = partner.getAttribute('data-type');
+                    if (partnerType !== typeFilter) show = false;
+                }
+
+                partner.style.display = show ? 'block' : 'none';
+            });
+        }
+
+        function sortPartners() {
+            const sortBy = document.getElementById('sortBy').value;
+            const partnersGrid = document.getElementById('partnersGrid');
+            const partners = Array.from(partnersGrid.children);
+
+            partners.sort((a, b) => {
+                switch (sortBy) {
+                    case 'name':
+                        return a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent);
+                    case 'funding':
+                        return parseInt(b.getAttribute('data-funding')) - parseInt(a.getAttribute('data-funding'));
+                    case 'projects':
+                        return parseInt(b.getAttribute('data-projects')) - parseInt(a.getAttribute('data-projects'));
+                    default:
+                        return 0;
+                }
+            });
+
+            partners.forEach(partner => partnersGrid.appendChild(partner));
+        }
+
+        function viewPartnerDetails(partnerName) {
+            const adminData = window.AYIKBAdminDataLoader ? new AYIKBAdminDataLoader() : null;
+            if (!adminData) return;
+
+            const partner = adminData.partners.find(p => p.name === partnerName);
+            if (!partner) return;
+
+            document.getElementById('modalPartnerTitle').textContent = partner.name;
+            document.getElementById('modalPartnerBody').innerHTML = `
+                <div class="partner-details">
+                    <div class="partner-logo-large">
+                        <img src="${partner.logo}" alt="${partner.name}">
+                    </div>
+                    <div class="partner-info">
+                        <div class="info-row">
+                            <strong>Izina:</strong> ${partner.name}
+                        </div>
+                        <div class="info-row">
+                            <strong>Inkunga:</strong> ${adminData.formatNumber(partner.funding)} Frw
+                        </div>
+                        <div class="info-row">
+                            <strong>Imishinga yashyizweho:</strong> ${partner.projects}
+                        </div>
+                        <div class="info-row">
+                            <strong>Ibisobanuro:</strong> ${partner.description}
+                        </div>
+                        <div class="partner-actions">
+                            <button class="btn btn-primary" onclick="contactPartner('${partner.name}')">
+                                <i class="fas fa-envelope"></i> Twandikire
+                            </button>
+                            <button class="btn btn-secondary" onclick="viewPartnerProjects('${partner.name}')">
+                                <i class="fas fa-project-diagram"></i> Reba Imishinga
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('partnerModal').style.display = 'block';
+        }
+
+        function closePartnerModal() {
+            document.getElementById('partnerModal').style.display = 'none';
+        }
+
+        function contactPartner(partnerName) {
+            alert('Twandikire ' + partnerName + ' - Iyi feature izaba ikora vuba!');
+        }
+
+        function viewPartnerProjects(partnerName) {
+            alert('Reba imishinga ya ' + partnerName + ' - Iyi feature izaba ikora vuba!');
+        }
+
+        // Check admin access and initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show reports link for admin/CEO
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser') || '{}');
+            const isAdmin = currentUser.role === 'admin' || currentUser.role === 'ceo';
+            
+            if (isAdmin) {
+                const reportsLink = document.getElementById('reportsLink');
+                if (reportsLink) {
+                    reportsLink.style.display = 'block';
+                }
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                const modal = document.getElementById('partnerModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

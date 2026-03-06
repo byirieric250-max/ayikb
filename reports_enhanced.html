@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --reports-primary: #2ecc71;
+            --reports-secondary: #3498db;
+            --reports-success: #27ae60;
+            --reports-danger: #e74c3c;
+            --reports-warning: #f39c12;
+            --reports-info: #17a2b8;
+            --reports-dark: #2c3e50;
+            --reports-light: #ecf0f1;
+        }
+
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .reports-header {
+            background: linear-gradient(135deg, var(--reports-info) 0%, var(--reports-secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .navbar-brand i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--reports-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--reports-light);
+        }
+
+        .dropdown-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        .reports-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            color: var(--reports-dark);
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .content-header p {
+            color: #636e72;
+            margin: 0.5rem 0 0;
+        }
+
+        .restricted-access {
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px dashed var(--reports-danger);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            color: var(--reports-danger);
+            margin: 2rem 0;
+        }
+
+        .restricted-access i {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .restricted-access h2 {
+            margin: 0 0 1rem 0;
+            font-size: 2rem;
+        }
+
+        .restricted-access p {
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .restricted-access .note {
+            font-size: 0.9rem;
+            color: #636e72;
+            font-style: italic;
+        }
+
+        .access-roles {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .access-roles h3 {
+            margin: 0 0 1rem 0;
+            color: var(--reports-dark);
+        }
+
+        .role-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .role-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--reports-light);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .role-item:hover {
+            background: rgba(23, 162, 184, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .role-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .role-icon.ceo {
+            background: var(--reports-danger);
+            color: white;
+        }
+
+        .role-icon.admin {
+            background: var(--reports-warning);
+            color: white;
+        }
+
+        .role-icon.coordinator {
+            background: var(--reports-primary);
+            color: white;
+        }
+
+        .role-icon.accountable {
+            background: var(--reports-secondary);
+            color: white;
+        }
+
+        .role-details {
+            flex: 1;
+        }
+
+        .role-name {
+            font-weight: 600;
+            color: var(--reports-dark);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .role-description {
+            font-size: 0.9rem;
+            color: #636e72;
+            margin: 0;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--reports-light);
+        }
+
+        .contact-info h4 {
+            margin: 0 0 1rem 0;
+            color: var(--reports-dark);
+        }
+
+        .contact-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--reports-primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--reports-secondary);
+            color: white;
+        }
+
+        .btn-info {
+            background: var(--reports-info);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-info {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--reports-info);
+            border: 1px solid rgba(23, 162, 184, 0.3);
+        }
+
+        .alert-success {
+            background: rgba(0, 184, 148, 0.1);
+            color: var(--reports-success);
+            border: 1px solid rgba(0, 184, 148, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .reports-container {
+                padding: 1rem;
+            }
+
+            .navbar {
+                padding: 0 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .content-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .role-list {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Reports Header -->
+    <header class="reports-header">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-chart-line"></i>
+                Reports & Analytics
+            </div>
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="dashboard_enhanced.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <div class="user-dropdown">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">
+                        <i class="fas fa-user"></i>
+                        <span id="userName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                        <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #eee;">
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="reports-container">
+        <!-- Content Header -->
+        <div class="content-header">
+            <h1>Reports & Analytics</h1>
+            <p>Comprehensive business reports and performance analytics.</p>
+        </div>
+
+        <!-- Restricted Access Message -->
+        <div class="restricted-access">
+            <i class="fas fa-lock"></i>
+            <h2>Access Restricted</h2>
+            <p>This section is only accessible to leaders with appropriate permissions.</p>
+            <p class="note">Reports contain sensitive business information and require authorization.</p>
+            
+            <div class="access-roles">
+                <h3>Authorized Roles</h3>
+                <div class="role-list">
+                    <div class="role-item">
+                        <div class="role-icon ceo">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="role-details">
+                            <p class="role-name">Chief Executive Officer</p>
+                            <p class="role-description">Full access to all reports and analytics</p>
+                        </div>
+                    </div>
+                    
+                    <div class="role-item">
+                        <div class="role-icon admin">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="role-details">
+                            <p class="role-name">System Administrator</p>
+                            <p class="role-description">System reports and user analytics</p>
+                        </div>
+                    </div>
+                    
+                    <div class="role-item">
+                        <div class="role-icon coordinator">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <div class="role-details">
+                            <p class="role-name">Project Coordinator</p>
+                            <p class="role-description">Project and training reports</p>
+                        </div>
+                    </div>
+                    
+                    <div class="role-item">
+                        <div class="role-icon accountable">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="role-details">
+                            <p class="role-name">Accountable Officer</p>
+                            <p class="role-description">Financial and budget reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-info">
+                <h4>Need Access to Reports?</h4>
+                <p>If you believe you should have access to reports, please contact your system administrator.</p>
+                <div class="contact-options">
+                    <button class="btn btn-primary" onclick="requestAccess()">
+                        <i class="fas fa-paper-plane"></i> Request Access
+                    </button>
+                    <button class="btn btn-secondary" onclick="contactAdmin()">
+                        <i class="fas fa-phone"></i> Contact Admin
+                    </button>
+                    <button class="btn btn-info" onclick="viewDashboard()">
+                        <i class="fas fa-tachometer-alt"></i> Return to Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Reports Management
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeReports();
+        });
+
+        function initializeReports() {
+            // Check if user is logged in
+            const user = JSON.parse(localStorage.getItem('ayikb_user') || sessionStorage.getItem('ayikb_user'));
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Set user name
+            document.getElementById('userName').textContent = user.name || 'User';
+
+            // Check if user has access to reports
+            checkReportAccess(user);
+        }
+
+        function checkReportAccess(user) {
+            const hasReportAccess = ['ceo', 'admin', 'coordinator', 'accountable'].includes(user.role);
+            
+            if (hasReportAccess) {
+                // User has access, show the actual reports
+                showActualReports(user);
+            } else {
+                // User doesn't have access, show restricted message
+                // The restricted message is already in the HTML
+                console.log('User does not have report access');
+            }
+        }
+
+        function showActualReports(user) {
+            // This would show the actual reports interface
+            // For now, we'll keep the restricted message but add a note
+            const restrictedDiv = document.querySelector('.restricted-access');
+            if (restrictedDiv) {
+                restrictedDiv.innerHTML = `
+                    <i class="fas fa-chart-line"></i>
+                    <h2>Loading Reports...</h2>
+                    <p>Initializing your personalized reports dashboard...</p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Please wait while we load your reports...
+                    </div>
+                `;
+                
+                // Simulate loading
+                setTimeout(() => {
+                    loadReportsInterface(user);
+                }, 2000);
+            }
+        }
+
+        function loadReportsInterface(user) {
+            // This would load the actual reports interface
+            // For demonstration, we'll show a simple message
+            const reportsDiv = document.querySelector('.restricted-access');
+            if (reportsDiv) {
+                reportsDiv.innerHTML = `
+                    <i class="fas fa-chart-line"></i>
+                    <h2>Reports & Analytics</h2>
+                    <p>Welcome ${user.name}! Your reports are being loaded...</p>
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        Reports access granted for ${user.role}
+                    </div>
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn btn-primary" onclick="generateSampleReport()">
+                            <i class="fas fa-file-alt"></i> Generate Sample Report
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function generateSampleReport() {
+            // This would generate a sample report
+            showAlert('Sample report generation started...', 'info');
+            setTimeout(() => {
+                showAlert('Sample report generated successfully!', 'success');
+            }, 2000);
+        }
+
+        function requestAccess() {
+            const user = JSON.parse(localStorage.getItem('ayikb_user') || sessionStorage.getItem('ayikb_user'));
+            
+            // Check if user is logged in
+            if (!user) {
+                showAlert('Please login first to request access', 'info');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Create access request
+            const accessRequest = {
+                userId: user.id || 'unknown',
+                userName: user.name || 'Unknown',
+                userRole: user.role || 'unknown',
+                requestedResource: 'reports',
+                requestTime: new Date().toISOString(),
+                ipAddress: 'client',
+                userAgent: navigator.userAgent
+            };
+
+            // Store request (in real app, this would be sent to server)
+            const requests = JSON.parse(localStorage.getItem('accessRequests') || '[]');
+            requests.push(accessRequest);
+            localStorage.setItem('accessRequests', JSON.stringify(requests));
+
+            showAlert('Access request submitted successfully! Your administrator will review it shortly.', 'success');
+            
+            // Log the request
+            console.log('Access request submitted:', accessRequest);
+        }
+
+        function contactAdmin() {
+            // Show admin contact information
+            const adminInfo = `
+                <div class="alert alert-info">
+                    <h4>Contact Administrator</h4>
+                    <p><strong>Email:</strong> admin@ayikb.rw</p>
+                    <p><strong>Phone:</strong> 0788123456</p>
+                    <p><strong>Office:</strong> AYIKB Office, Nyagahama</p>
+                    <p><strong>Hours:</strong> Monday - Friday, 8:00 AM - 5:00 PM</p>
+                    <hr>
+                    <p>Please mention your username and the specific reports you need access to.</p>
+                </div>
+            `;
+            
+            // Create a modal or show the info
+            const infoDiv = document.createElement('div');
+            infoDiv.innerHTML = adminInfo;
+            infoDiv.style.position = 'fixed';
+            infoDiv.style.top = '50%';
+            infoDiv.style.left = '50%';
+            infoDiv.style.transform = 'translate(-50%, -50%)';
+            infoDiv.style.background = 'white';
+            infoDiv.style.padding = '2rem';
+            infoDiv.style.borderRadius = '12px';
+            infoDiv.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+            infoDiv.style.zIndex = '3000';
+            infoDiv.style.maxWidth = '500px';
+            infoDiv.style.width = '90%';
+            
+            document.body.appendChild(infoDiv);
+            
+            // Add close button
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = 'Close';
+            closeBtn.className = 'btn btn-secondary';
+            closeBtn.style.marginTop = '1rem';
+            closeBtn.onclick = () => {
+                if (infoDiv.parentNode) {
+                    document.body.removeChild(infoDiv);
+                }
+            };
+            infoDiv.appendChild(closeBtn);
+        }
+
+        function viewDashboard() {
+            window.location.href = 'dashboard_enhanced.html';
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function logout() {
+            localStorage.removeItem('ayikb_user');
+            sessionStorage.removeItem('ayikb_user');
+            window.location.href = 'login.html';
+        }
+
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(alert);
+            alert.style.position = 'fixed';
+            alert.style.top = '20px';
+            alert.style.right = '20px';
+            alert.style.zIndex = '3000';
+            alert.style.minWidth = '300px';
+            
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 5000);
+        }
+
+        // Check for pending access requests (for admin users)
+        function checkPendingRequests() {
+            const user = JSON.parse(localStorage.getItem('ayikb_user') || sessionStorage.getItem('ayikb_user'));
+            
+            if (user && user.role === 'admin') {
+                const requests = JSON.parse(localStorage.getItem('accessRequests') || '[]');
+                const pendingRequests = requests.filter(req => 
+                    req.requestedResource === 'reports' && 
+                    req.status !== 'approved' && 
+                    req.status !== 'rejected'
+                );
+                
+                if (pendingRequests.length > 0) {
+                    showAlert(`You have ${pendingRequests.length} pending access requests to review`, 'info');
+                }
+            }
+        }
+
+        // Check pending requests on load
+        checkPendingRequests();
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('userDropdown');
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            
+            if (!dropdownToggle.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

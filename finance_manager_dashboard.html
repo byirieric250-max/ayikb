@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Manager Dashboard - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --info-color: #17a2b8;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+        }
+
+        body {
+            background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, var(--info-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .navbar-brand i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-nav {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .logout-btn {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .finance-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--success-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background: var(--info-color);
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* Finance Statistics */
+        .finance-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--info-color);
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+        .income-stat .stat-number {
+            color: var(--success-color);
+        }
+
+        .expense-stat .stat-number {
+            color: var(--danger-color);
+        }
+
+        .balance-stat .stat-number {
+            color: var(--primary-color);
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--light-color);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--dark-color);
+        }
+
+        .tab-btn.active {
+            color: var(--info-color);
+            border-bottom-color: var(--info-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Tables */
+        .data-table {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-color);
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .close-btn:hover {
+            color: var(--dark-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--info-color);
+            box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--info-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading .spinner {
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navbar-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .finance-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tab-navigation {
+                flex-wrap: wrap;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                margin: 1rem;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-chart-line"></i>
+                <span>AYIKB Finance Manager</span>
+            </div>
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-link">Ahabanza</a>
+                <a href="dashboard_enhanced.html" class="nav-link">Dashboard</a>
+                <a href="finance_manager_dashboard.html" class="nav-link active">Finance</a>
+                <a href="admin_database_users.html" class="nav-link">Abakozi</a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="finance-container">
+        <div class="section-header">
+            <h1 class="section-title">Finance Management</h1>
+            <div>
+                <button class="btn btn-primary" onclick="openFinanceModal()">
+                    <i class="fas fa-plus"></i> Add Finance Record
+                </button>
+            </div>
+        </div>
+
+        <div class="alert alert-success" id="successAlert">
+            <i class="fas fa-check-circle"></i> <span id="successMessage">Operation completed successfully!</span>
+        </div>
+
+        <div class="alert alert-danger" id="errorAlert">
+            <i class="fas fa-exclamation-triangle"></i> <span id="errorMessage">An error occurred!</span>
+        </div>
+
+        <div class="finance-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalRecords">0</div>
+                <div class="stat-label">Total Records</div>
+            </div>
+            <div class="stat-card income-stat">
+                <div class="stat-number" id="totalIncome">0</div>
+                <div class="stat-label">Total Income</div>
+            </div>
+            <div class="stat-card expense-stat">
+                <div class="stat-number" id="totalExpenses">0</div>
+                <div class="stat-label">Total Expenses</div>
+            </div>
+            <div class="stat-card balance-stat">
+                <div class="stat-number" id="netBalance">0</div>
+                <div class="stat-label">Net Balance</div>
+            </div>
+        </div>
+
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('finance')">Finance Records</button>
+            <button class="tab-btn" onclick="switchTab('employees')">Employees</button>
+            <button class="tab-btn" onclick="switchTab('training')">Training</button>
+        </div>
+
+        <!-- Finance Records Tab -->
+        <div id="finance-tab" class="tab-content active">
+            <div class="data-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="financeTableBody">
+                        <!-- Finance records will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Employees Tab -->
+        <div id="employees-tab" class="tab-content">
+            <div class="section-header">
+                <h2>Employee Management</h2>
+                <button class="btn btn-primary" onclick="openEmployeeModal()">
+                    <i class="fas fa-user-plus"></i> Add Employee
+                </button>
+            </div>
+            <div class="data-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Position</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeTableBody">
+                        <!-- Employees will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Training Tab -->
+        <div id="training-tab" class="tab-content">
+            <div class="section-header">
+                <h2>Training Management</h2>
+                <button class="btn btn-primary" onclick="openTrainingModal()">
+                    <i class="fas fa-graduation-cap"></i> Add Training
+                </button>
+            </div>
+            <div class="data-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Instructor</th>
+                            <th>Location</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trainingTableBody">
+                        <!-- Training records will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Finance Modal -->
+    <div id="financeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Finance Record</h2>
+                <button class="close-btn" onclick="closeFinanceModal()">&times;</button>
+            </div>
+            <form id="financeForm">
+                <input type="hidden" id="financeId" name="id">
+                
+                <div class="form-group">
+                    <label for="financeType">Type *</label>
+                    <select class="form-select" id="financeType" name="type" required>
+                        <option value="">Select Type...</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="financeAmount">Amount (Frw) *</label>
+                    <input type="number" class="form-control" id="financeAmount" name="amount" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="financeDescription">Description *</label>
+                    <input type="text" class="form-control" id="financeDescription" name="description" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="financeCategory">Category *</label>
+                    <select class="form-select" id="financeCategory" name="category" required>
+                        <option value="">Select Category...</option>
+                        <option value="Revenue">Revenue</option>
+                        <option value="Salaries">Salaries</option>
+                        <option value="Training">Training</option>
+                        <option value="Equipment">Equipment</option>
+                        <option value="Operations">Operations</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="financeDate">Date *</label>
+                    <input type="date" class="form-control" id="financeDate" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="financeReference">Reference</label>
+                    <input type="text" class="form-control" id="financeReference" name="reference">
+                </div>
+
+                <div class="form-group">
+                    <label for="financeStatus">Status</label>
+                    <select class="form-select" id="financeStatus" name="status">
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeFinanceModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Save Record</span>
+                        <span class="spinner"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Employee Modal -->
+    <div id="employeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Employee</h2>
+                <button class="close-btn" onclick="closeEmployeeModal()">&times;</button>
+            </div>
+            <form id="employeeForm">
+                <input type="hidden" id="employeeId" name="id">
+                
+                <div class="form-group">
+                    <label for="employeeName">Full Name *</label>
+                    <input type="text" class="form-control" id="employeeName" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeEmail">Email *</label>
+                    <input type="email" class="form-control" id="employeeEmail" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeePhone">Phone *</label>
+                    <input type="tel" class="form-control" id="employeePhone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeePosition">Position *</label>
+                    <input type="text" class="form-control" id="employeePosition" name="position" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeDepartment">Department *</label>
+                    <select class="form-select" id="employeeDepartment" name="department" required>
+                        <option value="">Select Department...</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Livestock">Livestock</option>
+                        <option value="Training">Training</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Management">Management</option>
+                        <option value="IT">IT</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeRole">Role *</label>
+                    <select class="form-select" id="employeeRole" name="role" required>
+                        <option value="">Select Role...</option>
+                        <option value="employee">Employee</option>
+                        <option value="manager">Manager</option>
+                        <option value="coordinator">Coordinator</option>
+                        <option value="accountable">Accountable</option>
+                        <option value="it">IT</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeStatus">Status *</label>
+                    <select class="form-select" id="employeeStatus" name="status" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="onboarding">Onboarding</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeSalary">Salary (Frw)</label>
+                    <input type="text" class="form-control" id="employeeSalary" name="salary">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeEmployeeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Save Employee</span>
+                        <span class="spinner"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Training Modal -->
+    <div id="trainingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Training</h2>
+                <button class="close-btn" onclick="closeTrainingModal()">&times;</button>
+            </div>
+            <form id="trainingForm">
+                <input type="hidden" id="trainingId" name="id">
+                
+                <div class="form-group">
+                    <label for="trainingTitle">Title *</label>
+                    <input type="text" class="form-control" id="trainingTitle" name="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="trainingDescription">Description *</label>
+                    <textarea class="form-control" id="trainingDescription" name="description" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="trainingInstructor">Instructor *</label>
+                    <input type="text" class="form-control" id="trainingInstructor" name="instructor" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="trainingLocation">Location *</label>
+                    <input type="text" class="form-control" id="trainingLocation" name="location" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="trainingStartDate">Start Date *</label>
+                    <input type="date" class="form-control" id="trainingStartDate" name="startDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="trainingEndDate">End Date *</label>
+                    <input type="date" class="form-control" id="trainingEndDate" name="endDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="trainingCost">Cost (Frw)</label>
+                    <input type="number" class="form-control" id="trainingCost" name="cost" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="trainingMaxParticipants">Max Participants</label>
+                    <input type="number" class="form-control" id="trainingMaxParticipants" name="maxParticipants" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="trainingStatus">Status</label>
+                    <select class="form-select" id="trainingStatus" name="status">
+                        <option value="planned">Planned</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeTrainingModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Save Training</span>
+                        <span class="spinner"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="database_user_service.js"></script>
+    <script src="finance_management_service.js"></script>
+    <script src="access_control.js"></script>
+    <script>
+        // Initialize Finance Manager Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (window.accessControl && !window.accessControl.isFinanceManager()) {
+                alert('Nta burenganzira bwo kuyikurikiri iyi paji. Ugerageze Finance Manager.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Initialize data
+            loadFinanceData();
+            loadEmployees();
+            loadTraining();
+            loadFinanceStatistics();
+            
+            // Set up form submissions
+            document.getElementById('financeForm').addEventListener('submit', handleFinanceSubmit);
+            document.getElementById('employeeForm').addEventListener('submit', handleEmployeeSubmit);
+            document.getElementById('trainingForm').addEventListener('submit', handleTrainingSubmit);
+        });
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Finance Management
+        let currentFinanceRecords = [];
+        let editingFinanceId = null;
+
+        async function loadFinanceData() {
+            try {
+                showLoading(true);
+                const response = await window.financeService.fetchFinanceRecords();
+                currentFinanceRecords = response.data;
+                displayFinanceRecords(currentFinanceRecords);
+                showSuccess('Finance records loaded successfully!');
+            } catch (error) {
+                console.error('Error loading finance data:', error);
+                showError('Error loading finance records');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function displayFinanceRecords(records) {
+            const tbody = document.getElementById('financeTableBody');
+            tbody.innerHTML = '';
+
+            records.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.id}</td>
+                    <td><span class="status-badge status-${record.type}">${record.type}</span></td>
+                    <td>Frw ${record.amount.toLocaleString()}</td>
+                    <td>${record.description}</td>
+                    <td>${record.category}</td>
+                    <td>${record.date}</td>
+                    <td><span class="status-badge status-${record.status}">${record.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-info" onclick="viewFinanceRecord(${record.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning" onclick="editFinanceRecord(${record.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteFinanceRecord(${record.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function openFinanceModal() {
+            editingFinanceId = null;
+            document.querySelector('#financeModal .modal-title').textContent = 'Add Finance Record';
+            document.getElementById('financeForm').reset();
+            document.getElementById('financeId').value = '';
+            document.getElementById('financeDate').value = new Date().toISOString().split('T')[0];
+            showModal('financeModal');
+        }
+
+        async function editFinanceRecord(recordId) {
+            try {
+                const response = await window.financeService.fetchFinanceRecord(recordId);
+                const record = response.data;
+                
+                editingFinanceId = recordId;
+                document.querySelector('#financeModal .modal-title').textContent = 'Edit Finance Record';
+                
+                // Populate form
+                document.getElementById('financeId').value = record.id;
+                document.getElementById('financeType').value = record.type;
+                document.getElementById('financeAmount').value = record.amount;
+                document.getElementById('financeDescription').value = record.description;
+                document.getElementById('financeCategory').value = record.category;
+                document.getElementById('financeDate').value = record.date;
+                document.getElementById('financeReference').value = record.reference || '';
+                document.getElementById('financeStatus').value = record.status;
+                
+                showModal('financeModal');
+            } catch (error) {
+                console.error('Error loading finance record:', error);
+                showError('Error loading finance record');
+            }
+        }
+
+        async function deleteFinanceRecord(recordId) {
+            if (!confirm('Are you sure you want to delete this finance record?')) {
+                return;
+            }
+
+            try {
+                showLoading(true);
+                await window.financeService.deleteFinanceRecord(recordId);
+                await loadFinanceData();
+                await loadFinanceStatistics();
+                showSuccess('Finance record deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting finance record:', error);
+                showError('Error deleting finance record');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function handleFinanceSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const financeData = Object.fromEntries(formData.entries());
+            
+            try {
+                showLoading(true);
+                
+                if (editingFinanceId) {
+                    // Update existing record
+                    financeData.id = editingFinanceId;
+                    await window.financeService.saveFinanceRecord(financeData);
+                    showSuccess('Finance record updated successfully!');
+                } else {
+                    // Create new record
+                    await window.financeService.saveFinanceRecord(financeData);
+                    showSuccess('Finance record added successfully!');
+                }
+                
+                closeFinanceModal();
+                await loadFinanceData();
+                await loadFinanceStatistics();
+            } catch (error) {
+                console.error('Error saving finance record:', error);
+                showError('Error saving finance record: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Employee Management
+        let currentEmployees = [];
+        let editingEmployeeId = null;
+
+        async function loadEmployees() {
+            try {
+                const response = await window.financeService.fetchEmployees();
+                currentEmployees = response.data;
+                displayEmployees(currentEmployees);
+            } catch (error) {
+                console.error('Error loading employees:', error);
+                showError('Error loading employees');
+            }
+        }
+
+        function displayEmployees(employees) {
+            const tbody = document.getElementById('employeeTableBody');
+            tbody.innerHTML = '';
+
+            employees.forEach(employee => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${employee.id}</td>
+                    <td>${employee.name}</td>
+                    <td>${employee.email}</td>
+                    <td>${employee.phone}</td>
+                    <td>${employee.position}</td>
+                    <td>${employee.department}</td>
+                    <td><span class="status-badge status-${employee.status}">${employee.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-info" onclick="viewEmployee(${employee.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning" onclick="editEmployee(${employee.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteEmployee(${employee.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function openEmployeeModal() {
+            editingEmployeeId = null;
+            document.querySelector('#employeeModal .modal-title').textContent = 'Add Employee';
+            document.getElementById('employeeForm').reset();
+            document.getElementById('employeeId').value = '';
+            showModal('employeeModal');
+        }
+
+        async function editEmployee(employeeId) {
+            try {
+                const response = await window.financeService.fetchEmployees();
+                const employee = response.data.find(e => e.id === employeeId);
+                
+                if (!employee) {
+                    throw new Error('Employee not found');
+                }
+                
+                editingEmployeeId = employeeId;
+                document.querySelector('#employeeModal .modal-title').textContent = 'Edit Employee';
+                
+                // Populate form
+                document.getElementById('employeeId').value = employee.id;
+                document.getElementById('employeeName').value = employee.name;
+                document.getElementById('employeeEmail').value = employee.email;
+                document.getElementById('employeePhone').value = employee.phone;
+                document.getElementById('employeePosition').value = employee.position;
+                document.getElementById('employeeDepartment').value = employee.department;
+                document.getElementById('employeeRole').value = employee.role;
+                document.getElementById('employeeStatus').value = employee.status;
+                document.getElementById('employeeSalary').value = employee.salary || '';
+                
+                showModal('employeeModal');
+            } catch (error) {
+                console.error('Error loading employee:', error);
+                showError('Error loading employee');
+            }
+        }
+
+        async function deleteEmployee(employeeId) {
+            if (!confirm('Are you sure you want to delete this employee?')) {
+                return;
+            }
+
+            try {
+                showLoading(true);
+                await window.financeService.deleteEmployee(employeeId);
+                await loadEmployees();
+                showSuccess('Employee deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting employee:', error);
+                showError('Error deleting employee');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function handleEmployeeSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const employeeData = Object.fromEntries(formData.entries());
+            
+            try {
+                showLoading(true);
+                
+                if (editingEmployeeId) {
+                    // Update existing employee
+                    employeeData.id = editingEmployeeId;
+                    await window.financeService.saveEmployee(employeeData);
+                    showSuccess('Employee updated successfully!');
+                } else {
+                    // Create new employee
+                    await window.financeService.saveEmployee(employeeData);
+                    showSuccess('Employee added successfully!');
+                }
+                
+                closeEmployeeModal();
+                await loadEmployees();
+            } catch (error) {
+                console.error('Error saving employee:', error);
+                showError('Error saving employee: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Training Management
+        let currentTraining = [];
+        let editingTrainingId = null;
+
+        async function loadTraining() {
+            try {
+                const response = await window.financeService.fetchTraining();
+                currentTraining = response.data;
+                displayTraining(currentTraining);
+            } catch (error) {
+                console.error('Error loading training:', error);
+                showError('Error loading training');
+            }
+        }
+
+        function displayTraining(training) {
+            const tbody = document.getElementById('trainingTableBody');
+            tbody.innerHTML = '';
+
+            training.forEach(program => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${program.id}</td>
+                    <td>${program.title}</td>
+                    <td>${program.instructor}</td>
+                    <td>${program.location}</td>
+                    <td>${program.startDate}</td>
+                    <td>${program.endDate}</td>
+                    <td>Frw ${program.cost.toLocaleString()}</td>
+                    <td><span class="status-badge status-${program.status}">${program.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-info" onclick="viewTraining(${program.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning" onclick="editTraining(${program.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteTraining(${program.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function openTrainingModal() {
+            editingTrainingId = null;
+            document.querySelector('#trainingModal .modal-title').textContent = 'Add Training';
+            document.getElementById('trainingForm').reset();
+            document.getElementById('trainingId').value = '';
+            showModal('trainingModal');
+        }
+
+        async function editTraining(trainingId) {
+            try {
+                const response = await window.financeService.fetchTraining();
+                const training = response.data.find(t => t.id === trainingId);
+                
+                if (!training) {
+                    throw new Error('Training not found');
+                }
+                
+                editingTrainingId = trainingId;
+                document.querySelector('#trainingModal .modal-title').textContent = 'Edit Training';
+                
+                // Populate form
+                document.getElementById('trainingId').value = training.id;
+                document.getElementById('trainingTitle').value = training.title;
+                document.getElementById('trainingDescription').value = training.description;
+                document.getElementById('trainingInstructor').value = training.instructor;
+                document.getElementById('trainingLocation').value = training.location;
+                document.getElementById('trainingStartDate').value = training.startDate;
+                document.getElementById('trainingEndDate').value = training.endDate;
+                document.getElementById('trainingCost').value = training.cost || '';
+                document.getElementById('trainingMaxParticipants').value = training.maxParticipants || '';
+                document.getElementById('trainingStatus').value = training.status;
+                
+                showModal('trainingModal');
+            } catch (error) {
+                console.error('Error loading training:', error);
+                showError('Error loading training');
+            }
+        }
+
+        async function deleteTraining(trainingId) {
+            if (!confirm('Are you sure you want to delete this training program?')) {
+                return;
+            }
+
+            try {
+                showLoading(true);
+                await window.financeService.deleteTraining(trainingId);
+                await loadTraining();
+                showSuccess('Training deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting training:', error);
+                showError('Error deleting training');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function handleTrainingSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const trainingData = Object.fromEntries(formData.entries());
+            
+            try {
+                showLoading(true);
+                
+                if (editingTrainingId) {
+                    // Update existing training
+                    trainingData.id = editingTrainingId;
+                    await window.financeService.saveTraining(trainingData);
+                    showSuccess('Training updated successfully!');
+                } else {
+                    // Create new training
+                    await window.financeService.saveTraining(trainingData);
+                    showSuccess('Training added successfully!');
+                }
+                
+                closeTrainingModal();
+                await loadTraining();
+            } catch (error) {
+                console.error('Error saving training:', error);
+                showError('Error saving training: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Finance Statistics
+        async function loadFinanceStatistics() {
+            try {
+                const response = await window.financeService.fetchFinanceStatistics();
+                const stats = response.data;
+                
+                document.getElementById('totalRecords').textContent = stats.totalRecords;
+                document.getElementById('totalIncome').textContent = 'Frw ' + stats.totalIncome.toLocaleString();
+                document.getElementById('totalExpenses').textContent = 'Frw ' + stats.totalExpenses.toLocaleString();
+                document.getElementById('netBalance').textContent = 'Frw ' + stats.netBalance.toLocaleString();
+            } catch (error) {
+                console.error('Error loading finance statistics:', error);
+            }
+        }
+
+        // Modal functions
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        function closeFinanceModal() {
+            document.getElementById('financeModal').classList.remove('show');
+        }
+
+        function closeEmployeeModal() {
+            document.getElementById('employeeModal').classList.remove('show');
+        }
+
+        function closeTrainingModal() {
+            document.getElementById('trainingModal').classList.remove('show');
+        }
+
+        // Alert functions
+        function showSuccess(message) {
+            const alert = document.getElementById('successAlert');
+            document.getElementById('successMessage').textContent = message;
+            alert.classList.add('show');
+            setTimeout(() => alert.classList.remove('show'), 5000);
+        }
+
+        function showError(message) {
+            const alert = document.getElementById('errorAlert');
+            document.getElementById('errorMessage').textContent = message;
+            alert.classList.add('show');
+            setTimeout(() => alert.classList.remove('show'), 5000);
+        }
+
+        function showLoading(show) {
+            const submitBtns = document.querySelectorAll('button[type="submit"]');
+            submitBtns.forEach(btn => {
+                const btnText = btn.querySelector('.btn-text');
+                const spinner = btn.querySelector('.spinner');
+                
+                if (show) {
+                    btn.disabled = true;
+                    if (btnText) btnText.textContent = 'Saving...';
+                    if (spinner) spinner.style.display = 'inline-block';
+                } else {
+                    btn.disabled = false;
+                    if (btnText) btnText.textContent = 'Save';
+                    if (spinner) spinner.style.display = 'none';
+                }
+            });
+        }
+
+        // Placeholder functions for view operations
+        function viewFinanceRecord(recordId) {
+            // Implement view functionality
+            console.log('View finance record:', recordId);
+        }
+
+        function viewEmployee(employeeId) {
+            // Implement view functionality
+            console.log('View employee:', employeeId);
+        }
+
+        function viewTraining(trainingId) {
+            // Implement view functionality
+            console.log('View training:', trainingId);
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Uziye ko ushaka gusohoka?')) {
+                localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

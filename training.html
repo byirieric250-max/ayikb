@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amahugurwa - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>AYIKB</h1>
+                    <p>AgriYouth Innovation Kirehe Business</p>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">Ahabanza</a>
+                    <a href="training.html" class="nav-link active">Amahugurwa</a>
+                    <a href="reports.html" class="nav-link" id="reportsLink" style="display: none;">Raporo</a>
+                    <a href="login.html" class="nav-link btn btn-primary">Login</a>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero training-hero">
+            <div class="hero-content">
+                <h1>Amahugurwa ya AYIKB</h1>
+                <p>Guteza imbere ubumenyi bw'urubyirugo mu buhinzi n'ubworozi</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>4</h3>
+                        <p>Amahugurwa</p>
+                    </div>
+                    <div class="stat">
+                        <h3>115</h3>
+                        <p>Abanyeshuri</p>
+                    </div>
+                    <div class="stat">
+                        <h3>95%</h3>
+                        <p>Imikorire</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Training Actions Section -->
+        <section class="training-actions">
+            <div class="container">
+                <div class="actions-header">
+                    <h2><i class="fas fa-graduation-cap"></i> Gucunga Amahugurwa</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showAddTrainingModal()">
+                            <i class="fas fa-plus"></i> Ohereza Training Nshya
+                        </button>
+                        <div class="filter-controls">
+                            <select id="statusFilter" onchange="filterTraining()">
+                                <option value="all">Byose</option>
+                        <option value="upcoming">Iza kuba</option>
+                        <option value="ongoing">Iri kugenda</option>
+                        <option value="completed">Byarangiye</option>
+                        </div>
+                        <div class="training-info">
+                            <h3>Uburyo bwo guhinga bwiza</h3>
+                            <span class="training-status upcoming">Iza kuba</span>
+                        </div>
+                    </div>
+                    <div class="training-details">
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-calendar"></i> Itariki:</span>
+                            <span class="value">20/04/2024</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-clock"></i> Igihe:</span>
+                            <span class="value">09:00 - 17:00</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-map-marker-alt"></i> Ahantu:</span>
+                            <span class="value">AYIKB Office, Nyagahama</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-users"></i> Abitabiriye:</span>
+                            <span class="value">30/50</span>
+                        </div>
+                    </div>
+                    <div class="training-description">
+                        <p>Amahugurwa ajyanye n'uburyo bwo guhinga bwiza, gukoresha ifumbire, no kurinda ibyorezi.</p>
+                    </div>
+                    <div class="training-trainer">
+                        <span class="label"><i class="fas fa-chalkboard-teacher"></i> Inshingano:</span>
+                        <span class="value">MINAGRI Expert</span>
+                    </div>
+                    <div class="training-actions">
+                        <button class="btn btn-sm btn-primary" onclick="registerTraining(1)">
+                            <i class="fas fa-user-plus"></i> Iyandikishe
+                        </button>
+                        <button class="btn btn-sm btn-secondary" onclick="viewTrainingDetails(1)">
+                            <i class="fas fa-eye"></i> Reba
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ongoing Training -->
+                <div class="training-card ongoing" data-status="ongoing" data-category="livestock">
+                    <div class="training-header">
+                        <div class="training-icon">
+                            <i class="fas fa-pig"></i>
+                        </div>
+                        <div class="training-info">
+                            <h3>Ubworozi bw'Ingurube</h3>
+                            <span class="training-status ongoing">Iri kugenda</span>
+                        </div>
+                    </div>
+                    <div class="training-details">
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-calendar"></i> Itariki:</span>
+                            <span class="value">15/03/2024 - 15/04/2024</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-clock"></i> Igihe:</span>
+                            <span class="value">08:00 - 16:00</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-map-marker-alt"></i> Ahantu:</span>
+                            <span class="value">AYIKB Farm</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-users"></i> Abitabiriye:</span>
+                            <span class="value">25/25</span>
+                        </div>
+                    </div>
+                    <div class="training-description">
+                        <p>Amahugurwa ajyanye n'ubworozi bw'ingurube, kurinda indwara, no kubungabunga amafunguro.</p>
+                    </div>
+                    <div class="training-trainer">
+                        <span class="label"><i class="fas fa-chalkboard-teacher"></i> Inshingano:</span>
+                        <span class="value">RAB Veterinarian</span>
+                    </div>
+                    <div class="training-actions">
+                        <button class="btn btn-sm btn-secondary" onclick="viewTrainingDetails(2)">
+                            <i class="fas fa-eye"></i> Reba
+                        </button>
+                        <button class="btn btn-sm btn-info" onclick="viewProgress(2)">
+                            <i class="fas fa-chart-line"></i> Progress
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Completed Training -->
+                <div class="training-card completed" data-status="completed" data-category="business">
+                    <div class="training-header">
+                        <div class="training-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="training-info">
+                            <h3>Ubucuruzi bw'Umusaruro</h3>
+                            <span class="training-status completed">Byarangiye</span>
+                        </div>
+                    </div>
+                    <div class="training-details">
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-calendar"></i> Itariki:</span>
+                            <span class="value">10/02/2024</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-clock"></i> Igihe:</span>
+                            <span class="value">09:00 - 15:00</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-map-marker-alt"></i> Ahantu:</span>
+                            <span class="value">AYIKB Office</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-users"></i> Abitabiriye:</span>
+                            <span class="value">40/40</span>
+                        </div>
+                    </div>
+                    <div class="training-description">
+                        <p>Amahugurwa ajyanye n'ubucuruzi bw'umusaruro, gushaka amasoko, no gucunga ibiciro.</p>
+                    </div>
+                    <div class="training-trainer">
+                        <span class="label"><i class="fas fa-chalkboard-teacher"></i> Inshingano:</span>
+                        <span class="value">Business Consultant</span>
+                    </div>
+                    <div class="training-actions">
+                        <button class="btn btn-sm btn-secondary" onclick="viewTrainingDetails(3)">
+                            <i class="fas fa-eye"></i> Reba
+                        </button>
+                        <button class="btn btn-sm btn-success" onclick="viewCertificate(3)">
+                            <i class="fas fa-certificate"></i> Certificate
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Upcoming Training 2 -->
+                <div class="training-card upcoming" data-status="upcoming" data-category="livestock">
+                    <div class="training-header">
+                        <div class="training-icon">
+                            <i class="fas fa-egg"></i>
+                        </div>
+                        <div class="training-info">
+                            <h3>Ubworozi bw'Inkoko</h3>
+                            <span class="training-status upcoming">Iza kuba</span>
+                        </div>
+                    </div>
+                    <div class="training-details">
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-calendar"></i> Itariki:</span>
+                            <span class="value">10/05/2024</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-clock"></i> Igihe:</span>
+                            <span class="value">08:00 - 17:00</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-map-marker-alt"></i> Ahantu:</span>
+                            <span class="value">AYIKB Training Center</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-users"></i> Abitabiriye:</span>
+                            <span class="value">0/35</span>
+                        </div>
+                    </div>
+                    <div class="training-description">
+                        <p>Amahugurwa ajyanye n'ubworozi bw'inkoko, gukora inzu, no kurinda indwara.</p>
+                    </div>
+                    <div class="training-trainer">
+                        <span class="label"><i class="fas fa-chalkboard-teacher"></i> Inshingano:</span>
+                        <span class="value">Poultry Expert</span>
+                    </div>
+                    <div class="training-actions">
+                        <button class="btn btn-sm btn-primary" onclick="registerTraining(4)">
+                            <i class="fas fa-user-plus"></i> Iyandikishe
+                        </button>
+                        <button class="btn btn-sm btn-secondary" onclick="viewTrainingDetails(4)">
+                            <i class="fas fa-eye"></i> Reba
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Statistics -->
+            <div class="training-stats">
+                <h2>Statistics y'Amahugurwa</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Amahugurwa Yose</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Iza kuba</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">Iri kugenda</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Byarangiye</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">250+</div>
+                        <div class="stat-label">Abitabiriye</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Calendar -->
+            <div class="training-calendar">
+                <h2>Kalendari y'Amahugurwa</h2>
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button class="btn btn-sm" onclick="previousMonth()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h3 id="currentMonth">April 2024</h3>
+                        <button class="btn btn-sm" onclick="nextMonth()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-day-header">Sun</div>
+                        <div class="calendar-day-header">Mon</div>
+                        <div class="calendar-day-header">Tue</div>
+                        <div class="calendar-day-header">Wed</div>
+                        <div class="calendar-day-header">Thu</div>
+                        <div class="calendar-day-header">Fri</div>
+                        <div class="calendar-day-header">Sat</div>
+                        <!-- Calendar days will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Training Modal -->
+    <div id="addTrainingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ohereza Training Nshya</h3>
+                <span class="close" onclick="closeModal('addTrainingModal')">&times;</span>
+            </div>
+            <form id="addTrainingForm">
+                <div class="form-group">
+                    <label>Izina ry'Uhugurwa:</label>
+                    <input type="text" name="trainingName" required>
+                </div>
+                <div class="form-group">
+                    <label>Ubwoko:</label>
+                    <select name="category" required>
+                        <option value="agriculture">Ubuhinzi</option>
+                        <option value="livestock">Ubworozi</option>
+                        <option value="business">Ubucuruzi</option>
+                        <option value="technology">Tekinoroji</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Itariki yo gutangira:</label>
+                    <input type="date" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Itariki yo kurangira:</label>
+                    <input type="date" name="endDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Igihe:</label>
+                    <input type="text" name="time" placeholder="09:00 - 17:00" required>
+                </div>
+                <div class="form-group">
+                    <label>Ahantu:</label>
+                    <input type="text" name="location" required>
+                </div>
+                <div class="form-group">
+                    <label>Imibare y'Abitabiriye:</label>
+                    <input type="number" name="maxParticipants" required>
+                </div>
+                <div class="form-group">
+                    <label>Inshingano:</label>
+                    <input type="text" name="trainer" required>
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea name="description" rows="4"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('addTrainingModal')">Kureka</button>
+                    <button type="submit" class="btn btn-primary">Ohereza</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Iyandikishe ku Ugururwa</h3>
+                <span class="close" onclick="closeModal('registrationModal')">&times;</span>
+            </div>
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label>Izina ryawe:</label>
+                    <input type="text" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefoni:</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Umurenge:</label>
+                    <input type="text" name="sector" required>
+                </div>
+                <div class="form-group">
+                    <label>Akazi kawe:</label>
+                    <input type="text" name="occupation">
+                </div>
+                <div class="form-group">
+                    <label>Uburamye bw'Ugururwa:</label>
+                    <textarea name="motivation" rows="3" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('registrationModal')">Kureka</button>
+                    <button type="submit" class="btn btn-primary">Iyandikishe</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="admin_data_loader.js"></script>
+    <script src="access_control.js"></script>
+</body>
+</html>

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYIKB Login - AgriYouth Innovation Kirehe Business</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 400px;
+            width: 100%;
+            margin: 0 15px;
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .login-header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .login-header p {
+            margin: 0.5rem 0 0;
+            opacity: 0.9;
+        }
+        
+        .login-body {
+            padding: 2rem;
+        }
+        
+        .role-selector {
+            margin-bottom: 1.5rem;
+        }
+        
+        .role-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .role-btn {
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .role-btn:hover {
+            border-color: #2ecc71;
+            background: #f8f9fa;
+        }
+        
+        .role-btn.active {
+            border-color: #2ecc71;
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .role-btn i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .role-btn span {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .form-floating {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-floating input {
+            width: 100%;
+            height: 3.5rem;
+            padding: 1rem 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-floating input:focus {
+            border-color: #2ecc71;
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
+        }
+        
+        .form-floating label {
+            position: absolute;
+            top: 1rem;
+            left: 0.75rem;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background: white;
+            padding: 0 0.25rem;
+        }
+        
+        .form-floating input:focus + label,
+        .form-floating input:not(:placeholder-shown) + label {
+            top: -0.5rem;
+            font-size: 0.8rem;
+            color: #2ecc71;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+        
+        .password-toggle:hover {
+            color: #2ecc71;
+        }
+        
+        .login-footer {
+            padding: 0 2rem 2rem;
+        }
+        
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 0.5rem;
+        }
+        
+        .forgot-link {
+            color: #2ecc71;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e9ecef;
+        }
+        
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .back-to-home {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .back-to-home a {
+            color: #2ecc71;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-to-home a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading .loading-spinner {
+            display: inline-block;
+        }
+        
+        @media (max-width: 480px) {
+            .role-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .login-card {
+                margin: 0 10px;
+            }
+            
+            .login-header {
+                padding: 1.5rem;
+            }
+            
+            .login-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .login-body {
+                padding: 1.5rem;
+            }
+            
+            .login-footer {
+                padding: 0 1.5rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1><i class="fas fa-seedling"></i> AYIKB</h1>
+                <p>AgriYouth Innovation Kirehe Business</p>
+            </div>
+            
+            <div class="login-body">
+                <div id="alert-container"></div>
+                
+                <div class="role-selector">
+                    <label class="form-label">Select Your Role</label>
+                    <div class="role-buttons">
+                        <button class="role-btn active" data-role="admin">
+                            <i class="fas fa-user-shield"></i>
+                            <span>Admin</span>
+                        </button>
+                        <button class="role-btn" data-role="coordinator">
+                            <i class="fas fa-users-cog"></i>
+                            <span>Coordinator</span>
+                        </button>
+                        <button class="role-btn" data-role="accountable">
+                            <i class="fas fa-user-check"></i>
+                            <span>Accountable</span>
+                        </button>
+                        <button class="role-btn" data-role="ceo">
+                            <i class="fas fa-crown"></i>
+                            <span>CEO</span>
+                        </button>
+                        <button class="role-btn" data-role="it">
+                            <i class="fas fa-laptop-code"></i>
+                            <span>IT Admin</span>
+                        </button>
+                        <button class="role-btn" data-role="auditor">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Auditor</span>
+                        </button>
+                        <button class="role-btn" data-role="council">
+                            <i class="fas fa-users"></i>
+                            <span>Council</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="form-floating">
+                        <input type="text" id="username" name="username" placeholder=" " required>
+                        <label for="username">Username or Email</label>
+                    </div>
+                    
+                    <div class="form-floating" style="position: relative;">
+                        <input type="password" id="password" name="password" placeholder=" " required>
+                        <label for="password">Password</label>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="password-icon"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="login-footer">
+                        <div class="login-options">
+                            <div class="remember-me">
+                                <input type="checkbox" id="remember" name="remember">
+                                <label for="remember">Remember me</label>
+                            </div>
+                            <a href="#" class="forgot-link">Forgot password?</a>
+                        </div>
+                        
+                        <button type="submit" class="login-btn" id="loginBtn">
+                            <span class="loading-spinner"></span>
+                            <span class="btn-text">Sign In</span>
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+                
+                <div class="back-to-home">
+                    <a href="index.html">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Role selection
+        const roleButtons = document.querySelectorAll('.role-btn');
+        let selectedRole = 'admin';
+        
+        roleButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                roleButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                selectedRole = this.dataset.role;
+                updateLoginPlaceholder();
+            });
+        });
+        
+        function updateLoginPlaceholder() {
+            const usernameInput = document.getElementById('username');
+            const placeholders = {
+                'admin': 'admin@ayikb.rw',
+                'coordinator': 'coordinator@ayikb.rw',
+                'accountable': 'accountable@ayikb.rw',
+                'ceo': 'ceo@ayikb.rw',
+                'it': 'it@ayikb.rw',
+                'auditor': 'auditor@ayikb.rw',
+                'council': 'council@ayikb.rw'
+            };
+            
+            usernameInput.placeholder = placeholders[selectedRole];
+        }
+        
+        // Password toggle
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordIcon = document.getElementById('password-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.classList.remove('fa-eye');
+                passwordIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.classList.remove('fa-eye-slash');
+                passwordIcon.classList.add('fa-eye');
+            }
+        }
+        
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            
+            // Show loading state
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.classList.add('loading');
+            loginBtn.disabled = true;
+            
+            // Clear previous alerts
+            clearAlerts();
+            
+            // Simulate login process
+            setTimeout(() => {
+                const loginResult = authenticateUser(username, password, selectedRole);
+                
+                if (loginResult.success) {
+                    // Store session
+                    if (remember) {
+                        localStorage.setItem('ayikb_user', JSON.stringify(loginResult.user));
+                    } else {
+                        sessionStorage.setItem('ayikb_user', JSON.stringify(loginResult.user));
+                    }
+                    
+                    // Show success message
+                    showAlert('Login successful! Redirecting...', 'success');
+                    
+                    // Redirect based on role
+                    setTimeout(() => {
+                        redirectUser(loginResult.user.role);
+                    }, 1500);
+                } else {
+                    // Show error message
+                    showAlert(loginResult.message, 'danger');
+                    
+                    // Reset loading state
+                    loginBtn.classList.remove('loading');
+                    loginBtn.disabled = false;
+                }
+            }, 1500);
+        });
+        
+        function authenticateUser(username, password, role) {
+            // Default credentials for demo
+            const credentials = {
+                'admin': { username: 'admin', password: 'admin123' },
+                'coordinator': { username: 'coordinator', password: 'coord123' },
+                'accountable': { username: 'accountable', password: 'acc123' },
+                'ceo': { username: 'ceo', password: 'ceo123' },
+                'it': { username: 'it_admin', password: 'it123' },
+                'auditor': { username: 'auditor', password: 'audit123' },
+                'council': { username: 'council_chair', password: 'council123' }
+            };
+            
+            const validCredentials = credentials[role];
+            
+            if (validCredentials && 
+                (username === validCredentials.username || username === `${validCredentials.username}@ayikb.rw`) &&
+                password === validCredentials.password) {
+                
+                return {
+                    success: true,
+                    user: {
+                        username: validCredentials.username,
+                        role: role,
+                        name: getRoleDisplayName(role),
+                        loginTime: new Date().toISOString()
+                    }
+                };
+            }
+            
+            return {
+                success: false,
+                message: 'Invalid username or password. Please try again.'
+            };
+        }
+        
+        function getRoleDisplayName(role) {
+            const names = {
+                'admin': 'System Administrator',
+                'coordinator': 'Project Coordinator',
+                'accountable': 'Accountable Officer',
+                'ceo': 'Chief Executive Officer',
+                'it': 'IT Administrator',
+                'auditor': 'Internal Auditor',
+                'council': 'AYIKB Council Member'
+            };
+            return names[role] || 'User';
+        }
+        
+        function redirectUser(role) {
+            const redirects = {
+                'admin': 'admin.html',
+                'coordinator': 'dashboard_enhanced.html',
+                'accountable': 'dashboard_enhanced.html',
+                'ceo': 'ceo_dashboard.html',
+                'it': 'dashboard_enhanced.html',
+                'auditor': 'reports_enhanced.html',
+                'council': 'reports_enhanced.html'
+            };
+            
+            window.location.href = redirects[role] || 'dashboard_enhanced.html';
+        }
+        
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+                ${message}
+            `;
+            
+            alertContainer.appendChild(alert);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 5000);
+        }
+        
+        function clearAlerts() {
+            const alertContainer = document.getElementById('alert-container');
+            alertContainer.innerHTML = '';
+        }
+        
+        // Check for existing session
+        window.addEventListener('load', function() {
+            const savedUser = localStorage.getItem('ayikb_user') || sessionStorage.getItem('ayikb_user');
+            
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                showAlert(`Welcome back, ${user.name}!`, 'info');
+                
+                // Auto-redirect after 2 seconds
+                setTimeout(() => {
+                    redirectUser(user.role);
+                }, 2000);
+            }
+        });
+        
+        // Forgot password handler
+        document.querySelector('.forgot-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            showAlert('Password reset functionality will be available soon. Please contact the administrator.', 'info');
+        });
+        
+        // Initialize
+        updateLoginPlaceholder();
+    </script>
+</body>
+</html>

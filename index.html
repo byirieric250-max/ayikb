@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriYouth Innovation Kirehe Business (AYIKB)</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin_reports_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>AYIKB</h1>
+                    <p>AgriYouth Innovation Kirehe Business</p>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link active">Ahabanza</a>
+                    <a href="training.html" class="nav-link">Amahugurwa</a>
+                    <a href="reports.html" class="nav-link" id="reportsLink" style="display: none;">Raporo</a>
+                    <a href="login.html" class="nav-link btn btn-primary">Login</a>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>AgriYouth Innovation Kirehe Business</h1>
+                <p>Iteka ry'urubyiruko ryiza mu buhinzi n'ubworozi</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>200+</h3>
+                        <p>Imirimo Igezweho</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Kirehe</h3>
+                        <p>Aho Twikorera</p>
+                    </div>
+                    <div class="stat">
+                        <h3>10+</h3>
+                        <p>Abakozi Bahoraho</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <h2>Ibyo Umushinga Aricyo</h2>
+                <div class="about-grid">
+                    <div class="about-card">
+                        <h3>Aho Twikorera</h3>
+                        <p>Karere ka Kirehe, Umurenge wa Nyamugari, Akagari ka Nyamugari, Umudugudu wa Nyagahama</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>Intego Yacu</h3>
+                        <p>Guteza imbere ubukungu bw'urubyiruko binyuze mu buhinzi n'ubworozi</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>Icyerekezo</h3>
+                        <p>Kuba isoko y'iterambere ry'urubyiruko mu Karere ka Kirehe</p>
+                    </div>
+                </div>
+                <div class="values">
+                    <h3>Indangagaciro Dufitamo</h3>
+                    <div class="values-grid">
+                        <div class="value-item">
+                            <h4>Ubunyangamugayo</h4>
+                        </div>
+                        <div class="value-item">
+                            <h4>Gukorana umurava</h4>
+                        </div>
+                        <div class="value-item">
+                            <h4>Gufatanya n'abandi</h4>
+                        </div>
+                        <div class="value-item">
+                            <h4>Gukunda igihugu</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mission" class="mission">
+            <div class="container">
+                <h2>Intego n'Icyerekezo</h2>
+                <div class="mission-content">
+                    <div class="mission-text">
+                        <h3>Intego Zukunzwe:</h3>
+                        <ul>
+                            <li>Guteza imbere ubukungu bw'urubyiruko binyuze mu buhinzi n'ubworozi</li>
+                            <li>Guhanga imirimo irenga 200 ku rubyiruko rwo mu Karere ka Kirehe</li>
+                            <li>Guhanga udushya mu buhinzi n'ubworozi hakoreshejwe ikoranabuhanga</li>
+                        </ul>
+                        <h3>Icyerekezo:</h3>
+                        <p>Kuba isoko y'iterambere ry'urubyiruko mu Karere ka Kirehe</p>
+                    </div>
+                    <div class="mission-visual">
+                        <div class="progress-circle">
+                            <div class="circle" data-percentage="75">
+                                <span class="percentage">75%</span>
+                            </div>
+                            <p>Progress y'Umushinga</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="activities" class="activities">
+            <div class="container">
+                <h2>Ibyo Dukora</h2>
+                <div class="activities-grid">
+                    <div class="activity-card">
+                        <div class="activity-icon">🌾</div>
+                        <h3>Ubuhinzi</h3>
+                        <p>Ibigori, ibirayi, ibishyimbo, soya, imboga n'imbuto</p>
+                        <div class="current-status">
+                            <p><strong>Aho Tumaze Kugerera:</strong></p>
+                            <ul>
+                                <li>Twahinze ibigori kuri hegitari 1</li>
+                                <li>Twahinze ibirayi kuri 1/3 cya hegitari</li>
+                            </ul>
+                        </div>
+                        <div class="activity-actions">
+                            <button class="btn btn-sm btn-info" onclick="searchAndReturn('modern farming techniques Rwanda')">
+                                <i class="fas fa-search"></i> Learn More
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="window.location.href='projects.html'">
+                                <i class="fas fa-arrow-right"></i> View Projects
+                            </button>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">🐷</div>
+                        <h3>Ubworozi</h3>
+                        <p>Ingurube, inkoko n'inkwavu</p>
+                        <div class="planned">
+                            <p><strong>Ibyitegurwa:</strong></p>
+                            <ul>
+                                <li>Ubworozi bw'ingurube</li>
+                                <li>Ubworozi bw'inkoko</li>
+                            </ul>
+                        </div>
+                        <div class="activity-actions">
+                            <button class="btn btn-sm btn-info" onclick="searchAndReturn('livestock farming business Rwanda')">
+                                <i class="fas fa-search"></i> Learn More
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="window.location.href='projects.html'">
+                                <i class="fas fa-arrow-right"></i> View Projects
+                            </button>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">📚</div>
+                        <h3>Amahugurwa</h3>
+                        <p>Gutanga amahugurwa ku rubyirugo mu buhinzi n'ubworozi</p>
+                        <div class="activity-actions">
+                            <button class="btn btn-sm btn-info" onclick="searchAndReturn('agricultural training programs Rwanda')">
+                                <i class="fas fa-search"></i> Learn More
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="window.location.href='training.html'">
+                                <i class="fas fa-arrow-right"></i> View Training
+                            </button>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">🏪</div>
+                        <h3>Ubucuruzi bw'Umusaruro</h3>
+                        <p>Kugurisha umusaruro ku masoko</p>
+                        <div class="activity-actions">
+                            <button class="btn btn-sm btn-info" onclick="searchAndReturn('agricultural market Rwanda Kirehe')">
+                                <i class="fas fa-search"></i> Learn More
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="window.location.href='partners.html'">
+                                <i class="fas fa-arrow-right"></i> View Partners
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="phases" class="phases">
+            <div class="container">
+                <h2>Phases z'Umushinga</h2>
+                <div class="phases-timeline">
+                    <div class="phase-item active">
+                        <div class="phase-number">1</div>
+                        <div class="phase-content">
+                            <h3>Phase 1: Ubuhinzi</h3>
+                            <p>Ingengo y'imari: 1,000,000 Frw</p>
+                            <div class="phase-status">Iri gukora</div>
+                            <div class="phase-actions">
+                                <button class="btn btn-sm btn-info" onclick="searchAndReturn('modern agriculture techniques Rwanda')">
+                                    <i class="fas fa-search"></i> Search Info
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="window.location.href='projects.html'">
+                                    <i class="fas fa-arrow-right"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-number">2</div>
+                        <div class="phase-content">
+                            <h3>Phase 2: Ubworozi bw'Ingurube</h3>
+                            <p>Ingengo y'imari: 800,000 Frw</p>
+                            <div class="phase-status">Ibitegurwa</div>
+                            <div class="phase-actions">
+                                <button class="btn btn-sm btn-info" onclick="searchAndReturn('pig farming business Rwanda')">
+                                    <i class="fas fa-search"></i> Search Info
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="window.location.href='projects.html'">
+                                    <i class="fas fa-arrow-right"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-number">3</div>
+                        <div class="phase-content">
+                            <h3>Phase 3: Ubworozi bw'Inkoko</h3>
+                            <p>Ingengo y'imari: 1,000,000 Frw</p>
+                            <div class="phase-status">Ibitegurwa</div>
+                            <div class="phase-actions">
+                                <button class="btn btn-sm btn-info" onclick="searchAndReturn('poultry farming business Rwanda')">
+                                    <i class="fas fa-search"></i> Search Info
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="window.location.href='projects.html'">
+                                    <i class="fas fa-arrow-right"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="benefits" class="benefits">
+            <div class="container">
+                <h2>Inyungu zitezwe</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <h3>Ubuhinzi</h3>
+                        <p class="amount">1,000,000 Frw</p>
+                        <p class="frequency">buri season</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>Inkoko</h3>
+                        <p class="amount">7,200,000 Frw</p>
+                        <p class="frequency">ku mwaka</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>Ingurube</h3>
+                        <p class="amount">1,200,000 Frw</p>
+                        <p class="frequency">ku mwaka</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="partners" class="partners">
+            <div class="container">
+                <h2>Abafatanyabikorwa</h2>
+                <div class="partners-grid">
+                    <div class="partner-item">
+                        <h3>Akarere ka Kirehe</h3>
+                    </div>
+                    <div class="partner-item">
+                        <h3>MINAGRI</h3>
+                    </div>
+                    <div class="partner-item">
+                        <h3>BDF</h3>
+                    </div>
+                    <div class="partner-item">
+                        <h3>RYAF</h3>
+                    </div>
+                    <div class="partner-item">
+                        <h3>NGOs</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Reports Section (Hidden by default) -->
+        <section id="adminReports" class="admin-section" style="display: none;">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> Raporo z'Ubuyobozi</h2>
+                    <p>Reba raporo zose z'ubuzima bw'ikigo n'ibikorwa byose</p>
+                </div>
+                
+                <div class="reports-dashboard">
+                    <!-- Quick Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>15</h3>
+                                <p>Abakozi</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>4</h3>
+                                <p>Amahugurwa</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>4</h3>
+                                <p>Abafatanyabikorwa</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>3</h3>
+                                <p>Amahugurwa</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Report Categories -->
+                    <div class="report-categories">
+                        <div class="category-card">
+                            <div class="category-header">
+                                <i class="fas fa-chart-bar"></i>
+                                <h3>Raporo z'Imibare</h3>
+                            </div>
+                            <ul class="report-list">
+                                <li><a href="#" onclick="showReport('financial'); return false;">Raporo y'Imari</a></li>
+                                <li><a href="#" onclick="showReport('projects'); return false;">Raporo z'Akarere</a></li>
+                                <li><a href="#" onclick="showReport('training'); return false;">Raporo z'Amahugurwa</a></li>
+                                <li><a href="#" onclick="showReport('partners'); return false;">Raporo z'Abafatanyabikorwa</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="category-card">
+                            <div class="category-header">
+                                <i class="fas fa-user-tie"></i>
+                                <h3>Raporo z'Ubuyobozi</h3>
+                            </div>
+                            <ul class="report-list">
+                                <li><a href="#" onclick="showReport('leadership'); return false;">Raporo y'Ubuyobozi</a></li>
+                                <li><a href="#" onclick="showReport('it'); return false;">Raporo ya IT</a></li>
+                                <li><a href="#" onclick="showReport('audit'); return false;">Raporo y'Ukurikanyanishaho</a></li>
+                                <li><a href="#" onclick="showReport('council'); return false;">Raporo y'Inama</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="category-card">
+                            <div class="category-header">
+                                <i class="fas fa-cogs"></i>
+                                <h3>Raporo z'Ushakira</h3>
+                            </div>
+                            <ul class="report-list">
+                                <li><a href="#" onclick="showReport('operations'); return false;">Raporo z'Ubukorikora</a></li>
+                                <li><a href="#" onclick="showReport('compliance'); return false;">Raporo z'Itegeko</a></li>
+                                <li><a href="#" onclick="showReport('performance'); return false;">Raporo z'Ukora</a></li>
+                                <li><a href="#" onclick="showReport('risk'); return false;">Raporo z'Ibyago</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Report Display Area -->
+                    <div id="reportDisplay" class="report-display">
+                        <div class="report-placeholder">
+                            <i class="fas fa-file-alt"></i>
+                            <h3>Hitamo raporo yo kurubanza</h3>
+                            <p>Kanda kuri raporo uri hejuru kureba ibisobanuro byayo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="challenges" class="challenges">
+            <div class="container">
+                <h2>Imbogamizi Zihari</h2>
+                <div class="challenges-grid">
+                    <div class="challenge-item">
+                        <h3>Ubutaka buto</h3>
+                    </div>
+                    <div class="challenge-item">
+                        <h3>Igishoro gito</h3>
+                    </div>
+                    <div class="challenge-item">
+                        <h3>Ibikoresho bidahagije</h3>
+                    </div>
+                    <div class="challenge-item">
+                        <h3>Ubumenyi buke mu micungire</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Twandikire</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Ibyo Dusaba</h3>
+                        <p>Inkunga yo gukemura ikibazo cy'ubutaka, igishoro n'ibikoresho.</p>
+                        <div class="contact-details">
+                            <p><strong>Aho Twikorera:</strong></p>
+                            <p>Karere ka Kirehe, Umurenge wa Nyamugari, Akagari ka Nyamugari, Umudugudu wa Nyagahama</p>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <input type="text" placeholder="Izina ryawe" required>
+                            <input type="email" placeholder="Email yawe" required>
+                            <input type="tel" placeholder="Telefoni yawe">
+                            <textarea placeholder="Ubutumwa bwawe" rows="5" required></textarea>
+                            <button type="submit">Ohereza Ubutumwa</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AYIKB</h3>
+                    <p>AgriYouth Innovation Kirehe Business</p>
+                    <p>Iteka ry'urubyiruko ryiza mu buhinzi n'ubworozi</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Uburyo bwo Kwamamaza</h4>
+                    <ul>
+                        <li>Imbuga nkoranyambaga</li>
+                        <li>Ubukangurambaga ku masoko</li>
+                        <li>Amatangazo yamamaza</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Umusozo</h4>
+                    <p>AYIKB ni igitekerezo cy'urubyiruko kigamije guteza imbere ubukungu n'imibereho myiza y'urubyiruko mu Karere ka Kirehe.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AYIKB - AgriYouth Innovation Kirehe Business. Irembere yose irarinzwe.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="search_engine.js"></script>
+    <script src="admin_data_loader.js"></script>
+    <script src="access_control.js"></script>
+    <script>
+        // Check for admin login and show reports section
+        function checkAdminAccess() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser') || '{}');
+            const isAdmin = currentUser.role === 'admin' || currentUser.role === 'ceo';
+            
+            if (isAdmin) {
+                // Show reports link in navigation
+                const reportsLink = document.getElementById('reportsLink');
+                if (reportsLink) {
+                    reportsLink.style.display = 'block';
+                }
+                
+                // Show admin reports section
+                const adminReports = document.getElementById('adminReports');
+                if (adminReports) {
+                    adminReports.style.display = 'block';
+                }
+            }
+        }
+
+        // Show specific report
+        function showReport(reportType) {
+            const reportDisplay = document.getElementById('reportDisplay');
+            if (!reportDisplay) return;
+
+            const reports = {
+                financial: {
+                    title: 'Raporo y\'Imari',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-dollar-sign"></i> Raporo y\'Imari - Q1 2024</h3>
+                            <div class="report-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Inyungu zose:</span>
+                                    <span class="stat-value">15,000,000 Frw</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Imishinga:</span>
+                                    <span class="stat-value">12,500,000 Frw</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Amahugurwa:</span>
+                                    <span class="stat-value">2,500,000 Frw</span>
+                                </div>
+                            </div>
+                            <div class="report-chart">
+                                <p><i class="fas fa-chart-pie"></i> Inyungu ziyongereye 25% ugereranije na Q1 2023</p>
+                            </div>
+                        </div>
+                    `
+                },
+                projects: {
+                    title: 'Raporo z\'Akarere',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-project-diagram"></i> Raporo z\'Akarere</h3>
+                            <div class="project-list">
+                                <div class="project-item">
+                                    <h4>Phase 1: Ubuhinzi</h4>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 75%;"></div>
+                                    </div>
+                                    <span>75% Yararangiye</span>
+                                </div>
+                                <div class="project-item">
+                                    <h4>Phase 2: Ubworozi bw\'Ingurube</h4>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 40%;"></div>
+                                    </div>
+                                    <span>40% Yararangiye</span>
+                                </div>
+                                <div class="project-item">
+                                    <h4>Phase 3: Ubworozi bw\'Inkoko</h4>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 20%;"></div>
+                                    </div>
+                                    <span>20% Yararangiye</span>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                training: {
+                    title: 'Raporo z\'Amahugurwa',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-graduation-cap"></i> Raporo z\'Amahugurwa</h3>
+                            <div class="training-stats">
+                                <div class="training-item">
+                                    <h4>Uburyo bwo guhinga bwiza</h4>
+                                    <p>Abanyeshuri 50, Igihe cyose 1, Umwaka wose</p>
+                                    <div class="status completed">Yarangiye</div>
+                                </div>
+                                <div class="training-item">
+                                    <h4>Ubworozi bw\'Ingurube</h4>
+                                    <p>Abanyeshuri 25, Igihe cyose 1, Ukwezi kwa 4</p>
+                                    <div class="status ongoing">Ibigiye</div>
+                                </div>
+                                <div class="training-item">
+                                    <h4>Ubucuruzi bw\'Umusaruro</h4>
+                                    <p>Abanyeshuri 40, Igihe cyose 1, Umunsi umwe</p>
+                                    <div class="status completed">Yarangiye</div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                partners: {
+                    title: 'Raporo z\'Abafatanyabikorwa',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-handshake"></i> Raporo z\'Abafatanyabikorwa</h3>
+                            <div class="partner-stats">
+                                <div class="partner-item">
+                                    <h4>Akarere ka Kirehe</h4>
+                                    <p>Inkunga: 2,000,000 Frw</p>
+                                    <p>Imishinga yashyizweho: 5</p>
+                                </div>
+                                <div class="partner-item">
+                                    <h4>MINAGRI</h4>
+                                    <p>Inkunga: 1,500,000 Frw</p>
+                                    <p>Imishinga yashyizweho: 3</p>
+                                </div>
+                                <div class="partner-item">
+                                    <h4>BDF</h4>
+                                    <p>Inkunga: 1,000,000 Frw</p>
+                                    <p>Imishinga yashyizweho: 2</p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                leadership: {
+                    title: 'Raporo y\'Ubuyobozi',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-user-tie"></i> Raporo y\'Ubuyobozi</h3>
+                            <div class="leadership-stats">
+                                <div class="role-item">
+                                    <h4>CEO</h4>
+                                    <p>Ishyirwa mu bikorwa: 100%</p>
+                                    <p>Amahugurwa yagenwe: 8</p>
+                                </div>
+                                <div class="role-item">
+                                    <h4>Admin</h4>
+                                    <p>Ishyirwa mu bikorwa: 95%</p>
+                                    <p>Ushushanyiko: 15</p>
+                                </div>
+                                <div class="role-item">
+                                    <h4>Coordinator</h4>
+                                    <p>Ishyirwa mu bikorwa: 90%</p>
+                                    <p>Imishinga: 4</p>
+                                </div>
+                                <div class="role-item">
+                                    <h4>Accountable</h4>
+                                    <p>Ishyirwa mu bikorwa: 88%</p>
+                                    <p>Imari: 12</p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                it: {
+                    title: 'Raporo ya IT',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-laptop"></i> Raporo ya IT</h3>
+                            <div class="it-stats">
+                                <div class="system-item">
+                                    <h4>Server Nini</h4>
+                                    <div class="status operational">Ikora neza</div>
+                                    <p>Igihe cya gukurikanya: 99.9%</p>
+                                </div>
+                                <div class="system-item">
+                                    <h4>Urubuga</h4>
+                                    <div class="status operational">Ikora neza</div>
+                                    <p>Abashakisha: 1,000/ukwezi</p>
+                                </div>
+                                <div class="system-item">
+                                    <h4>Backup</h4>
+                                    <div class="status operational">Ikora neza</div>
+                                    <p>Backup buri munsi</p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                audit: {
+                    title: 'Raporo y\'Ukurikanyanishaho',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-clipboard-check"></i> Raporo y\'Ukurikanyanishaho</h3>
+                            <div class="audit-stats">
+                                <div class="audit-item">
+                                    <h4>Q1 2024 Financial Audit</h4>
+                                    <div class="status completed">Yarangiye</div>
+                                    <p>Imibare myiza, ibyago bike</p>
+                                </div>
+                                <div class="audit-item">
+                                    <h4>Operations Performance</h4>
+                                    <div class="status completed">Yarangiye</div>
+                                    <p>Imikorere myiza, guhindura ibikora bya ngombwa</p>
+                                </div>
+                                <div class="audit-item">
+                                    <h4>Compliance Check</h4>
+                                    <div class="status ongoing">Ibigiye</div>
+                                    <p>Kurikanya amategeko</p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                council: {
+                    title: 'Raporo y\'Inama',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-users"></i> Raporo y\'Inama</h3>
+                            <div class="council-stats">
+                                <div class="meeting-item">
+                                    <h4>Q1 2024 Council Meeting</h4>
+                                    <div class="status completed">Yarangiye</div>
+                                    <p>Imibare 3 yagenwe, budget yemejwe</p>
+                                </div>
+                                <div class="meeting-item">
+                                    <h4>Emergency Budget Meeting</h4>
+                                    <div class="status completed">Yarangiye</div>
+                                    <p>Imari ihindurwe, imishinga nshya</p>
+                                </div>
+                                <div class="meeting-item">
+                                    <h4>Strategic Planning Session</h4>
+                                    <div class="status scheduled">Yagenwe</div>
+                                    <p>10/04/2024 - Gukora plan 2024-2026</p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                operations: {
+                    title: 'Raporo z\'Ubukorikora',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-cogs"></i> Raporo z\'Ubukorikora</h3>
+                            <div class="operations-stats">
+                                <div class="operation-item">
+                                    <h4>Ubuhinzi</h4>
+                                    <p>Imirimo: 50, Umusaruro: 85%</p>
+                                </div>
+                                <div class="operation-item">
+                                    <h4>Ubworozi</h4>
+                                    <p>Imirimo: 30, Umusaruro: 70%</p>
+                                </div>
+                                <div class="operation-item">
+                                    <h4>Amahugurwa</h4>
+                                    <p>Amahugurwa: 4, Abanyeshuri: 115</p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                compliance: {
+                    title: 'Raporo z\'Itegeko',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-balance-scale"></i> Raporo z\'Itegeko</h3>
+                            <div class="compliance-stats">
+                                <div class="compliance-item">
+                                    <h4>Amategeko y'Ubuhinzi</h4>
+                                    <div class="status compliant">Yemejwe</div>
+                                </div>
+                                <div class="compliance-item">
+                                    <h4>Amategeko y'Ubworozi</h4>
+                                    <div class="status compliant">Yemejwe</div>
+                                </div>
+                                <div class="compliance-item">
+                                    <h4>Amategeko y'Abakozi</h4>
+                                    <div class="status compliant">Yemejwe</div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                performance: {
+                    title: 'Raporo z\'Ukora',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-tachometer-alt"></i> Raporo z\'Ukora</h3>
+                            <div class="performance-stats">
+                                <div class="performance-item">
+                                    <h4>Ukora kw'Abakozi</h4>
+                                    <p>Imikorire yose: 87%</p>
+                                    <p>Imikorire y'ibanze: 92%</p>
+                                </div>
+                                <div class="performance-item">
+                                    <h4>Imishinga</h4>
+                                    <p>Imishinga yagenwe: 95%</p>
+                                    <p>Imishinga yarangiye: 80%</p>
+                                </div>
+                                <div class="performance-item">
+                                    <h4>Amahugurwa</h4>
+                                    <p>Amahugurwa yagenwe: 100%</p>
+                                    <p>Abanyeshuri bize: 98%</p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                risk: {
+                    title: 'Raporo z\'Ibyago',
+                    content: `
+                        <div class="report-content">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Raporo z\'Ibyago</h3>
+                            <div class="risk-stats">
+                                <div class="risk-item">
+                                    <h4>Ibyago by'Imari</h4>
+                                    <div class="risk-level low">Ntoya</div>
+                                    <p>Imari ihagije, imari myiza</p>
+                                </div>
+                                <div class="risk-item">
+                                    <h4>Ibyago by'Ubukorikora</h4>
+                                    <div class="risk-level medium">Hagati</div>
+                                    <p>Imbogamizi z'ubutaka, ibikoresho</p>
+                                </div>
+                                <div class="risk-item">
+                                    <h4>Ibyago by'Ubuyobozi</h4>
+                                    <div class="risk-level low">Ntoya</div>
+                                    <p>Ubuyobozi bwiza, abakozi bakenewe</p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                }
+            };
+
+            const report = reports[reportType];
+            if (report) {
+                reportDisplay.innerHTML = `
+                    <div class="report-header">
+                        <h3>${report.title}</h3>
+                        <button onclick="closeReport()" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Gufunga
+                        </button>
+                    </div>
+                    ${report.content}
+                `;
+            }
+        }
+
+        // Close report display
+        function closeReport() {
+            const reportDisplay = document.getElementById('reportDisplay');
+            if (reportDisplay) {
+                reportDisplay.innerHTML = `
+                    <div class="report-placeholder">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Hitamo raporo yo kurubanza</h3>
+                        <p>Kanda kuri raporo uri hejuru kureba ibisobanuro byayo</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Check admin access on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAdminAccess();
+        });
+
+        // Also check when storage changes (for login/logout)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'currentUser') {
+                checkAdminAccess();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Information - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-info-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .info-card h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-card h3 i {
+            color: #3498db;
+            font-size: 1.2em;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #6c757d;
+        }
+        
+        .info-value {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .recent-activities {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+        
+        .activity-icon.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .activity-icon.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .activity-icon.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-content h4 {
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .activity-content p {
+            color: #6c757d;
+            margin: 0;
+        }
+        
+        .activity-time {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        
+        .export-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .export-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .export-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .export-btn.excel {
+            background: #28a745;
+            color: white;
+        }
+        
+        .export-btn.pdf {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .export-btn.print {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .export-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        
+        .search-filter {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .search-filter input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-filter input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-controls select {
+            padding: 8px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .notification-settings {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: #28a745;
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-switch.active::after {
+            transform: translateX(30px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>AYIKB</h1>
+                    <p>Admin Information</p>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">Ahabanza</a>
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="admin_management.html" class="nav-link">Admin</a>
+                    <a href="admin_info_view.html" class="nav-link active">Info</a>
+                    <a href="reports.html" class="nav-link" id="reportsLink" style="display: none;">Raporo</a>
+                    <a href="login.html" class="nav-link btn btn-primary">Logout</a>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="admin-info-container">
+            <div class="admin-header">
+                <h1><i class="fas fa-shield-alt"></i> AYIKB Admin Information Center</h1>
+                <p>Complete overview of all administrative data and system information</p>
+            </div>
+
+            <!-- Admin Statistics -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3 id="totalUsers">15</h3>
+                    <p>Abakozi Bose</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="activeUsers">12</h3>
+                    <p>Abakozi Bari Ku Bwihe</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalProjects">4</h3>
+                    <p>Imishinga Yose</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="completedProjects">3</h3>
+                    <p>Imishinga Yarangiye</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalTraining">4</h3>
+                    <p>Amahugurwa Yose</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalPartners">4</h3>
+                    <p>Abafatanyabikorwa</p>
+                </div>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="search-filter">
+                <h3><i class="fas fa-search"></i> Shakisha no Guhingura</h3>
+                <input type="text" id="searchInput" placeholder="Shakisha abakozi, imishinga, amahugurwa..." onkeyup="searchAdminData()">
+                <div class="filter-controls">
+                    <select id="roleFilter" onchange="filterData()">
+                        <option value="all">Urwego Wose</option>
+                        <option value="ceo">CEO</option>
+                        <option value="admin">Admin</option>
+                        <option value="manager">Manager</option>
+                        <option value="employee">Employee</option>
+                        <option value="it">IT</option>
+                        <option value="auditor">Auditor</option>
+                        <option value="council">Council</option>
+                    </select>
+                    <select id="statusFilter" onchange="filterData()">
+                        <option value="all">Imimerere Yose</option>
+                        <option value="active">Ikora</option>
+                        <option value="inactive">Ntiikora</option>
+                        <option value="pending">Ibara</option>
+                    </select>
+                    <select id="dateFilter" onchange="filterData()">
+                        <option value="all">Itariki Yose</option>
+                        <option value="today">Uyu munsi</option>
+                        <option value="week">Icyumweru</option>
+                        <option value="month">Ukwezi</option>
+                        <option value="year">Umwaka</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Admin Information Grid -->
+            <div class="info-grid">
+                <!-- Leadership Information -->
+                <div class="info-card">
+                    <h3><i class="fas fa-crown"></i> Ubuyobozi</h3>
+                    <div class="info-item">
+                        <span class="info-label">CEO</span>
+                        <span class="info-value">Jean Pierre Nsengiyumva</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Admin</span>
+                        <span class="info-value">Marie Uwimana</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">IT Manager</span>
+                        <span class="info-value">Eric Mugisha</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Auditor</span>
+                        <span class="info-value">Grace Mukandayisenga</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Council</span>
+                        <span class="info-value">Jean Paul</span>
+                    </div>
+                </div>
+
+                <!-- Financial Information -->
+                <div class="info-card">
+                    <h3><i class="fas fa-money-bill-wave"></i> Imari</h3>
+                    <div class="info-item">
+                        <span class="info-label">Budget Y'Umwaka</span>
+                        <span class="info-value">10,000,000 Frw</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Imifuka Yose</span>
+                        <span class="info-value">6,500,000 Frw</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Inkunga Y'Abafatanyabikorwa</span>
+                        <span class="info-value">4,500,000 Frw</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Igiciro Cy'Abakozi</span>
+                        <span class="info-value">2,000,000 Frw</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Imari Isigaye</span>
+                        <span class="info-value">3,500,000 Frw</span>
+                    </div>
+                </div>
+
+                <!-- Project Information -->
+                <div class="info-card">
+                    <h3><i class="fas fa-project-diagram"></i> Imishinga</h3>
+                    <div class="info-item">
+                        <span class="info-label">Imishinga Yose</span>
+                        <span class="info-value">4</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Imishinga Ikorera</span>
+                        <span class="info-value">3</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Imishinga Yarangiye</span>
+                        <span class="info-value">1</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Imishinga Itegekwa</span>
+                        <span class="info-value">1</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Imikorire Rusange</span>
+                        <span class="info-value">75%</span>
+                    </div>
+                </div>
+
+                <!-- Training Information -->
+                <div class="info-card">
+                    <h3><i class="fas fa-graduation-cap"></i> Amahugurwa</h3>
+                    <div class="info-item">
+                        <span class="info-label">Amahugurwa Yose</span>
+                        <span class="info-value">4</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Amahugurwa Ari Kugenda</span>
+                        <span class="info-value">1</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Amahugurwa Yarangiye</span>
+                        <span class="info-value">2</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Abanyeshuri Bose</span>
+                        <span class="info-value">115</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Imikorire y'Amahugurwa</span>
+                        <span class="info-value">95%</span>
+                    </div>
+                </div>
+
+                <!-- Partner Information -->
+                <div class="info-card">
+                    <h3><i class="fas fa-handshake"></i> Abafatanyabikorwa</h3>
+                    <div class="info-item">
+                        <span class="info-label">Abafatanyabikorwa Bose</span>
+                        <span class="info-value">4</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Leta</span>
+                        <span class="info-value">1</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Ibigenga</span>
+                        <span class="info-value">2</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">NGOs</span>
+                        <span class="info-value">1</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Inkunga Yose</span>
+                        <span class="info-value">4,500,000 Frw</span>
+                    </div>
+                </div>
+
+                <!-- System Information -->
+                <div class="info-card">
+                    <h3><i class="fas fa-server"></i> Sisitemu</h3>
+                    <div class="info-item">
+                        <span class="info-label">Umubare w'Abakozi</span>
+                        <span class="info-value">15</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Abakozi Bari Ku Bwihe</span>
+                        <span class="info-value">12</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Ibikorwa by'u munsi</span>
+                        <span class="info-value">45</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Ibikorwa by'icyumweru</span>
+                        <span class="info-value">280</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Imikorire y'Sisitemu</span>
+                        <span class="info-value">98.5%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="recent-activities">
+                <h3><i class="fas fa-clock"></i> Ibikorwa byashize</h3>
+                <div id="activitiesList">
+                    <div class="activity-item">
+                        <div class="activity-icon success">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Umukozi Woshizweho</h4>
+                            <p>Jean Mugisha yashizweho nka Project Manager</p>
+                        </div>
+                        <span class="activity-time">2 amasaha ashize</span>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon info">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Training Yarangiye</h4>
+                            <p>Ubucuruzi bw'umusaruro yarangiye neza n'abanyeshuri 40</p>
+                        </div>
+                        <span class="activity-time">1 umunsi ashize</span>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon success">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Umufatanyabikorwa Washize</h4>
+                            <p>BDF yashyizeho inkunga ya 1,000,000 Frw</p>
+                        </div>
+                        <span class="activity-time">3 iminsi ashize</span>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Umushinga Wahuze</h4>
+                            <p>Phase 1: Ubuhinzi wahuze ku 75%</p>
+                        </div>
+                        <span class="activity-time">5 iminsi ashize</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Options -->
+            <div class="export-section">
+                <h3><i class="fas fa-download"></i> Export Ibyatanzwe</h3>
+                <div class="export-buttons">
+                    <button class="export-btn excel" onclick="exportToExcel()">
+                        <i class="fas fa-file-excel"></i> Export Excel
+                    </button>
+                    <button class="export-btn pdf" onclick="exportToPDF()">
+                        <i class="fas fa-file-pdf"></i> Export PDF
+                    </button>
+                    <button class="export-btn print" onclick="printReport()">
+                        <i class="fas fa-print"></i> Print Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="notification-settings">
+                <h3><i class="fas fa-bell"></i> Amagenamiterere y'Amakuru</h3>
+                <div class="notification-item">
+                    <div>
+                        <h4>Email Notifications</h4>
+                        <p>Receive email alerts for important updates</p>
+                    </div>
+                    <div class="toggle-switch active" onclick="toggleNotification(this, 'email')"></div>
+                </div>
+                <div class="notification-item">
+                    <div>
+                        <h4>SMS Notifications</h4>
+                        <p>Receive SMS alerts for urgent matters</p>
+                    </div>
+                    <div class="toggle-switch active" onclick="toggleNotification(this, 'sms')"></div>
+                </div>
+                <div class="notification-item">
+                    <div>
+                        <h4>Activity Reports</h4>
+                        <p>Weekly summary of all activities</p>
+                    </div>
+                    <div class="toggle-switch" onclick="toggleNotification(this, 'reports')"></div>
+                </div>
+                <div class="notification-item">
+                    <div>
+                        <h4>User Registrations</h4>
+                        <p>Alert when new users register</p>
+                    </div>
+                    <div class="toggle-switch active" onclick="toggleNotification(this, 'registrations')"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AYIKB</h3>
+                    <p>AgriYouth Innovation Kirehe Business</p>
+                    <p>Iteka ry'urubyirugo ryiza mu buhinzi n'ubworozi</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Uburyo bwo Kwamamaza</h4>
+                    <ul>
+                        <li>Imbuga nkoranyambaga</li>
+                        <li>Ubukangurambaga ku masoko</li>
+                        <li>Amatangazo yamamaza</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Umusozo</h4>
+                    <p>AYIKB ni igitekerezo cy'urubyirugo kigamije guteza imbere ubukungu n'imibereho myiza y'urubyirugo mu Karere ka Kirehe.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AYIKB - AgriYouth Innovation Kirehe Business. Irembere yose irarinzwe.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="admin_data_loader.js"></script>
+    <script>
+        // Load admin data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAdminData();
+            checkAdminAccess();
+            startRealTimeUpdates();
+        });
+
+        function loadAdminData() {
+            // Load statistics from localStorage or use defaults
+            const adminData = JSON.parse(localStorage.getItem('ayikb_admin_data') || '{}');
+            
+            // Update statistics
+            document.getElementById('totalUsers').textContent = adminData.totalUsers || 15;
+            document.getElementById('activeUsers').textContent = adminData.activeUsers || 12;
+            document.getElementById('totalProjects').textContent = adminData.totalProjects || 4;
+            document.getElementById('completedProjects').textContent = adminData.completedProjects || 3;
+            document.getElementById('totalTraining').textContent = adminData.totalTraining || 4;
+            document.getElementById('totalPartners').textContent = adminData.totalPartners || 4;
+        }
+
+        function checkAdminAccess() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser') || '{}');
+            const isAdmin = currentUser.role === 'admin' || currentUser.role === 'ceo';
+            
+            if (!isAdmin) {
+                alert('Ntabwo ufite uburenganzira bwo kureba iyi paji!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Show reports link for admin/CEO
+            const reportsLink = document.getElementById('reportsLink');
+            if (reportsLink) {
+                reportsLink.style.display = 'block';
+            }
+        }
+
+        function searchAdminData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const infoCards = document.querySelectorAll('.info-item');
+            
+            infoCards.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                const parentCard = item.closest('.info-card');
+                
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function filterData() {
+            const roleFilter = document.getElementById('roleFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            
+            // Implement filtering logic here
+            console.log('Filtering by:', { roleFilter, statusFilter, dateFilter });
+        }
+
+        function exportToExcel() {
+            alert('Exporting to Excel... This feature will download an Excel file with all admin data.');
+            // Implement Excel export logic
+        }
+
+        function exportToPDF() {
+            alert('Exporting to PDF... This feature will generate a PDF report of all admin information.');
+            // Implement PDF export logic
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        function toggleNotification(element, type) {
+            element.classList.toggle('active');
+            const isActive = element.classList.contains('active');
+            
+            // Save notification preference
+            const notifications = JSON.parse(localStorage.getItem('ayikb_notifications') || '{}');
+            notifications[type] = isActive;
+            localStorage.setItem('ayikb_notifications', JSON.stringify(notifications));
+            
+            console.log(`${type} notifications ${isActive ? 'enabled' : 'disabled'}`);
+        }
+
+        function startRealTimeUpdates() {
+            // Simulate real-time updates
+            setInterval(() => {
+                // Update random statistics
+                const activeUsers = document.getElementById('activeUsers');
+                const currentActive = parseInt(activeUsers.textContent);
+                const change = Math.random() > 0.5 ? 1 : -1;
+                const newActive = Math.max(0, currentActive + change);
+                activeUsers.textContent = newActive;
+            }, 30000); // Update every 30 seconds
+        }
+
+        // Add new activity
+        function addActivity(type, title, description) {
+            const activitiesList = document.getElementById('activitiesList');
+            const newActivity = document.createElement('div');
+            newActivity.className = 'activity-item';
+            
+            const iconClass = {
+                'success': 'fa-check-circle',
+                'info': 'fa-info-circle',
+                'warning': 'fa-exclamation-triangle',
+                'error': 'fa-times-circle'
+            }[type] || 'fa-info-circle';
+            
+            newActivity.innerHTML = `
+                <div class="activity-icon ${type}">
+                    <i class="fas ${iconClass}"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>${title}</h4>
+                    <p>${description}</p>
+                </div>
+                <span class="activity-time">Nonaha</span>
+            `;
+            
+            activitiesList.insertBefore(newActivity, activitiesList.firstChild);
+            
+            // Keep only last 10 activities
+            const activities = activitiesList.querySelectorAll('.activity-item');
+            if (activities.length > 10) {
+                activities[activities.length - 1].remove();
+            }
+        }
+    </script>
+</body>
+</html>

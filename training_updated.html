@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amahugurwa - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>AYIKB</h1>
+                    <p>AgriYouth Innovation Kirehe Business</p>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">Ahabanza</a>
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                    <a href="projects.html" class="nav-link">Projects</a>
+                    <a href="training.html" class="nav-link active">Amahugurwa</a>
+                    <a href="partners.html" class="nav-link">Abafatanyabikorwa</a>
+                    <a href="reports.html" class="nav-link" id="reportsLink" style="display: none;">Raporo</a>
+                    <a href="admin_management.html" class="nav-link btn btn-primary">Admin</a>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero training-hero">
+            <div class="hero-content">
+                <h1>Amahugurwa ya AYIKB</h1>
+                <p>Guteza imbere ubumenyi bw'urubyirugo mu buhinzi n'ubworozi</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>4</h3>
+                        <p>Amahugurwa</p>
+                    </div>
+                    <div class="stat">
+                        <h3>115</h3>
+                        <p>Abanyeshuri</p>
+                    </div>
+                    <div class="stat">
+                        <h3>95%</h3>
+                        <p>Imikorire</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Training Actions Section -->
+        <section class="training-actions">
+            <div class="container">
+                <div class="actions-header">
+                    <h2><i class="fas fa-graduation-cap"></i> Gucunga Amahugurwa</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showAddTrainingModal()">
+                            <i class="fas fa-plus"></i> Ohereza Ahugurwa
+                        </button>
+                        <div class="filter-controls">
+                            <select id="statusFilter" onchange="filterTraining()">
+                                <option value="all">Byose</option>
+                                <option value="upcoming">Iza kuba</option>
+                                <option value="ongoing">Iri kugenda</option>
+                                <option value="completed">Byarangiye</option>
+                            </select>
+                            <select id="categoryFilter" onchange="filterTraining()">
+                                <option value="all">Byose</option>
+                                <option value="agriculture">Ubuhinzi</option>
+                                <option value="livestock">Ubworozi</option>
+                                <option value="business">Ubucuruzi</option>
+                            </select>
+                            <select id="sortBy" onchange="sortTraining()">
+                                <option value="name">Izina</option>
+                                <option value="date">Itariki</option>
+                                <option value="category">Category</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Training Grid Section -->
+        <section class="training-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-graduation-cap"></i> Amahugurwa Tugezeho</h2>
+                    <p>Reba amahugurwa yose twigezeho no kuyihuriza hamwe</p>
+                </div>
+
+                <div class="training-grid" id="trainingGrid">
+                    <!-- Training programs will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Training Details Modal -->
+        <div id="trainingModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTrainingTitle">Ibisobanuro by'Ahugurwa</h3>
+                    <button class="close-btn" onclick="closeTrainingModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalTrainingBody">
+                    <!-- Training details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AYIKB</h3>
+                    <p>AgriYouth Innovation Kirehe Business</p>
+                    <p>Iteka ry'urubyirugo ryiza mu buhinzi n'ubworozi</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Uburyo bwo Kwamamaza</h4>
+                    <ul>
+                        <li>Imbuga nkoranyambaga</li>
+                        <li>Ubukangurambaga ku masoko</li>
+                        <li>Amatangazo yamamaza</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Umusozo</h4>
+                    <p>AYIKB ni igitekerezo cy'urubyirugo kigamije guteza imbere ubukungu n'imibereho myiza y'urubyirugo mu Karere ka Kirehe.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AYIKB - AgriYouth Innovation Kirehe Business. Irembere yose irarinzwe.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="admin_data_loader.js"></script>
+    <script>
+        // Training page specific functionality
+        function showAddTrainingModal() {
+            alert('Ohereza ahugurwa hashya - Iyi feature izaba ikora vuba!');
+        }
+
+        function filterTraining() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const training = document.querySelectorAll('.training-card');
+
+            training.forEach(program => {
+                let show = true;
+
+                if (statusFilter !== 'all') {
+                    const programStatus = program.getAttribute('data-status');
+                    if (programStatus !== statusFilter) show = false;
+                }
+
+                if (categoryFilter !== 'all') {
+                    const programCategory = program.getAttribute('data-category');
+                    if (programCategory !== categoryFilter) show = false;
+                }
+
+                program.style.display = show ? 'block' : 'none';
+            });
+        }
+
+        function sortTraining() {
+            const sortBy = document.getElementById('sortBy').value;
+            const trainingGrid = document.getElementById('trainingGrid');
+            const training = Array.from(trainingGrid.children);
+
+            training.sort((a, b) => {
+                switch (sortBy) {
+                    case 'name':
+                        return a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent);
+                    case 'date':
+                        return new Date(b.getAttribute('data-date')) - new Date(a.getAttribute('data-date'));
+                    case 'category':
+                        return a.getAttribute('data-category').localeCompare(b.getAttribute('data-category'));
+                    default:
+                        return 0;
+                }
+            });
+
+            training.forEach(program => trainingGrid.appendChild(program));
+        }
+
+        function viewTrainingDetails(trainingName) {
+            const adminData = window.AYIKBAdminDataLoader ? new AYIKBAdminDataLoader() : null;
+            if (!adminData) return;
+
+            const training = adminData.training.find(t => t.name === trainingName);
+            if (!training) return;
+
+            const statusClass = {
+                'upcoming': 'Iza kuba',
+                'ongoing': 'Iri kugenda',
+                'completed': 'Byarangiye'
+            }[training.status] || 'Iza kuba';
+
+            document.getElementById('modalTrainingTitle').textContent = training.name;
+            document.getElementById('modalTrainingBody').innerHTML = `
+                <div class="training-details">
+                    <div class="training-image">
+                        <img src="${training.image}" alt="${training.name}">
+                    </div>
+                    <div class="training-info">
+                        <div class="info-row">
+                            <strong>Category:</strong> ${training.category}
+                        </div>
+                        <div class="info-row">
+                            <strong>Itariki:</strong> ${training.date}
+                        </div>
+                        <div class="info-row">
+                            <strong>Igihe:</strong> ${training.time}
+                        </div>
+                        <div class="info-row">
+                            <strong>Ahantu:</strong> ${training.location}
+                        </div>
+                        <div class="info-row">
+                            <strong>Abitabiriye:</strong> ${training.attendees}
+                        </div>
+                        <div class="info-row">
+                            <strong>Inshingano:</strong> ${training.trainer}
+                        </div>
+                        <div class="info-row">
+                            <strong>Imimerere:</strong> <span class="status ${training.status}">${statusClass}</span>
+                        </div>
+                        <div class="info-row">
+                            <strong>Ibisobanuro:</strong> ${training.description}
+                        </div>
+                        <div class="training-actions">
+                            <button class="btn btn-primary" onclick="registerTraining('${training.name}')">
+                                <i class="fas fa-user-plus"></i> Iyandikishe
+                            </button>
+                            <button class="btn btn-secondary" onclick="downloadCertificate('${training.name}')">
+                                <i class="fas fa-download"></i> Erekana Icyemezo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('trainingModal').style.display = 'block';
+        }
+
+        function closeTrainingModal() {
+            document.getElementById('trainingModal').style.display = 'none';
+        }
+
+        function registerTraining(trainingName) {
+            alert('Iyandikishe ku ' + trainingName + ' - Iyi feature izaba ikora vuba!');
+        }
+
+        function downloadCertificate(trainingName) {
+            alert('Erekana icyemezo cya ' + trainingName + ' - Iyi feature izaba ikora vuba!');
+        }
+
+        // Check admin access and initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show reports link for admin/CEO
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser') || '{}');
+            const isAdmin = currentUser.role === 'admin' || currentUser.role === 'ceo';
+            
+            if (isAdmin) {
+                const reportsLink = document.getElementById('reportsLink');
+                if (reportsLink) {
+                    reportsLink.style.display = 'block';
+                }
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                const modal = document.getElementById('trainingModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Management - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <script src="script.js"></script>
+    <script src="admin_data_loader.js"></script>
+    <script src="access_control.js"></script>
+    <script>
+        // Authentication check - Only real admin users can access
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const currentUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+            
+            if (!currentUser) {
+                // No user logged in - redirect to login
+                alert('Nta muntu wamaze kwinjira. Mwongereza kuri login page.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(currentUser);
+                
+                // Check if user has admin privileges
+                if (user.role !== 'admin' && user.role !== 'ceo') {
+                    // User is not admin - redirect to appropriate page
+                    alert('Nta burenganzira bwo kuyikurikira iyi paji. Urasubira kuri dashboard.');
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+                
+                // User is authenticated admin - proceed
+                console.log('Admin user authenticated:', user.fullName, 'Role:', user.role);
+                
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                alert('Ikibazo cyagenwe kuri session. Mwongereza kwinjira.');
+                localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            }
+        });
+
+        function showSection(sectionId) {
+            // Add your logic here to show the section
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .admin-nav {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-nav button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .admin-nav button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .admin-nav button.active {
+            background: #e74c3c;
+        }
+        
+        .admin-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: none;
+        }
+        
+        .admin-section.active {
+            display: block;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .image-upload {
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .image-upload:hover {
+            background: #f8f9fa;
+            border-color: #2980b9;
+        }
+        
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 10px auto;
+            display: block;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-input {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .stat-input input {
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #3498db;
+            border: none;
+            background: transparent;
+        }
+        
+        .stat-input label {
+            display: block;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #6c757d;
+        }
+        
+        .content-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .content-item h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .remove-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .save-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .save-btn:hover {
+            background: #219a52;
+            transform: translateY(-2px);
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>AYIKB</h1>
+                    <p>Admin Management</p>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">Ahabanza</a>
+                    <a href="dashboard_updated.html" class="nav-link">Dashboard</a>
+                    <a href="projects_updated.html" class="nav-link">Projects</a>
+                    <a href="training.html" class="nav-link">Amahugurwa</a>
+                    <a href="partners_updated.html" class="nav-link">Abafatanyabikorwa</a>
+                    <a href="admin_management.html" class="nav-link active">Admin</a>
+                    <a href="admin_info_view.html" class="nav-link">Info</a>
+                    <a href="reports.html" class="nav-link">Raporo</a>
+                    <button class="nav-link btn btn-primary" onclick="manualLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1><i class="fas fa-cogs"></i> Sisiteme yo Gucunga Ibyatanzwe</h1>
+                <p>Hindura byose ibikurikira: imibare, amashusho, ibiganiro, n'ibindi</p>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i> Byahinduwe neza!
+            </div>
+
+            <div class="admin-nav">
+                <button class="active" onclick="showSection('homepage')">Ahabanza</button>
+                <button onclick="showSection('stats')">Imibare</button>
+                <button onclick="showSection('projects')">Imishinga</button>
+                <button onclick="showSection('training')">Amahugurwa</button>
+                <button onclick="showSection('partners')">Abafatanyabikorwa</button>
+                <button onclick="showSection('content')">Ibiganiro</button>
+                <button onclick="showSection('images')">Amashusho</button>
+                <button onclick="showSection('contact')">Ibyangombwa</button>
+            </div>
+
+            <!-- Homepage Section -->
+            <div id="homepage" class="admin-section active">
+                <h2><i class="fas fa-home"></i> Guhindura Ibiganiro by'Ahabanza</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Igisubizo cya AYIKB</label>
+                        <input type="text" id="heroTitle" value="AgriYouth Innovation Kirehe Business">
+                    </div>
+                    <div class="form-group">
+                        <label>Igika cy'Ahabanza</label>
+                        <textarea id="heroSubtitle">Iteka ry'urubyirugo ryiza mu buhinzi n'ubworozi</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Umutwe w'Imbogamizi</label>
+                        <input type="text" id="challengesTitle" value="Imbogamizi Zihari">
+                    </div>
+                    <div class="form-group">
+                        <label>Umutwe w'Ibyangombwa</label>
+                        <input type="text" id="contactTitle" value="Twandikire">
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveHomepage()">
+                    <i class="fas fa-save"></i> Kubika Ahabanza
+                </button>
+            </div>
+
+            <!-- Stats Section -->
+            <div id="stats" class="admin-section">
+                <h2><i class="fas fa-chart-bar"></i> Guhindura Imibare</h2>
+                <div class="stats-grid">
+                    <div class="stat-input">
+                        <input type="number" id="employeeCount" value="15" min="0">
+                        <label>Abakozi</label>
+                    </div>
+                    <div class="stat-input">
+                        <input type="number" id="projectCount" value="4" min="0">
+                        <label>Imishinga</label>
+                    </div>
+                    <div class="stat-input">
+                        <input type="number" id="trainingCount" value="4" min="0">
+                        <label>Amahugurwa</label>
+                    </div>
+                    <div class="stat-input">
+                        <input type="number" id="partnerCount" value="4" min="0">
+                        <label>Abafatanyabikorwa</label>
+                    </div>
+                    <div class="stat-input">
+                        <input type="number" id="studentCount" value="115" min="0">
+                        <label>Abanyeshuri</label>
+                    </div>
+                    <div class="stat-input">
+                        <input type="number" id="performanceRate" value="95" min="0" max="100">
+                        <label>Imikorire (%)</label>
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveStats()">
+                    <i class="fas fa-save"></i> Kubika Imibare
+                </button>
+            </div>
+
+            <!-- Projects Section -->
+            <div id="projects" class="admin-section">
+                <h2><i class="fas fa-project-diagram"></i> Gucunga Imishinga</h2>
+                <div id="projectsList">
+                    <div class="content-item">
+                        <h3>Phase 1: Ubuhinzi</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Izina ry'Umushinga</label>
+                                <input type="text" value="Phase 1: Ubuhinzi">
+                            </div>
+                            <div class="form-group">
+                                <label>Code</label>
+                                <input type="text" value="AGR-001">
+                            </div>
+                            <div class="form-group">
+                                <label>Budget (Frw)</label>
+                                <input type="number" value="1000000">
+                            </div>
+                            <div class="form-group">
+                                <label>Aho yarangiye (%)</label>
+                                <input type="number" value="75" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label>Itariki y'itangiriro</label>
+                                <input type="date" value="2024-01-01">
+                            </div>
+                            <div class="form-group">
+                                <label>Itariki yo kurangiza</label>
+                                <input type="date" value="2024-12-31">
+                            </div>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem(this)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addProject()">
+                    <i class="fas fa-plus"></i> Ohereza Umushinga
+                </button>
+                <button class="save-btn" onclick="saveProjects()">
+                    <i class="fas fa-save"></i> Kubika Imishinga
+                </button>
+            </div>
+
+            <!-- Training Section -->
+            <div id="training" class="admin-section">
+                <h2><i class="fas fa-graduation-cap"></i> Gucunga Amahugurwa</h2>
+                <div id="trainingList">
+                    <div class="content-item">
+                        <h3>Uburyo bwo guhinga bwiza</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Izina ry'Ahugurwa</label>
+                                <input type="text" value="Uburyo bwo guhinga bwiza">
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select>
+                                    <option value="agriculture">Ubuhinzi</option>
+                                    <option value="livestock">Ubworozi</option>
+                                    <option value="business">Ubucuruzi</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Itariki</label>
+                                <input type="date" value="2024-04-20">
+                            </div>
+                            <div class="form-group">
+                                <label>Igihe</label>
+                                <input type="text" value="09:00 - 17:00">
+                            </div>
+                            <div class="form-group">
+                                <label>Ahantu</label>
+                                <input type="text" value="AYIKB Office, Nyagahama">
+                            </div>
+                            <div class="form-group">
+                                <label>Abitabiriye</label>
+                                <input type="text" value="30/50">
+                            </div>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem(this)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addTraining()">
+                    <i class="fas fa-plus"></i> Ohereza Ahugurwa
+                </button>
+                <button class="save-btn" onclick="saveTraining()">
+                    <i class="fas fa-save"></i> Kubika Amahugurwa
+                </button>
+            </div>
+
+            <!-- Partners Section -->
+            <div id="partners" class="admin-section">
+                <h2><i class="fas fa-handshake"></i> Gucunga Abafatanyabikorwa</h2>
+                <div id="partnersList">
+                    <div class="content-item">
+                        <h3>Akarere ka Kirehe</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Izina ry'Umufatanyabikorwa</label>
+                                <input type="text" value="Akarere ka Kirehe">
+                            </div>
+                            <div class="form-group">
+                                <label>Inkunga (Frw)</label>
+                                <input type="number" value="2000000">
+                            </div>
+                            <div class="form-group">
+                                <label>Imishinga yashyizweho</label>
+                                <input type="number" value="5">
+                            </div>
+                            <div class="form-group">
+                                <label>Logo URL</label>
+                                <input type="text" placeholder="https://example.com/logo.png">
+                            </div>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem(this)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addPartner()">
+                    <i class="fas fa-plus"></i> Ohereza Umufatanyabikorwa
+                </button>
+                <button class="save-btn" onclick="savePartners()">
+                    <i class="fas fa-save"></i> Kubika Abafatanyabikorwa
+                </button>
+            </div>
+
+            <!-- Content Section -->
+            <div id="content" class="admin-section">
+                <h2><i class="fas fa-edit"></i> Guhindura Ibiganiro</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Umutwe w'Imishinga</label>
+                        <input type="text" id="projectsTitle" value="Imishinga Yacu">
+                    </div>
+                    <div class="form-group">
+                        <label>Umuthe w'Amahugurwa</label>
+                        <input type="text" id="trainingTitle" value="Amahugurwa Tugezeho">
+                    </div>
+                    <div class="form-group">
+                        <label>Umuthe w'Abafatanyabikorwa</label>
+                        <input type="text" id="partnersTitle" value="Abafatanyabikorwa Bacu">
+                    </div>
+                    <div class="form-group">
+                        <label>Ibisobanuro by'Imishinga</label>
+                        <textarea id="projectsDescription">Reba imishinga dufatanye n'urubyirugo mu gukurikanya ubuhinzi n'ubworozi</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Ibisobanuro by'Amahugurwa</label>
+                        <textarea id="trainingDescription">Amahugurwa adufasha gukurikanya ubumenyi bw'urubyirugo</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Ibisobanuro by'Abafatanyabikorwa</label>
+                        <textarea id="partnersDescription">Abafatanyabikorwa bacu badufasha mu iterambere ry'ikigo</textarea>
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveContent()">
+                    <i class="fas fa-save"></i> Kubika Ibiganiro
+                </button>
+            </div>
+
+            <!-- Images Section -->
+            <div id="images" class="admin-section">
+                <h2><i class="fas fa-images"></i> Gucunga Amashusho</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Logo ya AYIKB</label>
+                        <div class="image-upload" onclick="document.getElementById('logoUpload').click()">
+                            <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                            <p>Kanda kuno kongeraho ishusho</p>
+                            <input type="file" id="logoUpload" accept="image/*" style="display: none;" onchange="previewImage(this, 'logoPreview')">
+                        </div>
+                        <img id="logoPreview" class="image-preview" src="https://via.placeholder.com/100x100/3498db/ffffff?text=AYIKB" alt="Logo Preview">
+                    </div>
+                    <div class="form-group">
+                        <label>Ishusho ya Hero</label>
+                        <div class="image-upload" onclick="document.getElementById('heroUpload').click()">
+                            <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                            <p>Kanda kuno kongeraho ishusho</p>
+                            <input type="file" id="heroUpload" accept="image/*" style="display: none;" onchange="previewImage(this, 'heroPreview')">
+                        </div>
+                        <img id="heroPreview" class="image-preview" src="https://via.placeholder.com/100x100/27ae60/ffffff?text=Hero" alt="Hero Preview">
+                    </div>
+                    <div class="form-group">
+                        <label>Ishusho z'Imishinga</label>
+                        <div class="image-upload" onclick="document.getElementById('projectsUpload').click()">
+                            <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                            <p>Kanda kuno kongeraho ishusho</p>
+                            <input type="file" id="projectsUpload" accept="image/*" style="display: none;" onchange="previewImage(this, 'projectsPreview')">
+                        </div>
+                        <img id="projectsPreview" class="image-preview" src="https://via.placeholder.com/100x100/e74c3c/ffffff?text=Projects" alt="Projects Preview">
+                    </div>
+                    <div class="form-group">
+                        <label>Ishusho z'Amahugurwa</label>
+                        <div class="image-upload" onclick="document.getElementById('trainingUpload').click()">
+                            <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                            <p>Kanda kuno kongeraho ishusho</p>
+                            <input type="file" id="trainingUpload" accept="image/*" style="display: none;" onchange="previewImage(this, 'trainingPreview')">
+                        </div>
+                        <img id="trainingPreview" class="image-preview" src="https://via.placeholder.com/100x100/9b59b6/ffffff?text=Training" alt="Training Preview">
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveImages()">
+                    <i class="fas fa-save"></i> Kubika Amashusho
+                </button>
+            </div>
+
+            <!-- Contact Section -->
+            <div id="contact" class="admin-section">
+                <h2><i class="fas fa-envelope"></i> Guhindura Ibyangombwa</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Imeyiri</label>
+                        <input type="email" id="adminEmail" value="info@ayikb.rw">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefoni</label>
+                        <input type="tel" id="adminPhone" value="+250788123456">
+                    </div>
+                    <div class="form-group">
+                        <label>Aho Twikorera</label>
+                        <textarea id="adminAddress">Karere ka Kirehe, Umurenge wa Nyamugari, Akagari ka Nyamugari, Umudugudu wa Nyagahama</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Facebook</label>
+                        <input type="text" id="facebookUrl" value="https://facebook.com/ayikb">
+                    </div>
+                    <div class="form-group">
+                        <label>Twitter</label>
+                        <input type="text" id="twitterUrl" value="https://twitter.com/ayikb">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram</label>
+                        <input type="text" id="instagramUrl" value="https://instagram.com/ayikb">
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveContact()">
+                    <i class="fas fa-save"></i> Kubika Ibyangombwa
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AYIKB</h3>
+                    <p>AgriYouth Innovation Kirehe Business</p>
+                    <p>Iteka ry'urubyirugo ryiza mu buhinzi n'ubworozi</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Uburyo bwo Kwamamaza</h4>
+                    <ul>
+                        <li>Imbuga nkoranyambaga</li>
+                        <li>Ubukangurambaga ku masoko</li>
+                        <li>Amatangazo yamamaza</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Umusozo</h4>
+                    <p>AYIKB ni igitekerezo cy'urubyirugo kigamije guteza imbere ubukungu n'imibereho myiza y'urubyirugo mu Karere ka Kirehe.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AYIKB - AgriYouth Innovation Kirehe Business. Irembere yose irarinzwe.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAdminData();
+        });
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.admin-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.admin-nav button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function showSuccessMessage() {
+            const message = document.getElementById('successMessage');
+            message.classList.add('show');
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        function saveHomepage() {
+            const data = {
+                heroTitle: document.getElementById('heroTitle').value,
+                heroSubtitle: document.getElementById('heroSubtitle').value,
+                challengesTitle: document.getElementById('challengesTitle').value,
+                contactTitle: document.getElementById('contactTitle').value
+            };
+
+            // Save to database
+            if (window.databaseService) {
+                window.databaseService.saveHomepage(data).then(() => {
+                    showSuccessMessage();
+                }).catch(error => {
+                    console.error('Error saving homepage:', error);
+                    alert('Error saving homepage: ' + error.message);
+                });
+            } else {
+                localStorage.setItem('ayikb_homepage', JSON.stringify(data));
+                showSuccessMessage();
+            }
+        }
+
+        function saveStats() {
+            const data = {
+                employeeCount: document.getElementById('employeeCount').value,
+                projectCount: document.getElementById('projectCount').value,
+                trainingCount: document.getElementById('trainingCount').value,
+                partnerCount: document.getElementById('partnerCount').value,
+                studentCount: document.getElementById('studentCount').value,
+                performanceRate: document.getElementById('performanceRate').value
+            };
+            localStorage.setItem('ayikb_stats', JSON.stringify(data));
+            showSuccessMessage();
+        }
+
+        function saveProjects() {
+            const projects = [];
+            const projectItems = document.querySelectorAll('#projectsList .content-item');
+            projectItems.forEach(item => {
+                const inputs = item.querySelectorAll('input');
+                projects.push({
+                    name: inputs[0].value,
+                    code: inputs[1].value,
+                    budget: inputs[2].value,
+                    progress: inputs[3].value,
+                    startDate: inputs[4].value,
+                    endDate: inputs[5].value
+                });
+            });
+            localStorage.setItem('ayikb_projects', JSON.stringify(projects));
+            showSuccessMessage();
+        }
+
+        function saveTraining() {
+            const training = [];
+            const trainingItems = document.querySelectorAll('#trainingList .content-item');
+            trainingItems.forEach(item => {
+                const inputs = item.querySelectorAll('input');
+                const selects = item.querySelectorAll('select');
+                training.push({
+                    name: inputs[0].value,
+                    category: selects[0].value,
+                    date: inputs[1].value,
+                    time: inputs[2].value,
+                    location: inputs[3].value,
+                    attendees: inputs[4].value
+                });
+            });
+            localStorage.setItem('ayikb_training', JSON.stringify(training));
+            showSuccessMessage();
+        }
+
+        function savePartners() {
+            const partners = [];
+            const partnerItems = document.querySelectorAll('#partnersList .content-item');
+            partnerItems.forEach(item => {
+                const inputs = item.querySelectorAll('input');
+                partners.push({
+                    name: inputs[0].value,
+                    funding: inputs[1].value,
+                    projects: inputs[2].value,
+                    logo: inputs[3].value
+                });
+            });
+            localStorage.setItem('ayikb_partners', JSON.stringify(partners));
+            showSuccessMessage();
+        }
+
+        function saveContent() {
+            const data = {
+                projectsTitle: document.getElementById('projectsTitle').value,
+                trainingTitle: document.getElementById('trainingTitle').value,
+                partnersTitle: document.getElementById('partnersTitle').value,
+                projectsDescription: document.getElementById('projectsDescription').value,
+                trainingDescription: document.getElementById('trainingDescription').value,
+                partnersDescription: document.getElementById('partnersDescription').value
+            };
+            localStorage.setItem('ayikb_content', JSON.stringify(data));
+            showSuccessMessage();
+        }
+
+        function saveImages() {
+            const data = {
+                logo: document.getElementById('logoPreview').src,
+                hero: document.getElementById('heroPreview').src,
+                projects: document.getElementById('projectsPreview').src,
+                training: document.getElementById('trainingPreview').src
+            };
+            localStorage.setItem('ayikb_images', JSON.stringify(data));
+            showSuccessMessage();
+        }
+
+        function saveContact() {
+            const data = {
+                email: document.getElementById('adminEmail').value,
+                phone: document.getElementById('adminPhone').value,
+                address: document.getElementById('adminAddress').value,
+                facebook: document.getElementById('facebookUrl').value,
+                twitter: document.getElementById('twitterUrl').value,
+                instagram: document.getElementById('instagramUrl').value
+            };
+            localStorage.setItem('ayikb_contact', JSON.stringify(data));
+            showSuccessMessage();
+        }
+
+        function loadAdminData() {
+            // Load homepage data
+            const homepage = JSON.parse(localStorage.getItem('ayikb_homepage') || '{}');
+            if (homepage.heroTitle) document.getElementById('heroTitle').value = homepage.heroTitle;
+            if (homepage.heroSubtitle) document.getElementById('heroSubtitle').value = homepage.heroSubtitle;
+            
+            // Load stats
+            const stats = JSON.parse(localStorage.getItem('ayikb_stats') || '{}');
+            if (stats.employeeCount) document.getElementById('employeeCount').value = stats.employeeCount;
+            if (stats.projectCount) document.getElementById('projectCount').value = stats.projectCount;
+            
+            // Load content
+            const content = JSON.parse(localStorage.getItem('ayikb_content') || '{}');
+            if (content.projectsTitle) document.getElementById('projectsTitle').value = content.projectsTitle;
+            if (content.trainingTitle) document.getElementById('trainingTitle').value = content.trainingTitle;
+            
+            // Load contact
+            const contact = JSON.parse(localStorage.getItem('ayikb_contact') || '{}');
+            if (contact.email) document.getElementById('adminEmail').value = contact.email;
+            if (contact.phone) document.getElementById('adminPhone').value = contact.phone;
+        }
+
+        function previewImage(input, previewId) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(previewId).src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addProject() {
+            const projectsList = document.getElementById('projectsList');
+            const newProject = document.createElement('div');
+            newProject.className = 'content-item';
+            newProject.innerHTML = `
+                <h3>Umushinga Mushya</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Izina ry'Umushinga</label>
+                        <input type="text" placeholder="Shyiramo izina">
+                    </div>
+                    <div class="form-group">
+                        <label>Code</label>
+                        <input type="text" placeholder="Code">
+                    </div>
+                    <div class="form-group">
+                        <label>Budget (Frw)</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Aho yarangiye (%)</label>
+                        <input type="number" placeholder="0" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Itariki y'itangiriro</label>
+                        <input type="date">
+                    </div>
+                    <div class="form-group">
+                        <label>Itariki yo kurangiza</label>
+                        <input type="date">
+                    </div>
+                </div>
+                <button class="remove-btn" onclick="removeItem(this)">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            projectsList.appendChild(newProject);
+        }
+
+        function addTraining() {
+            const trainingList = document.getElementById('trainingList');
+            const newTraining = document.createElement('div');
+            newTraining.className = 'content-item';
+            newTraining.innerHTML = `
+                <h3>Ahugurwa Hashya</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Izina ry'Ahugurwa</label>
+                        <input type="text" placeholder="Shyiramo izina">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select>
+                            <option value="agriculture">Ubuhinzi</option>
+                            <option value="livestock">Ubworozi</option>
+                            <option value="business">Ubucuruzi</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Itariki</label>
+                        <input type="date">
+                    </div>
+                    <div class="form-group">
+                        <label>Igihe</label>
+                        <input type="text" placeholder="09:00 - 17:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Ahantu</label>
+                        <input type="text" placeholder="Ahantu">
+                    </div>
+                    <div class="form-group">
+                        <label>Abitabiriye</label>
+                        <input type="text" placeholder="0/0">
+                    </div>
+                </div>
+                <button class="remove-btn" onclick="removeItem(this)">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            trainingList.appendChild(newTraining);
+        }
+
+        function addPartner() {
+            const partnersList = document.getElementById('partnersList');
+            const newPartner = document.createElement('div');
+            newPartner.className = 'content-item';
+            newPartner.innerHTML = `
+                <h3>Umufatanyabikorwa Mushya</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Izina ry'Umufatanyabikorwa</label>
+                        <input type="text" placeholder="Shyiramo izina">
+                    </div>
+                    <div class="form-group">
+                        <label>Inkunga (Frw)</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Imishinga yashyizweho</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Logo URL</label>
+                        <input type="text" placeholder="https://example.com/logo.png">
+                    </div>
+                </div>
+                <button class="remove-btn" onclick="removeItem(this)">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            partnersList.appendChild(newPartner);
+        }
+
+        function removeItem(button) {
+            if (confirm('Uziye ko ushaka gusiba iyi mirimo?')) {
+                button.parentElement.remove();
+            }
+        }
+
+        function manualLogout() {
+            if (confirm('Uziye ko ushaka gusohoka?')) {
+                // Clear user session
+                localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('currentUser');
+                
+                // Show logout message
+                showSuccessMessage();
+                
+                // Redirect to login page
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            }
+        }
+
+        function logoutAndRedirect() {
+            // Clear user session
+            localStorage.removeItem('currentUser');
+            sessionStorage.removeItem('currentUser');
+            
+            // Show logout message
+            const logoutMessage = document.createElement('div');
+            logoutMessage.className = 'logout-toast';
+            logoutMessage.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>Data yazimyeho! Urasohotse muri login...</span>
+            `;
+            logoutMessage.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                z-index: 9999;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 600;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            document.body.appendChild(logoutMessage);
+            
+            // Remove message after 3 seconds
+            setTimeout(() => {
+                if (logoutMessage.parentNode) {
+                    logoutMessage.parentNode.removeChild(logoutMessage);
+                }
+            }, 3000);
+            
+            // Redirect to login page
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 3500);
+        }
+    </script>
+</body>
+</html>

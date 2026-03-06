@@ -1,0 +1,2659 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --dashboard-primary: #2ecc71;
+            --dashboard-secondary: #3498db;
+            --dashboard-success: #27ae60;
+            --dashboard-danger: #e74c3c;
+            --dashboard-warning: #f39c12;
+            --dashboard-info: #17a2b8;
+            --dashboard-dark: #2c3e50;
+            --dashboard-light: #ecf0f1;
+        }
+
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--dashboard-primary) 0%, var(--dashboard-success) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .navbar-brand i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--dashboard-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--dashboard-light);
+        }
+
+        .dropdown-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        .dashboard-sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 2rem 0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: var(--dashboard-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: var(--dashboard-light);
+            border-left-color: var(--dashboard-primary);
+        }
+
+        .sidebar-link i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-link.restricted {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .sidebar-link.restricted::after {
+            content: '🔒';
+            margin-left: auto;
+        }
+
+        .dashboard-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            color: var(--dashboard-dark);
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .content-header p {
+            color: #636e72;
+            margin: 0.5rem 0 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.primary { background: rgba(46, 204, 113, 0.1); color: var(--dashboard-primary); }
+        .stat-icon.success { background: rgba(39, 174, 96, 0.1); color: var(--dashboard-success); }
+        .stat-icon.warning { background: rgba(243, 156, 18, 0.1); color: var(--dashboard-warning); }
+        .stat-icon.danger { background: rgba(231, 76, 60, 0.1); color: var(--dashboard-danger); }
+        .stat-icon.info { background: rgba(23, 162, 184, 0.1); color: var(--dashboard-info); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dashboard-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--dashboard-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            color: var(--dashboard-dark);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--dashboard-primary);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dashboard-dark);
+            margin: 0;
+        }
+
+        .project-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .project-status.active {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--dashboard-primary);
+        }
+
+        .project-status.planning {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--dashboard-warning);
+        }
+
+        .project-status.completed {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--dashboard-success);
+        }
+
+        .project-details {
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .detail-label {
+            color: #636e72;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--dashboard-dark);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--dashboard-light);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--dashboard-primary), var(--dashboard-success));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view {
+            background: var(--dashboard-info);
+            color: white;
+        }
+
+        .btn-edit {
+            background: var(--dashboard-warning);
+            color: white;
+        }
+
+        .btn-delete {
+            background: var(--dashboard-danger);
+            color: white;
+        }
+
+        /* Employee Management Styles */
+        .employee-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .employee-table {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .employee-table .table {
+            margin: 0;
+        }
+
+        .employee-table .table th,
+        .employee-table .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .employee-table .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--dashboard-dark);
+        }
+
+        .employee-table .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-buttons .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dashboard-dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .close-btn:hover {
+            color: var(--dashboard-dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dashboard-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--dashboard-primary);
+            box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--dashboard-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading .spinner {
+            display: inline-block;
+        }
+
+        /* Inline Editing Styles */
+        .editable-field {
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            min-width: 100px;
+        }
+
+        .editable-field:hover {
+            background-color: #f0f0f0;
+            border: 1px dashed #ccc;
+        }
+
+        .editable-field.editing {
+            background-color: #fff;
+            border: 2px solid var(--dashboard-primary);
+            padding: 2px 6px;
+        }
+
+        .editable-field input,
+        .editable-field select {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-family: inherit;
+            font-size: inherit;
+            background: transparent;
+        }
+
+        .editable-field input:focus,
+        .editable-field select:focus {
+            outline: none;
+        }
+
+        .editable-field .status-badge {
+            pointer-events: none;
+        }
+
+        .edit-indicator {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--dashboard-primary);
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .editable-field:hover .edit-indicator {
+            opacity: 1;
+        }
+
+        .inline-edit-actions {
+            margin-top: 8px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .inline-edit-actions button {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .inline-edit-actions .save-btn {
+            background: var(--dashboard-success);
+            color: white;
+        }
+
+        .inline-edit-actions .save-btn:hover {
+            background: #27ae60;
+        }
+
+        .inline-edit-actions .cancel-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .inline-edit-actions .cancel-btn:hover {
+            background: #5a6268;
+        }
+
+        .btn-action:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .training-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--dashboard-secondary);
+        }
+
+        .training-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .training-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .training-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dashboard-dark);
+            margin: 0;
+        }
+
+        .training-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .training-status.upcoming {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--dashboard-secondary);
+        }
+
+        .training-status.ongoing {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--dashboard-primary);
+        }
+
+        .training-status.completed {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--dashboard-success);
+        }
+
+        .training-details {
+            margin-bottom: 1rem;
+        }
+
+        .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .partner-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--dashboard-warning);
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .partner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .partner-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dashboard-dark);
+            margin: 0;
+        }
+
+        .partner-type {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .partner-type.government {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--dashboard-secondary);
+        }
+
+        .partner-type.ngo {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--dashboard-primary);
+        }
+
+        .partner-type.private {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--dashboard-warning);
+        }
+
+        .restricted-access {
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px dashed var(--dashboard-danger);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            color: var(--dashboard-danger);
+        }
+
+        .restricted-access i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .restricted-access h3 {
+            margin: 0 0 0.5rem 0;
+        }
+
+        .restricted-access p {
+            margin: 0;
+            color: #636e72;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .dashboard-sidebar {
+                width: 100%;
+                padding: 1rem 0;
+            }
+
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+
+            .sidebar-link {
+                white-space: nowrap;
+                padding: 0.75rem 1rem;
+            }
+
+            .dashboard-content {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .content-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-seedling"></i>
+                AYIKB Dashboard
+            </div>
+            <div class="navbar-nav">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge badge-danger">3</span>
+                </a>
+                <div class="user-dropdown">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">
+                        <i class="fas fa-user"></i>
+                        <span id="userName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                        <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #eee;">
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link active" data-section="overview">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Overview
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="agriculture">
+                        <i class="fas fa-seedling"></i>
+                        Agriculture
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="livestock">
+                        <i class="fas fa-pig"></i>
+                        Livestock
+                    </a>
+                </li>
+                <div class="nav-menu">
+                    <a href="#" data-section="overview" class="nav-link active">Overview</a>
+                    <a href="#" data-section="agriculture" class="nav-link">Agriculture</a>
+                    <a href="#" data-section="livestock" class="nav-link">Livestock</a>
+                    <a href="#" data-section="training" class="nav-link">Training</a>
+                    <a href="#" data-section="finance" class="nav-link">Finance</a>
+                    <a href="#" data-section="employees" class="nav-link">Employees</a>
+                    <a href="#" data-section="messages" class="nav-link">Messages</a>
+                    <a href="#" data-section="reports" class="nav-link">Reports</a>
+                </div>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="employees">
+                        <i class="fas fa-users"></i>
+                        Employees
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="training">
+                        <i class="fas fa-graduation-cap"></i>
+                        Training
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="finance">
+                        <i class="fas fa-dollar-sign"></i>
+                        Finance
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="contacts">
+                        <i class="fas fa-envelope"></i>
+                        Contacts
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link restricted" data-section="reports">
+                        <i class="fas fa-chart-line"></i>
+                        Reports
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <!-- Overview Section -->
+            <div class="main-content active" id="overview">
+                <div class="content-header">
+                    <h1>Dashboard Overview</h1>
+                    <p>Welcome back! Here's what's happening across AYIKB today.</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span class="stat-change positive">+12%</span>
+                        </div>
+                        <div class="stat-value">42</div>
+                        <div class="stat-label">Active Employees</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon success">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <span class="stat-change positive">+8%</span>
+                        </div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Active Projects</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <span class="stat-change positive">+15%</span>
+                        </div>
+                        <div class="stat-value">156</div>
+                        <div class="stat-label">Training Completed</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon info">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <span class="stat-change positive">+3</span>
+                        </div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Active Partners</div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Activity</h3>
+                        <button class="btn btn-primary">View All</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>New crop planted</strong> - Maize on 1 hectare</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Training completed</strong> - 25 participants certified</p>
+                                    <span class="activity-time">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-pig"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Livestock update</strong> - 5 new pigs added</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agriculture Section -->
+            <div class="main-content" id="agriculture">
+                <div class="content-header">
+                    <h1>Agriculture Management</h1>
+                    <p>Manage crops, planting schedules, and harvest tracking.</p>
+                </div>
+
+                <div class="project-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">Maize Farming</h3>
+                            <span class="project-status active">Active</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Land Size:</span>
+                                <span class="detail-value">1.0 hectare</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Planting Date:</span>
+                                <span class="detail-value">Feb 15, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Expected Harvest:</span>
+                                <span class="detail-value">Jun 15, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Expected Yield:</span>
+                                <span class="detail-value">3,000 kg</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Progress:</span>
+                            <span class="detail-value">75%</span>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-action btn-view" onclick="viewProject(1)">View</button>
+                            <button class="btn-action btn-edit" onclick="editProject(1)">Edit</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">Potato Farming</h3>
+                            <span class="project-status active">Active</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Land Size:</span>
+                                <span class="detail-value">0.33 hectare</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Planting Date:</span>
+                                <span class="detail-value">Mar 1, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Expected Harvest:</span>
+                                <span class="detail-value">Jul 1, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Expected Yield:</span>
+                                <span class="detail-value">2,000 kg</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Progress:</span>
+                            <span class="detail-value">60%</span>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-action btn-view" onclick="viewProject(1)">View</button>
+                            <button class="btn-action btn-edit" onclick="editProject(1)">Edit</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">Bean Farming</h3>
+                            <span class="project-status planning">Planning</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Land Size:</span>
+                                <span class="detail-value">0.5 hectare</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Planting Date:</span>
+                                <span class="detail-value">Apr 15, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Expected Harvest:</span>
+                                <span class="detail-value">Aug 15, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Expected Yield:</span>
+                                <span class="detail-value">1,500 kg</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 25%"></div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Progress:</span>
+                            <span class="detail-value">25%</span>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-action btn-view" onclick="viewProject(1)">View</button>
+                            <button class="btn-action btn-edit" onclick="editProject(1)">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Livestock Section -->
+            <div class="main-content" id="livestock">
+                <div class="content-header">
+                    <h1>Livestock Management</h1>
+                    <p>Track animal health, feeding, and production.</p>
+                </div>
+
+                <div class="project-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">Pig Farming</h3>
+                            <span class="project-status planning">Planning</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Current Stock:</span>
+                                <span class="detail-value">0 pigs</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Planned Stock:</span>
+                                <span class="detail-value">50 pigs</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Housing Status:</span>
+                                <span class="detail-value">Under Construction</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Monthly Revenue:</span>
+                                <span class="detail-value">Frw 800,000</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 25%"></div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Progress:</span>
+                            <span class="detail-value">25%</span>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-action btn-view" onclick="viewProject(1)">View</button>
+                            <button class="btn-action btn-edit" onclick="editProject(1)">Edit</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">Poultry Farming</h3>
+                            <span class="project-status planning">Planning</span>
+                        </div>
+                        <div class="project-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Current Stock:</span>
+                                <span class="detail-value">0 chickens</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Planned Stock:</span>
+                                <span class="detail-value">200 chickens</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Housing Status:</span>
+                                <span class="detail-value">Planning</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Monthly Revenue:</span>
+                                <span class="detail-value">Frw 1,000,000</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 10%"></div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Progress:</span>
+                            <span class="detail-value">10%</span>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-action btn-view" onclick="viewProject(1)">View</button>
+                            <button class="btn-action btn-edit" onclick="editProject(1)">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Section -->
+            <div class="main-content" id="training">
+                <div class="content-header">
+                    <h1>Training Programs</h1>
+                    <p>Manage training schedules and participant registration.</p>
+                </div>
+
+                <div class="training-grid">
+                    <div class="training-card">
+                        <div class="training-header">
+                            <h3 class="training-title">Modern Farming Techniques</h3>
+                            <span class="training-status upcoming">Upcoming</span>
+                        </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Date:</span>
+                                <span class="detail-value">Apr 20, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Time:</span>
+                                <span class="detail-value">09:00 - 17:00</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Location:</span>
+                                <span class="detail-value">AYIKB Office</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Trainer:</span>
+                                <span class="detail-value">MINAGRI Expert</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Participants:</span>
+                                <span class="detail-value">30/50</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-action btn-view" onclick="viewProject(1)">View</button>
+                            <button class="btn-action btn-edit" onclick="editProject(1)">Edit</button>
+                        </div>
+                    </div>
+
+                    <div class="training-card">
+                        <div class="training-header">
+                            <h3 class="training-title">Pig Farming Business</h3>
+                            <span class="training-status ongoing">Ongoing</span>
+                        </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Date:</span>
+                                <span class="detail-value">Mar 15 - Apr 15, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Time:</span>
+                                <span class="detail-value">08:00 - 16:00</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Location:</span>
+                                <span class="detail-value">AYIKB Farm</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Trainer:</span>
+                                <span class="detail-value">RAB Veterinarian</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Participants:</span>
+                                <span class="detail-value">25/25</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-action btn-view" onclick="viewProject(1)">View</button>
+                            <button class="btn-action btn-edit" onclick="editProject(1)">Edit</button>
+                        </div>
+                    </div>
+
+                    <div class="training-card">
+                        <div class="training-header">
+                            <h3 class="training-title">Business Management</h3>
+                            <span class="training-status completed">Completed</span>
+                        </div>
+                        <div class="training-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Date:</span>
+                                <span class="detail-value">Feb 10, 2024</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Time:</span>
+                                <span class="detail-value">09:00 - 15:00</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Location:</span>
+                                <span class="detail-value">AYIKB Office</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Trainer:</span>
+                                <span class="detail-value">Business Consultant</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Participants:</span>
+                                <span class="detail-value">40/40</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn-action btn-view" onclick="viewProject(1)">View</button>
+                            <button class="btn-action btn-edit" onclick="editProject(1)">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finance Section -->
+            <div class="main-content" id="finance">
+                <div class="content-header">
+                    <h1>Financial Management</h1>
+                    <p>Track budget, expenses, and financial performance.</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">2.4M</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon danger">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">1.45M</div>
+                        <div class="stat-label">Total Expenses</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon success">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">950K</div>
+                        <div class="stat-label">Net Profit</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">3.3M</div>
+                        <div class="stat-label">Total Budget</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employees Section -->
+            <div class="main-content" id="employees">
+                <div class="content-header">
+                    <h1>Employee Management</h1>
+                    <p>Manage staff information and performance.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Team Members</h3>
+                        <button class="btn btn-primary">Add Employee</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="project-grid">
+                            <div class="project-card">
+                                <div class="project-header">
+                                    <h3 class="project-title">Jean Mugisha</h3>
+                                    <span class="project-status active">Active</span>
+                                </div>
+                                <div class="project-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Position:</span>
+                                        <span class="detail-value">Farmer</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Department:</span>
+                                        <span class="detail-value">Agriculture</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Contact:</span>
+                                        <span class="detail-value">0788345678</span>
+                                    </div>
+                                </div>
+                                <div class="project-actions">
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </div>
+                            </div>
+
+                            <div class="project-card">
+                                <div class="project-header">
+                                    <h3 class="project-title">Marie Mukamana</h3>
+                                    <span class="project-status active">Active</span>
+                                </div>
+                                <div class="project-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Position:</span>
+                                        <span class="detail-value">Agriculture Worker</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Department:</span>
+                                        <span class="detail-value">Agriculture</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Contact:</span>
+                                        <span class="detail-value">0788456789</span>
+                                    </div>
+                                </div>
+                                <div class="project-actions">
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </div>
+                            </div>
+
+                            <div class="project-card">
+                                <div class="project-header">
+                                    <h3 class="project-title">Joseph Habimana</h3>
+                                    <span class="project-status active">Active</span>
+                                </div>
+                                <div class="project-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Position:</span>
+                                        <span class="detail-value">Trainer</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Department:</span>
+                                        <span class="detail-value">Training</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Contact:</span>
+                                        <span class="detail-value">0788567890</span>
+                                    </div>
+                                </div>
+                                <div class="project-actions">
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contacts Section -->
+            <div class="main-content" id="contacts">
+                <div class="content-header">
+                    <h1>Contact Management</h1>
+                    <p>Manage inquiries and communications.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Messages</h3>
+                        <button class="btn btn-primary">View All</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>New inquiry</strong> - Partnership opportunity</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Call request</strong> - Training information</p>
+                                    <span class="activity-time">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Support request</strong> - Technical assistance</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee Management Section -->
+            <div class="main-content" id="employees">
+                <div class="content-header">
+                    <h1>Employee Management</h1>
+                    <p>Manage employees and track their information.</p>
+                    <button class="btn btn-primary" onclick="openAddEmployeeModal()">
+                        <i class="fas fa-plus"></i> Add Employee
+                    </button>
+                </div>
+
+                <div class="employee-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalEmployees">0</div>
+                        <div class="stat-label">Total Employees</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="activeEmployees">0</div>
+                        <div class="stat-label">Active Employees</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="newEmployees">0</div>
+                        <div class="stat-label">New Hires</div>
+                    </div>
+                </div>
+
+                <div class="employee-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Position</th>
+                                <th>Department</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTableBody">
+                            <!-- Employees will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Section (Restricted) -->
+            <div class="main-content" id="reports">
+                <div class="content-header">
+                    <h1>Reports & Analytics</h1>
+                    <p>Comprehensive business reports and insights.</p>
+                </div>
+
+                <div class="restricted-access">
+                    <i class="fas fa-lock"></i>
+                    <h3>Access Restricted</h3>
+                    <p>This section is only accessible to leaders (CEO, Admin, Coordinator). Please contact your administrator for access.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Employee Modal -->
+    <div id="employeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Employee</h2>
+                <button class="close-btn" onclick="closeEmployeeModal()">&times;</button>
+            </div>
+            <form id="employeeForm">
+                <input type="hidden" id="employeeId" name="id">
+                
+                <div class="form-group">
+                    <label for="employeeName">Full Name *</label>
+                    <input type="text" class="form-control" id="employeeName" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeEmail">Email *</label>
+                    <input type="email" class="form-control" id="employeeEmail" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeePhone">Phone *</label>
+                    <input type="tel" class="form-control" id="employeePhone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeePosition">Position *</label>
+                    <input type="text" class="form-control" id="employeePosition" name="position" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeDepartment">Department *</label>
+                    <select class="form-select" id="employeeDepartment" name="department" required>
+                        <option value="">Select Department...</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Livestock">Livestock</option>
+                        <option value="Training">Training</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Management">Management</option>
+                        <option value="IT">IT</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeRole">Role *</label>
+                    <select class="form-select" id="employeeRole" name="role" required>
+                        <option value="">Select Role...</option>
+                        <option value="employee">Employee</option>
+                        <option value="manager">Manager</option>
+                        <option value="coordinator">Coordinator</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeStatus">Status *</label>
+                    <select class="form-select" id="employeeStatus" name="status" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="onboarding">Onboarding</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeSalary">Salary (Frw)</label>
+                    <input type="text" class="form-control" id="employeeSalary" name="salary">
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeAddress">Address</label>
+                    <input type="text" class="form-control" id="employeeAddress" name="address">
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeEmergencyContact">Emergency Contact</label>
+                    <input type="tel" class="form-control" id="employeeEmergencyContact" name="emergencyContact">
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeSkills">Skills</label>
+                    <textarea class="form-control" id="employeeSkills" name="skills" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeEducation">Education</label>
+                    <input type="text" class="form-control" id="employeeEducation" name="education">
+                </div>
+
+                <div class="form-group">
+                    <label for="employeeExperience">Experience (Years)</label>
+                    <input type="number" class="form-control" id="employeeExperience" name="experience" min="0">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeEmployeeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Save Employee</span>
+                        <span class="spinner"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+            checkUserPermissions();
+        });
+
+        function initializeDashboard() {
+            // Check if user is logged in
+            const user = JSON.parse(localStorage.getItem('ayikb_user') || sessionStorage.getItem('ayikb_user'));
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Set user name
+            document.getElementById('userName').textContent = user.name || 'User';
+
+            // Setup event listeners
+            setupEventListeners();
+        }
+
+        function checkUserPermissions() {
+            const user = JSON.parse(localStorage.getItem('ayikb_user') || sessionStorage.getItem('ayikb_user'));
+            const reportsLink = document.querySelector('[data-section="reports"]');
+            const employeesLink = document.querySelector('[data-section="employees"]');
+            
+            // Check if user has access to reports
+            const hasReportAccess = ['ceo', 'admin', 'coordinator'].includes(user.role);
+            
+            // Check if user has access to employee management (accountable can add employees)
+            const hasEmployeeAccess = ['ceo', 'admin', 'coordinator', 'accountable'].includes(user.role);
+            
+            if (!hasReportAccess) {
+                reportsLink.classList.add('restricted');
+            }
+            
+            if (!hasEmployeeAccess) {
+                employeesLink.classList.add('restricted');
+            }
+        }
+
+        function setupEventListeners() {
+            // Sidebar navigation
+            const sidebarLinks = document.querySelectorAll('.sidebar-link:not(.restricted)');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and sections
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    document.querySelectorAll('.main-content').forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sectionId = this.dataset.section;
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function logout() {
+            localStorage.removeItem('ayikb_user');
+            sessionStorage.removeItem('ayikb_user');
+            window.location.href = 'login.html';
+        }
+
+        function showRestrictedMessage() {
+            const message = document.createElement('div');
+            message.className = 'alert alert-danger';
+            message.style.position = 'fixed';
+            message.style.top = '20px';
+            message.style.right = '20px';
+            message.style.zIndex = '3000';
+            message.style.minWidth = '300px';
+            message.innerHTML = `
+                <i class="fas fa-lock"></i>
+                <strong>Access Denied</strong><br>
+                Reports are only accessible to leaders.
+            `;
+            
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                if (message.parentNode) {
+                    message.parentNode.removeChild(message);
+                }
+            }, 5000);
+        }
+
+        // Project View and Edit Functions
+        function viewProject(projectId) {
+            // Project data
+            const projects = {
+                1: { name: 'Ihinga ry\'imbuto', category: 'Ubuhinzi', progress: 75, budget: 'Frw 5,000,000', startDate: '2023-01-15', endDate: '2023-06-30', status: 'Active', description: 'Ihinga ry\'imbuto zitera imbuto z\'ibicuruzwa', manager: 'Jean Pierre', location: 'Kirehe' },
+                2: { name: 'Ubworozi bw\'inyamaswa', category: 'Ubworozi', progress: 60, budget: 'Frw 3,500,000', startDate: '2023-02-01', endDate: '2023-12-31', status: 'Active', description: 'Ubworozi bw\'inyamaswa zo mu karere ka Kirehe', manager: 'Alice Mukamana', location: 'Kirehe' },
+                3: { name: 'Guhanisha amafoto', category: 'Tekinoroji', progress: 25, budget: 'Frw 2,000,000', startDate: '2023-03-01', endDate: '2023-08-31', status: 'Planning', description: 'Gutangiza sisitemu yo guhanisha amafoto', manager: 'Eric Mugisha', location: 'Kirehe' },
+                4: { name: 'Amashanyarazi', category: 'Energie', progress: 25, budget: 'Frw 8,000,000', startDate: '2023-04-01', endDate: '2024-03-31', status: 'Planning', description: 'Kubaka amashanyarazi y\'izuba mu karere', manager: 'Grace Mukandayisenga', location: 'Kirehe' },
+                5: { name: 'Amazi yisukuye', category: 'Amazi', progress: 10, budget: 'Frw 4,000,000', startDate: '2023-05-01', endDate: '2024-04-30', status: 'Planning', description: 'Kubaka sisitemu yo gukurura amazi', manager: 'Joseph Niyonzima', location: 'Kirehe' },
+                6: { name: 'Ibihingwa bya kawa', category: 'Ubuhinzi', progress: 45, budget: 'Frw 1,500,000', startDate: '2023-01-01', endDate: '2023-12-31', status: 'Active', description: 'Gutera ibihingwa bya kawa byiza', manager: 'Claudine Uwimana', location: 'Kirehe' },
+                7: { name: 'Ibigori by\'umukara', category: 'Ubuhinzi', progress: 30, budget: 'Frw 2,500,000', startDate: '2023-02-15', endDate: '2023-11-30', status: 'Active', description: 'Gutera ibigori by\'umukara byiza', manager: 'Jean Paul', location: 'Kirehe' },
+                8: { name: 'Imbuto z\'ibiti', category: 'Ubuhinzi', progress: 15, budget: 'Frw 1,000,000', startDate: '2023-06-01', endDate: '2024-05-31', status: 'Planning', description: 'Gutera imbuto z\'ibiti byinshi', manager: 'Marie Uwimana', location: 'Kirehe' },
+                9: { name: 'Ifumbire', category: 'Ubuhinzi', progress: 80, budget: 'Frw 3,000,000', startDate: '2022-12-01', endDate: '2023-05-31', status: 'Active', description: 'Gutunganya ifumbire nziza', manager: 'Pierre Niyonzima', location: 'Kirehe' },
+                10: { name: 'Urusyo rw\'inyamaswa', category: 'Ubworozi', progress: 55, budget: 'Frw 6,000,000', startDate: '2023-01-01', endDate: '2023-10-31', status: 'Active', description: 'Kubaka urusyo rw\'inyamaswa zo mu karere', manager: 'Alice Mugisha', location: 'Kirehe' }
+            };
+            
+            const project = projects[projectId];
+            if (project) {
+                const projectInfo = `
+                    <div style="padding: 20px; background: white; border-radius: 8px; margin: 10px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <h3><i class="fas fa-project-diagram"></i> ${project.name}</h3>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 15px 0;">
+                            <p><strong>Icategory:</strong> ${project.category}</p>
+                            <p><strong>Aho biherereye:</strong> ${project.location}</p>
+                            <p><strong>Umuyobozi:</strong> ${project.manager}</p>
+                            <p><strong>Imimerere:</strong> ${project.status}</p>
+                            <p><strong>Progress:</strong> ${project.progress}%</p>
+                            <p><budget:</strong> ${project.budget}</p>
+                            <p><strong>Itariki yatangirijwe:</strong> ${project.startDate}</p>
+                            <p><strong>Itariki yarangirirwa:</strong> ${project.endDate}</p>
+                        </div>
+                        <div style="margin: 15px 0;">
+                            <p><strong>Ubusobanuro:</strong></p>
+                            <p>${project.description}</p>
+                        </div>
+                        <div style="margin: 15px 0;">
+                            <p><strong>Progress:</strong></p>
+                            <div style="background: #e9ecef; border-radius: 4px; height: 20px; overflow: hidden;">
+                                <div style="background: linear-gradient(90deg, #2ecc71, #27ae60); width: ${project.progress}%; height: 100%; transition: width 0.3s ease;"></div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="closeProjectView()">Funga</button>
+                    </div>
+                `;
+                
+                // Create modal
+                const viewDiv = document.createElement('div');
+                viewDiv.id = 'projectViewModal';
+                viewDiv.innerHTML = projectInfo;
+                viewDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: white;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                    z-index: 1000;
+                    max-width: 600px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                `;
+                
+                document.body.appendChild(viewDiv);
+            }
+        }
+
+        function closeProjectView() {
+            const viewDiv = document.getElementById('projectViewModal');
+            if (viewDiv) {
+                viewDiv.remove();
+            }
+        }
+
+        function editProject(projectId) {
+            // Project data
+            const projects = {
+                1: { name: 'Ihinga ry\'imbuto', category: 'Ubuhinzi', progress: 75, budget: 'Frw 5,000,000', startDate: '2023-01-15', endDate: '2023-06-30', status: 'Active', description: 'Ihinga ry\'imbuto zitera imbuto z\'ibicuruzwa', manager: 'Jean Pierre', location: 'Kirehe' },
+                2: { name: 'Ubworozi bw\'inyamaswa', category: 'Ubworozi', progress: 60, budget: 'Frw 3,500,000', startDate: '2023-02-01', endDate: '2023-12-31', status: 'Active', description: 'Ubworozi bw\'inyamaswa zo mu karere ka Kirehe', manager: 'Alice Mukamana', location: 'Kirehe' },
+                3: { name: 'Guhanisha amafoto', category: 'Tekinoroji', progress: 25, budget: 'Frw 2,000,000', startDate: '2023-03-01', endDate: '2023-08-31', status: 'Planning', description: 'Gutangiza sisitemu yo guhanisha amafoto', manager: 'Eric Mugisha', location: 'Kirehe' },
+                4: { name: 'Amashanyarazi', category: 'Energie', progress: 25, budget: 'Frw 8,000,000', startDate: '2023-04-01', endDate: '2024-03-31', status: 'Planning', description: 'Kubaka amashanyarazi y\'izuba mu karere', manager: 'Grace Mukandayisenga', location: 'Kirehe' },
+                5: { name: 'Amazi yisukuye', category: 'Amazi', progress: 10, budget: 'Frw 4,000,000', startDate: '2023-05-01', endDate: '2024-04-30', status: 'Planning', description: 'Kubaka sisitemu yo gukurura amazi', manager: 'Joseph Niyonzima', location: 'Kirehe' },
+                6: { name: 'Ibihingwa bya kawa', category: 'Ubuhinzi', progress: 45, budget: 'Frw 1,500,000', startDate: '2023-01-01', endDate: '2023-12-31', status: 'Active', description: 'Gutera ibihingwa bya kawa byiza', manager: 'Claudine Uwimana', location: 'Kirehe' },
+                7: { name: 'Ibigori by\'umukara', category: 'Ubuhinzi', progress: 30, budget: 'Frw 2,500,000', startDate: '2023-02-15', endDate: '2023-11-30', status: 'Active', description: 'Gutera ibigori by\'umukara byiza', manager: 'Jean Paul', location: 'Kirehe' },
+                8: { name: 'Imbuto z\'ibiti', category: 'Ubuhinzi', progress: 15, budget: 'Frw 1,000,000', startDate: '2023-06-01', endDate: '2024-05-31', status: 'Planning', description: 'Gutera imbuto z\'ibiti byinshi', manager: 'Marie Uwimana', location: 'Kirehe' },
+                9: { name: 'Ifumbire', category: 'Ubuhinzi', progress: 80, budget: 'Frw 3,000,000', startDate: '2022-12-01', endDate: '2023-05-31', status: 'Active', description: 'Gutunganya ifumbire nziza', manager: 'Pierre Niyonzima', location: 'Kirehe' },
+                10: { name: 'Urusyo rw\'inyamaswa', category: 'Ubworozi', progress: 55, budget: 'Frw 6,000,000', startDate: '2023-01-01', endDate: '2023-10-31', status: 'Active', description: 'Kubaka urusyo rw\'inyamaswa zo mu karere', manager: 'Alice Mugisha', location: 'Kirehe' }
+            };
+            
+            const project = projects[projectId];
+            if (project) {
+                const editForm = `
+                    <div style="padding: 20px; background: white; border-radius: 8px; margin: 10px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <h3><i class="fas fa-edit"></i> Hindura Umushinga</h3>
+                        <form id="editProjectForm">
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>Izina ry\'umushinga:</label>
+                                <input type="text" name="name" value="${project.name}" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>Icategory:</label>
+                                <select name="category" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option value="Ubuhinzi" ${project.category === 'Ubuhinzi' ? 'selected' : ''}>Ubuhinzi</option>
+                                    <option value="Ubworozi" ${project.category === 'Ubworozi' ? 'selected' : ''}>Ubworozi</option>
+                                    <option value="Tekinoroji" ${project.category === 'Tekinoroji' ? 'selected' : ''}>Tekinoroji</option>
+                                    <option value="Energie" ${project.category === 'Energie' ? 'selected' : ''}>Energie</option>
+                                    <option value="Amazi" ${project.category === 'Amazi' ? 'selected' : ''}>Amazi</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>Budget:</label>
+                                <input type="text" name="budget" value="${project.budget}" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>Progress (%):</label>
+                                <input type="number" name="progress" value="${project.progress}" min="0" max="100" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>Itariki yatangirijwe:</label>
+                                <input type="date" name="startDate" value="${project.startDate}" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>Itariki yarangirirwa:</label>
+                                <input type="date" name="endDate" value="${project.endDate}" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>Imimerere:</label>
+                                <select name="status" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option value="Active" ${project.status === 'Active' ? 'selected' : ''}>Active</option>
+                                    <option value="Planning" ${project.status === 'Planning' ? 'selected' : ''}>Planning</option>
+                                    <option value="Completed" ${project.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                                    <option value="On Hold" ${project.status === 'On Hold' ? 'selected' : ''}>On Hold</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>Umuyobozi:</label>
+                                <input type="text" name="manager" value="${project.manager}" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>Aho biherereye:</label>
+                                <input type="text" name="location" value="${project.location}" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>Ubusobanuro:</label>
+                                <textarea name="description" rows="3" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">${project.description}</textarea>
+                            </div>
+                            <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px;">
+                                <button type="button" class="btn btn-secondary" onclick="closeProjectEdit()">Kureka</button>
+                                <button type="submit" class="btn btn-primary">Kubika</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+                
+                // Create modal
+                const editDiv = document.createElement('div');
+                editDiv.id = 'projectEditModal';
+                editDiv.innerHTML = editForm;
+                editDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: white;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                    z-index: 1000;
+                    max-width: 600px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                `;
+                
+                document.body.appendChild(editDiv);
+                
+                // Handle form submission
+                document.getElementById('editProjectForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Umushinga wahinduwe neza!');
+                    closeProjectEdit();
+                });
+            }
+        }
+
+        function closeProjectEdit() {
+            const editDiv = document.getElementById('projectEditModal');
+            if (editDiv) {
+                editDiv.remove();
+            }
+        }
+
+        // Employee Management Functions
+        let currentEmployees = [];
+        let editingEmployeeId = null;
+
+        // Load employees from database
+        async function loadEmployees() {
+            try {
+                if (window.databaseUserService) {
+                    const response = await window.databaseUserService.fetchUsers();
+                    currentEmployees = response.data;
+                    displayEmployees(currentEmployees);
+                    updateEmployeeStats(currentEmployees);
+                } else {
+                    // Fallback to localStorage
+                    const employees = JSON.parse(localStorage.getItem('ayikb_employees') || '[]');
+                    currentEmployees = employees;
+                    displayEmployees(currentEmployees);
+                    updateEmployeeStats(currentEmployees);
+                }
+            } catch (error) {
+                console.error('Error loading employees:', error);
+                showEmployeeError('Error loading employees');
+            }
+        }
+
+        // Display employees in table with inline editing
+        function displayEmployees(employees) {
+            const tbody = document.getElementById('employeeTableBody');
+            tbody.innerHTML = '';
+
+            employees.forEach(employee => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${employee.id}</td>
+                    <td>
+                        <span class="editable-field" data-field="name" data-id="${employee.id}" onclick="makeEditable(this)">${employee.name}</span>
+                    </td>
+                    <td>
+                        <span class="editable-field" data-field="email" data-id="${employee.id}" onclick="makeEditable(this)">${employee.email}</span>
+                    </td>
+                    <td>
+                        <span class="editable-field" data-field="phone" data-id="${employee.id}" onclick="makeEditable(this)">${employee.phone}</span>
+                    </td>
+                    <td>
+                        <span class="editable-field" data-field="position" data-id="${employee.id}" onclick="makeEditable(this)">${employee.position}</span>
+                    </td>
+                    <td>
+                        <span class="editable-field" data-field="department" data-id="${employee.id}" onclick="makeEditable(this)">${employee.department}</span>
+                    </td>
+                    <td>
+                        <span class="editable-field" data-field="status" data-id="${employee.id}" onclick="makeEditable(this)">
+                            <span class="status-badge status-${employee.status}">${employee.status}</span>
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-info" onclick="viewEmployee(${employee.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning" onclick="editEmployee(${employee.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteEmployee(${employee.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Update employee statistics
+        function updateEmployeeStats(employees) {
+            document.getElementById('totalEmployees').textContent = employees.length;
+            document.getElementById('activeEmployees').textContent = employees.filter(e => e.status === 'active').length;
+            
+            // Calculate new employees (joined in last 30 days)
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            const newEmployees = employees.filter(e => new Date(e.joinDate) >= thirtyDaysAgo);
+            document.getElementById('newEmployees').textContent = newEmployees.length;
+        }
+
+        // Open add employee modal
+        function openAddEmployeeModal() {
+            editingEmployeeId = null;
+            document.querySelector('#employeeModal .modal-title').textContent = 'Add Employee';
+            document.getElementById('employeeForm').reset();
+            document.getElementById('employeeId').value = '';
+            showModal('employeeModal');
+        }
+
+        // Edit employee
+        async function editEmployee(employeeId) {
+            try {
+                if (window.databaseUserService) {
+                    const response = await window.databaseUserService.fetchUser(employeeId);
+                    const employee = response.data;
+                    
+                    editingEmployeeId = employeeId;
+                    document.querySelector('#employeeModal .modal-title').textContent = 'Edit Employee';
+                    
+                    // Populate form
+                    document.getElementById('employeeId').value = employee.id;
+                    document.getElementById('employeeName').value = employee.name;
+                    document.getElementById('employeeEmail').value = employee.email;
+                    document.getElementById('employeePhone').value = employee.phone;
+                    document.getElementById('employeePosition').value = employee.position;
+                    document.getElementById('employeeDepartment').value = employee.department;
+                    document.getElementById('employeeRole').value = employee.role;
+                    document.getElementById('employeeStatus').value = employee.status;
+                    document.getElementById('employeeSalary').value = employee.salary || '';
+                    document.getElementById('employeeAddress').value = employee.address || '';
+                    document.getElementById('employeeEmergencyContact').value = employee.emergencyContact || '';
+                    document.getElementById('employeeSkills').value = employee.skills || '';
+                    document.getElementById('employeeEducation').value = employee.education || '';
+                    document.getElementById('employeeExperience').value = employee.experience || '';
+                    
+                    showModal('employeeModal');
+                }
+            } catch (error) {
+                console.error('Error loading employee:', error);
+                showEmployeeError('Error loading employee');
+            }
+        }
+
+        // View employee
+        async function viewEmployee(employeeId) {
+            try {
+                if (window.databaseUserService) {
+                    const response = await window.databaseUserService.fetchUser(employeeId);
+                    const employee = response.data;
+                    
+                    const employeeInfo = `
+                        <div style="padding: 20px; background: white; border-radius: 8px; margin: 10px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h3><i class="fas fa-user"></i> ${employee.name}</h3>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 15px 0;">
+                                <p><strong>Email:</strong> ${employee.email}</p>
+                                <p><strong>Phone:</strong> ${employee.phone}</p>
+                                <p><strong>Position:</strong> ${employee.position}</p>
+                                <p><strong>Department:</strong> ${employee.department}</p>
+                                <p><strong>Role:</strong> ${employee.role}</p>
+                                <p><strong>Status:</strong> ${employee.status}</p>
+                                <p><strong>Salary:</strong> ${employee.salary || 'Not specified'}</p>
+                                <p><strong>Address:</strong> ${employee.address || 'Not specified'}</p>
+                                <p><strong>Emergency Contact:</strong> ${employee.emergencyContact || 'Not specified'}</p>
+                                <p><strong>Education:</strong> ${employee.education || 'Not specified'}</p>
+                                <p><strong>Experience:</strong> ${employee.experience || 'Not specified'}</p>
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <p><strong>Skills:</strong></p>
+                                <p>${employee.skills || 'No skills specified'}</p>
+                            </div>
+                            <button class="btn btn-secondary" onclick="closeEmployeeViewModal()">Close</button>
+                        </div>
+                    `;
+                    
+                    // Create modal
+                    const viewDiv = document.createElement('div');
+                    viewDiv.id = 'employeeViewModal';
+                    viewDiv.innerHTML = employeeInfo;
+                    viewDiv.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: white;
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                        z-index: 1000;
+                        max-width: 600px;
+                        width: 90%;
+                        max-height: 80vh;
+                        overflow-y: auto;
+                    `;
+                    
+                    document.body.appendChild(viewDiv);
+                }
+            } catch (error) {
+                console.error('Error viewing employee:', error);
+                showEmployeeError('Error viewing employee');
+            }
+        }
+
+        // Close employee view modal
+        function closeEmployeeViewModal() {
+            const viewDiv = document.getElementById('employeeViewModal');
+            if (viewDiv) {
+                viewDiv.remove();
+            }
+        }
+
+        // Delete employee
+        async function deleteEmployee(employeeId) {
+            if (!confirm('Are you sure you want to delete this employee?')) {
+                return;
+            }
+
+            try {
+                if (window.databaseUserService) {
+                    await window.databaseUserService.deleteUser(employeeId);
+                    await loadEmployees();
+                    showEmployeeSuccess('Employee deleted successfully!');
+                }
+            } catch (error) {
+                console.error('Error deleting employee:', error);
+                showEmployeeError('Error deleting employee');
+            }
+        }
+
+        // Handle employee form submission
+        async function handleEmployeeSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const employeeData = Object.fromEntries(formData.entries());
+            
+            try {
+                showEmployeeLoading(true);
+                
+                if (editingEmployeeId) {
+                    // Update existing employee
+                    employeeData.id = editingEmployeeId;
+                    await window.databaseUserService.saveUser(employeeData);
+                    showEmployeeSuccess('Employee updated successfully!');
+                } else {
+                    // Create new employee
+                    employeeData.joinDate = new Date().toISOString().split('T')[0];
+                    await window.databaseUserService.saveUser(employeeData);
+                    showEmployeeSuccess('Employee added successfully!');
+                }
+                
+                closeEmployeeModal();
+                await loadEmployees();
+            } catch (error) {
+                console.error('Error saving employee:', error);
+                showEmployeeError('Error saving employee');
+            } finally {
+                showEmployeeLoading(false);
+            }
+        }
+
+        // Close employee modal
+        function closeEmployeeModal() {
+            document.getElementById('employeeModal').classList.remove('show');
+        }
+
+        // Show modal
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        // Employee feedback functions
+        function showEmployeeSuccess(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success';
+            alert.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                padding: 15px;
+                border-radius: 5px;
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            `;
+            alert.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            
+            document.body.appendChild(alert);
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 3000);
+        }
+
+        function showEmployeeError(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-danger';
+            alert.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                padding: 15px;
+                border-radius: 5px;
+                background: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            `;
+            alert.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
+            
+            document.body.appendChild(alert);
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 3000);
+        }
+
+        function showEmployeeLoading(show) {
+            const submitBtn = document.querySelector('#employeeForm button[type="submit"]');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const spinner = submitBtn.querySelector('.spinner');
+            
+            if (show) {
+                submitBtn.disabled = true;
+                btnText.textContent = 'Saving...';
+                spinner.style.display = 'inline-block';
+            } else {
+                submitBtn.disabled = false;
+                btnText.textContent = 'Save Employee';
+                spinner.style.display = 'none';
+            }
+        }
+
+        // Initialize employee management when employees section is shown
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up employee form submission
+            document.getElementById('employeeForm').addEventListener('submit', handleEmployeeSubmit);
+            
+            // Load employees when employees section is shown
+            const employeesLink = document.querySelector('[data-section="employees"]');
+            if (employeesLink) {
+                employeesLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loadEmployees();
+                });
+            }
+        });
+
+        // Inline Editing Functions
+        let currentEditingField = null;
+        let originalValue = '';
+
+        function makeEditable(element) {
+            // If already editing another field, cancel it first
+            if (currentEditingField && currentEditingField !== element) {
+                cancelInlineEdit();
+            }
+
+            // If already editing this field, don't do anything
+            if (element.classList.contains('editing')) {
+                return;
+            }
+
+            const field = element.dataset.field;
+            const employeeId = element.dataset.id;
+            const currentValue = element.textContent.trim();
+            
+            // Store original value
+            originalValue = currentValue;
+            currentEditingField = element;
+
+            // Add editing class
+            element.classList.add('editing');
+
+            // Create input based on field type
+            let input;
+            if (field === 'status') {
+                input = document.createElement('select');
+                const options = ['active', 'inactive', 'onboarding'];
+                options.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option.charAt(0).toUpperCase() + option.slice(1);
+                    optionElement.selected = option === currentValue.toLowerCase();
+                    input.appendChild(optionElement);
+                });
+            } else if (field === 'department') {
+                input = document.createElement('select');
+                const departments = ['Agriculture', 'Livestock', 'Training', 'Finance', 'Management', 'IT'];
+                departments.forEach(dept => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = dept;
+                    optionElement.textContent = dept;
+                    optionElement.selected = dept === currentValue;
+                    input.appendChild(optionElement);
+                });
+            } else {
+                input = document.createElement('input');
+                input.type = field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text';
+                input.value = currentValue;
+            }
+
+            // Set input attributes
+            input.style.width = '100%';
+            input.style.border = 'none';
+            input.style.outline = 'none';
+            input.style.fontFamily = 'inherit';
+            input.style.fontSize = 'inherit';
+            input.style.background = 'transparent';
+
+            // Clear the element and add input
+            element.innerHTML = '';
+            element.appendChild(input);
+
+            // Add action buttons
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'inline-edit-actions';
+            actionsDiv.innerHTML = `
+                <button class="save-btn" onclick="saveInlineEdit(${employeeId}, '${field}')">Save</button>
+                <button class="cancel-btn" onclick="cancelInlineEdit()">Cancel</button>
+            `;
+            element.appendChild(actionsDiv);
+
+            // Focus on input
+            input.focus();
+            input.select();
+
+            // Handle Enter key and Escape key
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    saveInlineEdit(employeeId, field);
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    cancelInlineEdit();
+                }
+            });
+
+            // Handle blur (clicking outside)
+            input.addEventListener('blur', function() {
+                // Small delay to allow save/cancel buttons to be clicked
+                setTimeout(() => {
+                    if (element.classList.contains('editing')) {
+                        cancelInlineEdit();
+                    }
+                }, 200);
+            });
+        }
+
+        async function saveInlineEdit(employeeId, field) {
+            const element = currentEditingField;
+            const input = element.querySelector('input, select');
+            const newValue = input.value.trim();
+
+            if (newValue === '') {
+                showEmployeeError('Field cannot be empty');
+                return;
+            }
+
+            // Validate email format
+            if (field === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(newValue)) {
+                    showEmployeeError('Please enter a valid email address');
+                    return;
+                }
+            }
+
+            try {
+                showEmployeeLoading(true);
+
+                // Get current employee data
+                const response = await window.databaseUserService.fetchUser(employeeId);
+                const employee = response.data;
+
+                // Update the specific field
+                employee[field] = newValue;
+                employee.updatedAt = new Date().toISOString();
+
+                // Save to database
+                await window.databaseUserService.saveUser(employee);
+
+                // Update the display
+                if (field === 'status') {
+                    element.innerHTML = `<span class="status-badge status-${newValue}">${newValue}</span>`;
+                } else {
+                    element.textContent = newValue;
+                }
+
+                // Remove editing class
+                element.classList.remove('editing');
+                currentEditingField = null;
+
+                // Show success message
+                showEmployeeSuccess(`${field.charAt(0).toUpperCase() + field.slice(1)} updated successfully!`);
+
+                // Reload employees to update statistics
+                await loadEmployees();
+            } catch (error) {
+                console.error('Error saving inline edit:', error);
+                showEmployeeError('Error updating field');
+                // Restore original value
+                cancelInlineEdit();
+            } finally {
+                showEmployeeLoading(false);
+            }
+        }
+
+        function cancelInlineEdit() {
+            if (!currentEditingField) return;
+
+            const element = currentEditingField;
+            const field = element.dataset.field;
+
+            // Restore original value
+            if (field === 'status') {
+                element.innerHTML = `<span class="status-badge status-${originalValue}">${originalValue}</span>`;
+            } else {
+                element.textContent = originalValue;
+            }
+
+            // Remove editing class
+            element.classList.remove('editing');
+            currentEditingField = null;
+        }
+
+        // Enhanced employee form submission with all fields
+        async function handleEmployeeSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const employeeData = Object.fromEntries(formData.entries());
+            
+            // Validate required fields
+            if (!employeeData.name || !employeeData.email || !employeeData.phone || !employeeData.position || !employeeData.department || !employeeData.role || !employeeData.status) {
+                showEmployeeError('Please fill in all required fields');
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(employeeData.email)) {
+                showEmployeeError('Please enter a valid email address');
+                return;
+            }
+
+            // Validate phone format (basic Rwanda phone format)
+            const phoneRegex = /^\+250\s?7\d{2}\s?\d{3}\s?\d{3}$/;
+            if (!phoneRegex.test(employeeData.phone.replace(/\s/g, ''))) {
+                showEmployeeError('Please enter a valid Rwanda phone number (+250 7XX XXX XXX)');
+                return;
+            }
+            
+            try {
+                showEmployeeLoading(true);
+                
+                if (editingEmployeeId) {
+                    // Update existing employee
+                    employeeData.id = editingEmployeeId;
+                    employeeData.updatedAt = new Date().toISOString();
+                    await window.databaseUserService.saveUser(employeeData);
+                    showEmployeeSuccess('Employee updated successfully!');
+                } else {
+                    // Create new employee
+                    employeeData.joinDate = new Date().toISOString().split('T')[0];
+                    employeeData.createdAt = new Date().toISOString();
+                    employeeData.updatedAt = new Date().toISOString();
+                    await window.databaseUserService.saveUser(employeeData);
+                    showEmployeeSuccess('Employee added successfully!');
+                }
+                
+                closeEmployeeModal();
+                await loadEmployees();
+            } catch (error) {
+                console.error('Error saving employee:', error);
+                showEmployeeError('Error saving employee: ' + error.message);
+            } finally {
+                showEmployeeLoading(false);
+            }
+        }
+
+        // Enhanced employee loading with database integration
+        async function loadEmployees() {
+            try {
+                showEmployeeLoading(true);
+                
+                if (window.databaseUserService) {
+                    const response = await window.databaseUserService.fetchUsers();
+                    currentEmployees = response.data;
+                    displayEmployees(currentEmployees);
+                    updateEmployeeStats(currentEmployees);
+                    showEmployeeSuccess('Employees loaded successfully!');
+                } else {
+                    // Fallback to localStorage
+                    const employees = JSON.parse(localStorage.getItem('ayikb_employees') || '[]');
+                    currentEmployees = employees;
+                    displayEmployees(currentEmployees);
+                    updateEmployeeStats(currentEmployees);
+                    showEmployeeError('Database service not available, using fallback');
+                }
+            } catch (error) {
+                console.error('Error loading employees:', error);
+                showEmployeeError('Error loading employees: ' + error.message);
+            } finally {
+                showEmployeeLoading(false);
+            }
+        }
+
+        // Enhanced employee statistics with real-time calculation
+        function updateEmployeeStats(employees) {
+            const totalEmployees = employees.length;
+            const activeEmployees = employees.filter(e => e.status === 'active').length;
+            const inactiveEmployees = employees.filter(e => e.status === 'inactive').length;
+            const onboardingEmployees = employees.filter(e => e.status === 'onboarding').length;
+            
+            // Calculate new employees (joined in last 30 days)
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            const newEmployees = employees.filter(e => new Date(e.joinDate) >= thirtyDaysAgo);
+            
+            // Update DOM
+            document.getElementById('totalEmployees').textContent = totalEmployees;
+            document.getElementById('activeEmployees').textContent = activeEmployees;
+            document.getElementById('newEmployees').textContent = newEmployees.length;
+            
+            // Log statistics for debugging
+            console.log('Employee Statistics:', {
+                total: totalEmployees,
+                active: activeEmployees,
+                inactive: inactiveEmployees,
+                onboarding: onboardingEmployees,
+                newHires: newEmployees.length
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('userDropdown');
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            
+            if (!dropdownToggle.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

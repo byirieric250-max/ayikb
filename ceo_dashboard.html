@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEO Dashboard - AYIKB</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --ceo-primary: #6c5ce7;
+            --ceo-secondary: #a29bfe;
+            --ceo-success: #00b894;
+            --ceo-danger: #d63031;
+            --ceo-warning: #fdcb6e;
+            --ceo-info: #74b9ff;
+            --ceo-dark: #2d3436;
+            --ceo-light: #dfe6e9;
+        }
+
+        body {
+            background: #f5f6fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ceo-header {
+            background: linear-gradient(135deg, var(--ceo-primary) 0%, var(--ceo-secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .navbar-brand i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--ceo-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--ceo-light);
+        }
+
+        .dropdown-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        .ceo-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        .ceo-sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 2rem 0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: var(--ceo-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: var(--ceo-light);
+            border-left-color: var(--ceo-primary);
+        }
+
+        .sidebar-link i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .ceo-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            color: var(--ceo-dark);
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .content-header p {
+            color: #636e72;
+            margin: 0.5rem 0 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.primary { background: rgba(108, 92, 231, 0.1); color: var(--ceo-primary); }
+        .stat-icon.success { background: rgba(0, 184, 148, 0.1); color: var(--ceo-success); }
+        .stat-icon.warning { background: rgba(253, 203, 110, 0.1); color: var(--ceo-warning); }
+        .stat-icon.danger { background: rgba(214, 48, 49, 0.1); color: var(--ceo-danger); }
+        .stat-icon.info { background: rgba(116, 185, 255, 0.1); color: var(--ceo-info); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--ceo-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        .stat-change.positive {
+            background: rgba(0, 184, 148, 0.1);
+            color: var(--ceo-success);
+        }
+
+        .stat-change.negative {
+            background: rgba(214, 48, 49, 0.1);
+            color: var(--ceo-danger);
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--ceo-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            color: var(--ceo-dark);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .submission-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .submission-table th {
+            background: var(--ceo-light);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--ceo-dark);
+        }
+
+        .submission-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--ceo-light);
+        }
+
+        .submission-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-badge.pending {
+            background: rgba(253, 203, 110, 0.1);
+            color: var(--ceo-warning);
+        }
+
+        .status-badge.approved {
+            background: rgba(0, 184, 148, 0.1);
+            color: var(--ceo-success);
+        }
+
+        .status-badge.rejected {
+            background: rgba(214, 48, 49, 0.1);
+            color: var(--ceo-danger);
+        }
+
+        .status-badge.submitted {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--ceo-info);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-approve {
+            background: var(--ceo-success);
+            color: white;
+        }
+
+        .btn-reject {
+            background: var(--ceo-danger);
+            color: white;
+        }
+
+        .btn-view {
+            background: var(--ceo-info);
+            color: white;
+        }
+
+        .btn-action:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--ceo-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--ceo-dark);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--ceo-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #636e72;
+        }
+
+        .close-btn:hover {
+            color: var(--ceo-dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--ceo-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--ceo-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--ceo-primary);
+            box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--ceo-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--ceo-primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #636e72;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: rgba(0, 184, 148, 0.1);
+            color: var(--ceo-success);
+            border: 1px solid rgba(0, 184, 148, 0.3);
+        }
+
+        .alert-danger {
+            background: rgba(214, 48, 49, 0.1);
+            color: var(--ceo-danger);
+            border: 1px solid rgba(214, 48, 49, 0.3);
+        }
+
+        .alert-info {
+            background: rgba(116, 185, 255, 0.1);
+            color: var(--ceo-info);
+            border: 1px solid rgba(116, 185, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .ceo-container {
+                flex-direction: column;
+            }
+
+            .ceo-sidebar {
+                width: 100%;
+                padding: 1rem 0;
+            }
+
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+
+            .sidebar-link {
+                white-space: nowrap;
+                padding: 0.75rem 1rem;
+            }
+
+            .ceo-content {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .content-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- CEO Header -->
+    <header class="ceo-header">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-crown"></i>
+                CEO Dashboard
+            </div>
+            <div class="navbar-nav">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge badge-danger">3</span>
+                </a>
+                <div class="user-dropdown">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">
+                        <i class="fas fa-user"></i>
+                        <span id="userName">CEO</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                        <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #eee;">
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="ceo-container">
+        <!-- Sidebar -->
+        <aside class="ceo-sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link active" data-section="overview">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Overview
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="submissions">
+                        <i class="fas fa-file-alt"></i>
+                        Submissions
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="approvals">
+                        <i class="fas fa-check-circle"></i>
+                        Approvals
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="reports">
+                        <i class="fas fa-chart-line"></i>
+                        Reports
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="team">
+                        <i class="fas fa-users"></i>
+                        Team
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="settings">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="ceo-content">
+            <!-- Overview Section -->
+            <div class="main-content active" id="overview">
+                <div class="content-header">
+                    <h1>CEO Overview</h1>
+                    <p>Welcome back! Here's what's happening across AYIKB today.</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <span class="stat-change positive">+12%</span>
+                        </div>
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Pending Submissions</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <span class="stat-change positive">+8%</span>
+                        </div>
+                        <div class="stat-value">156</div>
+                        <div class="stat-label">Approved Items</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <span class="stat-change negative">-3%</span>
+                        </div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Awaiting Review</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon info">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span class="stat-change positive">+15%</span>
+                        </div>
+                        <div class="stat-value">42</div>
+                        <div class="stat-label">Active Team Members</div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Activity</h3>
+                        <button class="btn btn-primary">View All</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>New project proposal</strong> submitted by Coordinator</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Budget approval</strong> for Phase 1 completed</p>
+                                    <span class="activity-time">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>3 new team members</strong> added to the system</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submissions Section -->
+            <div class="main-content" id="submissions">
+                <div class="content-header">
+                    <h1>Submissions Management</h1>
+                    <p>Review and manage all submissions from team members.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>All Submissions</h3>
+                        <div class="d-flex gap-2">
+                            <select class="form-select" style="width: 150px;">
+                                <option>All Status</option>
+                                <option>Pending</option>
+                                <option>Submitted</option>
+                                <option>Approved</option>
+                                <option>Rejected</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="showNewSubmissionModal()">
+                                <i class="fas fa-plus"></i> New Submission
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="submission-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Submitted By</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="submissionsTableBody">
+                                <!-- Submissions will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approvals Section -->
+            <div class="main-content" id="approvals">
+                <div class="content-header">
+                    <h1>Approval Queue</h1>
+                    <p>Items awaiting your approval.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Pending Approvals</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="approvalsList">
+                            <!-- Approvals will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div class="main-content" id="reports">
+                <div class="content-header">
+                    <h1>Reports & Analytics</h1>
+                    <p>Comprehensive reports and business insights.</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">2.4M</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon success">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Active Projects</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon info">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">156</div>
+                        <div class="stat-label">Training Completed</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Active Partners</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="main-content" id="team">
+                <div class="content-header">
+                    <h1>Team Management</h1>
+                    <p>Manage your team members and their roles.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Team Members</h3>
+                        <button class="btn btn-primary">Add Member</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="teamList">
+                            <!-- Team members will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="main-content" id="settings">
+                <div class="content-header">
+                    <h1>Settings</h1>
+                    <p>Configure system settings and preferences.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>System Configuration</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="settingsForm">
+                            <div class="form-group">
+                                <label class="form-label">Business Name</label>
+                                <input type="text" class="form-control" value="AgriYouth Innovation Kirehe Business">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Notifications</label>
+                                <select class="form-select">
+                                    <option>Enabled</option>
+                                    <option>Disabled</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Approval Workflow</label>
+                                <select class="form-select">
+                                    <option>Two-step approval</option>
+                                    <option>Direct approval</option>
+                                    <option>Committee approval</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Submission Modal -->
+    <div class="modal" id="submissionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>New Submission</h3>
+                <button class="close-btn" onclick="closeModal('submissionModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="submissionForm">
+                    <div class="form-group">
+                        <label class="form-label">Submission Title</label>
+                        <input type="text" class="form-control" id="submissionTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Submission Type</label>
+                        <select class="form-select" id="submissionType" required>
+                            <option value="">Select Type</option>
+                            <option value="project">Project Proposal</option>
+                            <option value="budget">Budget Request</option>
+                            <option value="report">Progress Report</option>
+                            <option value="training">Training Program</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="submissionDescription" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority</label>
+                        <select class="form-select" id="submissionPriority" required>
+                            <option value="">Select Priority</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('submissionModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="submitNewSubmission()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Modal -->
+    <div class="modal" id="viewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="viewModalTitle">Submission Details</h3>
+                <button class="close-btn" onclick="closeModal('viewModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="viewModalBody">
+                <!-- Content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('viewModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize CEO Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCEO();
+            loadSubmissions();
+            loadApprovals();
+            loadTeam();
+            setupEventListeners();
+        });
+
+        function initializeCEO() {
+            // Check if user is logged in as CEO
+            const user = JSON.parse(localStorage.getItem('ayikb_user') || sessionStorage.getItem('ayikb_user'));
+            if (!user || user.role !== 'ceo') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Set user name
+            document.getElementById('userName').textContent = user.name || 'CEO';
+        }
+
+        function setupEventListeners() {
+            // Sidebar navigation
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and sections
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    document.querySelectorAll('.main-content').forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sectionId = this.dataset.section;
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+
+            // Settings form
+            document.getElementById('settingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showAlert('Settings saved successfully!', 'success');
+            });
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function logout() {
+            localStorage.removeItem('ayikb_user');
+            sessionStorage.removeItem('ayikb_user');
+            window.location.href = 'login.html';
+        }
+
+        function loadSubmissions() {
+            const submissions = [
+                {
+                    id: 'SUB001',
+                    title: 'Phase 2 Budget Proposal',
+                    submittedBy: 'Coordinator',
+                    type: 'Budget',
+                    status: 'pending',
+                    date: '2024-03-15'
+                },
+                {
+                    id: 'SUB002',
+                    title: 'Training Program Q2',
+                    submittedBy: 'Accountable',
+                    type: 'Training',
+                    status: 'submitted',
+                    date: '2024-03-14'
+                },
+                {
+                    id: 'SUB003',
+                    title: 'Project Progress Report',
+                    submittedBy: 'Coordinator',
+                    type: 'Report',
+                    status: 'approved',
+                    date: '2024-03-13'
+                }
+            ];
+
+            const tbody = document.getElementById('submissionsTableBody');
+            tbody.innerHTML = '';
+
+            submissions.forEach(submission => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${submission.id}</td>
+                    <td>${submission.title}</td>
+                    <td>${submission.submittedBy}</td>
+                    <td>${submission.type}</td>
+                    <td><span class="status-badge ${submission.status}">${submission.status}</span></td>
+                    <td>${submission.date}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-action btn-view" onclick="viewSubmission('${submission.id}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${submission.status === 'pending' ? `
+                                <button class="btn-action btn-approve" onclick="approveSubmission('${submission.id}')">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn-action btn-reject" onclick="rejectSubmission('${submission.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function loadApprovals() {
+            const approvals = [
+                {
+                    id: 'APP001',
+                    title: 'New Partnership Agreement',
+                    submittedBy: 'Coordinator',
+                    priority: 'high',
+                    submittedDate: '2024-03-15'
+                },
+                {
+                    id: 'APP002',
+                    title: 'Equipment Purchase Request',
+                    submittedBy: 'Accountable',
+                    priority: 'medium',
+                    submittedDate: '2024-03-14'
+                }
+            ];
+
+            const approvalsList = document.getElementById('approvalsList');
+            approvalsList.innerHTML = '';
+
+            approvals.forEach(approval => {
+                const approvalCard = document.createElement('div');
+                approvalCard.className = 'card mb-3';
+                approvalCard.innerHTML = `
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5>${approval.title}</h5>
+                                <p class="text-muted">Submitted by ${approval.submittedBy} on ${approval.submittedDate}</p>
+                                <span class="status-badge pending">Pending Approval</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-approve" onclick="approveItem('${approval.id}')">
+                                    <i class="fas fa-check"></i> Approve
+                                </button>
+                                <button class="btn-action btn-reject" onclick="rejectItem('${approval.id}')">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                approvalsList.appendChild(approvalCard);
+            });
+        }
+
+        function loadTeam() {
+            const teamMembers = [
+                { name: 'Pierre Niyonzima', role: 'Coordinator', status: 'active' },
+                { name: 'Jean Mugisha', role: 'Accountable', status: 'active' },
+                { name: 'Marie Mukamana', role: 'Admin', status: 'active' }
+            ];
+
+            const teamList = document.getElementById('teamList');
+            teamList.innerHTML = '';
+
+            teamMembers.forEach(member => {
+                const memberCard = document.createElement('div');
+                memberCard.className = 'card mb-3';
+                memberCard.innerHTML = `
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5>${member.name}</h5>
+                                <p class="text-muted">${member.role}</p>
+                                <span class="status-badge ${member.status}">${member.status}</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-view" onclick="viewTeamMember('${member.name}')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                teamList.appendChild(memberCard);
+            });
+        }
+
+        function showNewSubmissionModal() {
+            document.getElementById('submissionModal').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function submitNewSubmission() {
+            const title = document.getElementById('submissionTitle').value;
+            const type = document.getElementById('submissionType').value;
+            const description = document.getElementById('submissionDescription').value;
+            const priority = document.getElementById('submissionPriority').value;
+
+            if (!title || !type || !description || !priority) {
+                showAlert('Please fill all required fields', 'danger');
+                return;
+            }
+
+            // Create new submission
+            const newSubmission = {
+                id: 'SUB' + Date.now(),
+                title: title,
+                submittedBy: 'CEO',
+                type: type.charAt(0).toUpperCase() + type.slice(1),
+                status: 'submitted',
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            // Add to submissions table
+            const tbody = document.getElementById('submissionsTableBody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${newSubmission.id}</td>
+                <td>${newSubmission.title}</td>
+                <td>${newSubmission.submittedBy}</td>
+                <td>${newSubmission.type}</td>
+                <td><span class="status-badge ${newSubmission.status}">${newSubmission.status}</span></td>
+                <td>${newSubmission.date}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn-action btn-view" onclick="viewSubmission('${newSubmission.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+            tbody.insertBefore(row, tbody.firstChild);
+
+            // Close modal and reset form
+            closeModal('submissionModal');
+            document.getElementById('submissionForm').reset();
+            showAlert('Submission created successfully!', 'success');
+        }
+
+        function viewSubmission(id) {
+            // Find submission data
+            const submissions = [
+                {
+                    id: 'SUB001',
+                    title: 'Phase 2 Budget Proposal',
+                    submittedBy: 'Coordinator',
+                    type: 'Budget',
+                    status: 'pending',
+                    date: '2024-03-15',
+                    description: 'Budget proposal for Phase 2 pig farming project including infrastructure and operational costs.',
+                    priority: 'high'
+                }
+            ];
+
+            const submission = submissions.find(s => s.id === id);
+            if (submission) {
+                document.getElementById('viewModalTitle').textContent = submission.title;
+                document.getElementById('viewModalBody').innerHTML = `
+                    <div class="submission-details">
+                        <div class="detail-row">
+                            <strong>ID:</strong> ${submission.id}
+                        </div>
+                        <div class="detail-row">
+                            <strong>Type:</strong> ${submission.type}
+                        </div>
+                        <div class="detail-row">
+                            <strong>Submitted By:</strong> ${submission.submittedBy}
+                        </div>
+                        <div class="detail-row">
+                            <strong>Date:</strong> ${submission.date}
+                        </div>
+                        <div class="detail-row">
+                            <strong>Status:</strong> <span class="status-badge ${submission.status}">${submission.status}</span>
+                        </div>
+                        <div class="detail-row">
+                            <strong>Priority:</strong> ${submission.priority}
+                        </div>
+                        <div class="detail-row">
+                            <strong>Description:</strong>
+                            <p>${submission.description}</p>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('viewModal').classList.add('show');
+            }
+        }
+
+        function approveSubmission(id) {
+            showAlert(`Submission ${id} approved successfully!`, 'success');
+            loadSubmissions(); // Reload submissions
+        }
+
+        function rejectSubmission(id) {
+            if (confirm('Are you sure you want to reject this submission?')) {
+                showAlert(`Submission ${id} rejected!`, 'danger');
+                loadSubmissions(); // Reload submissions
+            }
+        }
+
+        function approveItem(id) {
+            showAlert(`Item ${id} approved successfully!`, 'success');
+            loadApprovals(); // Reload approvals
+        }
+
+        function rejectItem(id) {
+            if (confirm('Are you sure you want to reject this item?')) {
+                showAlert(`Item ${id} rejected!`, 'danger');
+                loadApprovals(); // Reload approvals
+            }
+        }
+
+        function viewTeamMember(name) {
+            showAlert(`Viewing details for ${name}`, 'info');
+        }
+
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(alert);
+            alert.style.position = 'fixed';
+            alert.style.top = '20px';
+            alert.style.right = '20px';
+            alert.style.zIndex = '3000';
+            alert.style.minWidth = '300px';
+            
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 5000);
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('userDropdown');
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            
+            if (!dropdownToggle.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYIKB Council Dashboard</title>
+    <link rel="stylesheet" href="bootstrap_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --council-primary: #9b59b6;
+            --council-secondary: #8e44ad;
+            --council-success: #27ae60;
+            --council-danger: #e74c3c;
+            --council-warning: #f39c12;
+            --council-info: #17a2b8;
+            --council-dark: #2c3e50;
+            --council-light: #ecf0f1;
+        }
+
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .council-header {
+            background: linear-gradient(135deg, var(--council-primary) 0%, var(--council-secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .navbar-brand i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--council-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--council-light);
+        }
+
+        .dropdown-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        .council-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        .council-sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 2rem 0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: var(--council-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: var(--council-light);
+            border-left-color: var(--council-primary);
+        }
+
+        .sidebar-link i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .council-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            color: var(--council-dark);
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .content-header p {
+            color: #636e72;
+            margin: 0.5rem 0 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.primary { background: rgba(155, 89, 182, 0.1); color: var(--council-primary); }
+        .stat-icon.success { background: rgba(39, 174, 96, 0.1); color: var(--council-success); }
+        .stat-icon.warning { background: rgba(243, 156, 18, 0.1); color: var(--council-warning); }
+        .stat-icon.info { background: rgba(23, 162, 184, 0.1); color: var(--council-info); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--council-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--council-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            color: var(--council-dark);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .meeting-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .meeting-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--council-primary);
+        }
+
+        .meeting-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .meeting-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .meeting-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--council-dark);
+            margin: 0;
+        }
+
+        .meeting-type {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .meeting-type.regular {
+            background: rgba(155, 89, 182, 0.1);
+            color: var(--council-primary);
+        }
+
+        .meeting-type.special {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--council-warning);
+        }
+
+        .meeting-type.emergency {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--council-danger);
+        }
+
+        .meeting-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .meeting-status.scheduled {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--council-info);
+        }
+
+        .meeting-status.completed {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--council-success);
+        }
+
+        .meeting-status.cancelled {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--council-danger);
+        }
+
+        .meeting-details {
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .detail-label {
+            color: #636e72;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--council-dark);
+        }
+
+        .meeting-agenda {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: var(--council-light);
+            border-radius: 8px;
+        }
+
+        .agenda-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .agenda-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--council-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .agenda-details {
+            flex: 1;
+        }
+
+        .agenda-title {
+            font-weight: 600;
+            color: var(--council-dark);
+            margin: 0;
+        }
+
+        .agenda-text {
+            font-size: 0.8rem;
+            color: #636e72;
+            margin: 0;
+        }
+
+        .meeting-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view {
+            background: var(--council-info);
+            color: white;
+        }
+
+        .btn-edit {
+            background: var(--council-warning);
+            color: white;
+        }
+
+        .btn-approve {
+            background: var(--council-success);
+            color: white;
+        }
+
+        .btn-action:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .policy-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--council-success);
+        }
+
+        .policy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .policy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .policy-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--council-dark);
+            margin: 0;
+        }
+
+        .policy-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .policy-status.approved {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--council-success);
+        }
+
+        .policy-status.pending {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--council-warning);
+        }
+
+        .policy-status.draft {
+            background: rgba(149, 165, 166, 0.1);
+            color: #7f8c8d;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--council-primary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--council-success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--council-warning);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--council-danger);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .council-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--council-primary), var(--council-secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+
+        .member-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--council-dark);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .member-role {
+            color: #636e72;
+            margin: 0 0 1rem 0;
+        }
+
+        .member-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--council-success);
+        }
+
+        @media (max-width: 768px) {
+            .council-container {
+                flex-direction: column;
+            }
+
+            .council-sidebar {
+                width: 100%;
+                padding: 1rem 0;
+            }
+
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+
+            .sidebar-link {
+                white-space: nowrap;
+                padding: 0.75rem 1rem;
+            }
+
+            .council-content {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .content-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Council Header -->
+    <header class="council-header">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-users"></i>
+                AYIKB Council
+            </div>
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="dashboard_enhanced.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <div class="user-dropdown">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">
+                        <i class="fas fa-user"></i>
+                        <span id="userName">Council Member</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                        <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #eee;">
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="council-container">
+        <!-- Sidebar -->
+        <aside class="council-sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link active" data-section="overview">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Overview
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="meetings">
+                        <i class="fas fa-calendar"></i>
+                        Council Meetings
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="policies">
+                        <i class="fas fa-file-contract"></i>
+                        Policies
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="decisions">
+                        <i class="fas fa-gavel"></i>
+                        Decisions
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="performance">
+                        <i class="fas fa-chart-line"></i>
+                        Performance Review
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" data-section="members">
+                        <i class="fas fa-users"></i>
+                        Council Members
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="council-content">
+            <!-- Overview Section -->
+            <div class="main-content active" id="overview">
+                <div class="content-header">
+                    <h1>Council Overview</h1>
+                    <p>Strategic oversight and governance dashboard.</p>
+                </div>
+
+                <!-- Council Members -->
+                <div class="council-members">
+                    <div class="member-card">
+                        <div class="member-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="member-name">Council Chair</h3>
+                        <p class="member-role">Chairperson</p>
+                        <span class="member-status">Active</span>
+                    </div>
+
+                    <div class="member-card">
+                        <div class="member-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="member-name">Council Member 1</h3>
+                        <p class="member-role">Member</p>
+                        <span class="member-status">Active</span>
+                    </div>
+
+                    <div class="member-card">
+                        <div class="member-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="member-name">Council Member 2</h3>
+                        <p class="member-role">Member</p>
+                        <span class="member-status">Active</span>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <span class="stat-change positive">+1</span>
+                        </div>
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Total Meetings</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <span class="stat-change positive">+2</span>
+                        </div>
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <span class="stat-change">+1</span>
+                        </div>
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">Scheduled</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon info">
+                                <i class="fas fa-gavel"></i>
+                            </div>
+                            <span class="stat-change positive">+3</span>
+                        </div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Major Decisions</div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Council Activity</h3>
+                        <button class="btn btn-primary">View All</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Meeting Completed</strong> - Q1 2024 Council Meeting</p>
+                                    <span class="activity-time">2 weeks ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-gavel"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Decision Made</strong> - Approved Q2 budget allocation</p>
+                                    <span class="activity-time">2 weeks ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-file-contract"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Policy Approved</strong> - Updated governance policies</p>
+                                    <span class="activity-time">1 month ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meetings Section -->
+            <div class="main-content" id="meetings">
+                <div class="content-header">
+                    <h1>Council Meetings</h1>
+                    <p>Manage council meetings and proceedings.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>All Council Meetings</h3>
+                        <button class="btn btn-primary">Schedule Meeting</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="meeting-grid">
+                            <div class="meeting-card">
+                                <div class="meeting-header">
+                                    <h3 class="meeting-title">Q1 2024 Council Meeting</h3>
+                                    <span class="meeting-type regular">Regular</span>
+                                </div>
+                                <div class="meeting-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Date:</span>
+                                        <span class="detail-value">Mar 15, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Time:</span>
+                                        <span class="detail-value">2:00 PM</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Location:</span>
+                                        <span class="detail-value">AYIKB Office</span>
+                                    </div>
+                                </div>
+                                <div class="meeting-agenda">
+                                    <div class="agenda-header">
+                                        <div class="agenda-icon">
+                                            <i class="fas fa-list"></i>
+                                        </div>
+                                        <div class="agenda-details">
+                                            <p class="agenda-title">Agenda</p>
+                                            <p class="agenda-text">Review Q1 performance, approve Q2 budget, discuss strategic initiatives</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="meeting-status completed">Completed</span>
+                                <div class="meeting-actions">
+                                    <button class="btn-action btn-view">View Minutes</button>
+                                    <button class="btn-action btn-view">View Decisions</button>
+                                </div>
+                            </div>
+
+                            <div class="meeting-card">
+                                <div class="meeting-header">
+                                    <h3 class="meeting-title">Emergency Budget Meeting</h3>
+                                    <span class="meeting-type emergency">Emergency</span>
+                                </div>
+                                <div class="meeting-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Date:</span>
+                                        <span class="detail-value">Feb 20, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Time:</span>
+                                        <span class="detail-value">10:00 AM</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Location:</span>
+                                        <span class="detail-value">AYIKB Office</span>
+                                    </div>
+                                </div>
+                                <div class="meeting-agenda">
+                                    <div class="agenda-header">
+                                        <div class="agenda-icon">
+                                            <i class="fas fa-list"></i>
+                                        </div>
+                                        <div class="agenda-details">
+                                            <p class="agenda-title">Agenda</p>
+                                            <p class="agenda-text">Discuss budget reallocation for Phase 2 project</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="meeting-status completed">Completed</span>
+                                <div class="meeting-actions">
+                                    <button class="btn-action btn-view">View Minutes</button>
+                                    <button class="btn-action btn-view">View Decisions</button>
+                                </div>
+                            </div>
+
+                            <div class="meeting-card">
+                                <div class="meeting-header">
+                                    <h3 class="meeting-title">Strategic Planning Session</h3>
+                                    <span class="meeting-type special">Special</span>
+                                </div>
+                                <div class="meeting-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Date:</span>
+                                        <span class="detail-value">Apr 10, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Time:</span>
+                                        <span class="detail-value">9:00 AM</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Location:</span>
+                                        <span class="detail-value">AYIKB Office</span>
+                                    </div>
+                                </div>
+                                <div class="meeting-agenda">
+                                    <div class="agenda-header">
+                                        <div class="agenda-icon">
+                                            <i class="fas fa-list"></i>
+                                        </div>
+                                        <div class="agenda-details">
+                                            <p class="agenda-title">Agenda</p>
+                                            <p class="agenda-text">Develop 2024-2026 strategic plan</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="meeting-status scheduled">Scheduled</span>
+                                <div class="meeting-actions">
+                                    <button class="btn-action btn-edit">Edit</button>
+                                    <button class="btn-action btn-view">View Agenda</button>
+                                </div>
+                            </div>
+
+                            <div class="meeting-card">
+                                <div class="meeting-header">
+                                    <h3 class="meeting-title">Policy Review Meeting</h3>
+                                    <span class="meeting-type regular">Regular</span>
+                                </div>
+                                <div class="meeting-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Date:</span>
+                                        <span class="detail-value">Apr 25, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Time:</span>
+                                        <span class="detail-value">2:00 PM</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Location:</span>
+                                        <span class="detail-value">AYIKB Office</span>
+                                    </div>
+                                </div>
+                                <div class="meeting-agenda">
+                                    <div class="agenda-header">
+                                        <div class="agenda-icon">
+                                            <i class="fas fa-list"></i>
+                                        </div>
+                                        <div class="agenda-details">
+                                            <p class="agenda-title">Agenda</p>
+                                            <p class="agenda-text">Review and update organizational policies</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="meeting-status scheduled">Scheduled</span>
+                                <div class="meeting-actions">
+                                    <button class="btn-action btn-edit">Edit</button>
+                                    <button class="btn-action btn-view">View Agenda</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Policies Section -->
+            <div class="main-content" id="policies">
+                <div class="content-header">
+                    <h1>Council Policies</h1>
+                    <p>Manage organizational policies and governance documents.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Active Policies</h3>
+                        <button class="btn btn-primary">Create Policy</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="policy-grid">
+                            <div class="policy-card">
+                                <div class="policy-header">
+                                    <h3 class="policy-title">Governance Policy</h3>
+                                    <span class="policy-status approved">Approved</span>
+                                </div>
+                                <div class="policy-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Version:</span>
+                                        <span class="detail-value">2.0</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Approved:</span>
+                                        <span class="detail-value">Jan 15, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Next Review:</span>
+                                        <span class="detail-value">Jan 15, 2025</span>
+                                    </div>
+                                </div>
+                                <div class="policy-actions">
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </div>
+                            </div>
+
+                            <div class="policy-card">
+                                <div class="policy-header">
+                                    <h3 class="policy-title">Financial Policy</h3>
+                                    <span class="policy-status approved">Approved</span>
+                                </div>
+                                <div class="policy-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Version:</span>
+                                        <span class="detail-value">1.5</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Approved:</span>
+                                        <span class="detail-value">Feb 10, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Next Review:</span>
+                                        <span class="detail-value">Feb 10, 2025</span>
+                                    </div>
+                                </div>
+                                <div class="policy-actions">
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </div>
+                            </div>
+
+                            <div class="policy-card">
+                                <div class="policy-header">
+                                    <h3 class="policy-title">HR Policy</h3>
+                                    <span class="policy-status pending">Pending</span>
+                                </div>
+                                <div class="policy-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Version:</span>
+                                        <span class="detail-value">1.0</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Submitted:</span>
+                                        <span class="detail-value">Mar 1, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status:</span>
+                                        <span class="detail-value">Under Review</span>
+                                    </div>
+                                </div>
+                                <div class="policy-actions">
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-approve">Approve</button>
+                                </div>
+                            </div>
+
+                            <div class="policy-card">
+                                <div class="policy-header">
+                                    <h3 class="policy-title">Strategic Policy</h3>
+                                    <span class="policy-status draft">Draft</span>
+                                </div>
+                                <div class="policy-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Version:</span>
+                                        <span class="detail-value">0.5</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Created:</span>
+                                        <span class="detail-value">Mar 20, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status:</span>
+                                        <span class="detail-value">In Development</span>
+                                    </div>
+                                </div>
+                                <div class="policy-actions">
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-edit">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decisions Section -->
+            <div class="main-content" id="decisions">
+                <div class="content-header">
+                    <h1>Council Decisions</h1>
+                    <p>Track and manage council decisions and approvals.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Major Decisions</h3>
+                        <button class="btn btn-primary">Record Decision</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon success">
+                                        <i class="fas fa-gavel"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">8</div>
+                                <div class="stat-label">Total Decisions</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon primary">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">6</div>
+                                <div class="stat-label">Implemented</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon warning">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">2</div>
+                                <div class="stat-label">Pending</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon info">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">2.8M</div>
+                                <div class="stat-label">Budget Impact</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Section -->
+            <div class="main-content" id="performance">
+                <div class="content-header">
+                    <h1>Performance Review</h1>
+                    <p>Review organizational and project performance.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Performance Metrics</h3>
+                        <button class="btn btn-primary">Generate Report</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon success">
+                                        <i class="fas fa-trending-up"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">85%</div>
+                                <div class="stat-label">Overall Performance</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon primary">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">Active Projects</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon warning">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">42</div>
+                                <div class="stat-label">Team Members</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon info">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-value">156</div>
+                                <div class="stat-label">Training Completed</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members Section -->
+            <div class="main-content" id="members">
+                <div class="content-header">
+                    <h1>Council Members</h1>
+                    <p>Manage council membership and roles.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Current Council Members</h3>
+                        <button class="btn btn-primary">Add Member</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="council-members">
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3 class="member-name">Council Chair</h3>
+                                <p class="member-role">Chairperson</p>
+                                <span class="member-status">Active</span>
+                            </div>
+
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3 class="member-name">Council Member 1</h3>
+                                <p class="member-role">Member</p>
+                                <span class="member-status">Active</span>
+                            </div>
+
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3 class="member-name">Council Member 2</h3>
+                                <p class="member-role">Member</p>
+                                <span class="member-status">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Council Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCouncil();
+        });
+
+        function initializeCouncil() {
+            // Check if user is logged in as Council
+            const user = JSON.parse(localStorage.getItem('ayikb_user') || sessionStorage.getItem('ayikb_user'));
+            if (!user || user.role !== 'council') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Set user name
+            document.getElementById('userName').textContent = user.name || 'Council Member';
+
+            // Setup event listeners
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // Sidebar navigation
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and sections
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    document.querySelectorAll('.main-content').forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sectionId = this.dataset.section;
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function logout() {
+            localStorage.removeItem('ayikb_user');
+            sessionStorage.removeItem('ayikb_user');
+            window.location.href = 'login.html';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('userDropdown');
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            
+            if (!dropdownToggle.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

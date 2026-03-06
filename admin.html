@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - AYIKB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>AYIKB</h1>
+                    <p>Admin Panel</p>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Ahabanza</a></li>
+                    <li><a href="dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="projects.html" class="nav-link"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                    <li><a href="training.html" class="nav-link"><i class="fas fa-graduation-cap"></i> Amahugurwa</a></li>
+                    <li><a href="partners.html" class="nav-link"><i class="fas fa-handshake"></i> Abafatanyabikorwa</a></li>
+                    <li><a href="reports.html" class="nav-link"><i class="fas fa-chart-bar"></i> Raporo</a></li>
+                    <li><a href="admin.html" class="nav-link active"><i class="fas fa-cog"></i> Admin</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <div class="admin-container">
+            <aside class="admin-sidebar">
+                <div class="sidebar-header">
+                    <h3><i class="fas fa-shield-alt"></i> Admin Controls</h3>
+                </div>
+                <ul class="sidebar-menu">
+                    <li><a href="#users" class="sidebar-link active"><i class="fas fa-users"></i> Abakozi</a></li>
+                    <li><a href="#settings" class="sidebar-link"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li><a href="#backup" class="sidebar-link"><i class="fas fa-database"></i> Backup</a></li>
+                    <li><a href="#security" class="sidebar-link"><i class="fas fa-lock"></i> Security</a></li>
+                    <li><a href="#logs" class="sidebar-link"><i class="fas fa-file-alt"></i> Logs</a></li>
+                    <li><a href="#maintenance" class="sidebar-link"><i class="fas fa-tools"></i> Maintenance</a></li>
+                </ul>
+            </aside>
+
+            <div class="admin-content">
+                <!-- Users Management -->
+                <section id="users" class="admin-section active">
+                    <div class="section-header">
+                        <h2>Abakozi Management</h2>
+                        <button class="btn btn-primary" onclick="showAddUserModal()">
+                            <i class="fas fa-user-plus"></i> Ohereza Umukozi
+                        </button>
+                    </div>
+                    
+                    <div class="users-table">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Izina</th>
+                                    <th>Email</th>
+                                    <th>Akazi</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>001</td>
+                                    <td>Pierre Niyonzima</td>
+                                    <td>pierre@ayikb.rw</td>
+                                    <td>Manager</td>
+                                    <td><span class="role-badge admin">Admin</span></td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="viewUser(1)">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-info" onclick="editUser(1)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-warning" onclick="suspendUser(1)">
+                                            <i class="fas fa-pause"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteUser(1)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>002</td>
+                                    <td>Jean Mugisha</td>
+                                    <td>jean@ayikb.rw</td>
+                                    <td>Farmer</td>
+                                    <td><span class="role-badge user">User</span></td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="viewUser(2)">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-info" onclick="editUser(2)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-warning" onclick="suspendUser(2)">
+                                            <i class="fas fa-pause"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteUser(2)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>003</td>
+                                    <td>Marie Mukamana</td>
+                                    <td>marie@ayikb.rw</td>
+                                    <td>Agriculture Worker</td>
+                                    <td><span class="role-badge user">User</span></td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="viewUser(3)">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-info" onclick="editUser(3)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-warning" onclick="suspendUser(3)">
+                                            <i class="fas fa-pause"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteUser(3)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- System Settings -->
+                <section id="settings" class="admin-section">
+                    <div class="section-header">
+                        <h2>System Settings</h2>
+                        <button class="btn btn-success" onclick="saveSettings()">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
+                    </div>
+                    
+                    <div class="settings-form">
+                        <div class="setting-group">
+                            <h3>General Settings</h3>
+                            <div class="form-group">
+                                <label>Business Name</label>
+                                <input type="text" id="businessName" value="AgriYouth Innovation Kirehe Business">
+                            </div>
+                            <div class="form-group">
+                                <label>Business Email</label>
+                                <input type="email" id="businessEmail" value="info@ayikb.rw">
+                            </div>
+                            <div class="form-group">
+                                <label>Business Phone</label>
+                                <input type="tel" id="businessPhone" value="0788123456">
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text" id="businessAddress" value="Kirehe District, Nyamugari Sector">
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <h3>Notification Settings</h3>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    Enable Email Notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="smsNotifications">
+                                    Enable SMS Notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="pushNotifications" checked>
+                                    Enable Push Notifications
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <h3>Security Settings</h3>
+                            <div class="form-group">
+                                <label>Session Timeout (minutes)</label>
+                                <input type="number" id="sessionTimeout" value="30">
+                            </div>
+                            <div class="form-group">
+                                <label>Max Login Attempts</label>
+                                <input type="number" id="maxLoginAttempts" value="5">
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="twoFactorAuth">
+                                    Enable Two-Factor Authentication
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Backup Management -->
+                <section id="backup" class="admin-section">
+                    <div class="section-header">
+                        <h2>Backup Management</h2>
+                        <button class="btn btn-primary" onclick="createBackup()">
+                            <i class="fas fa-download"></i> Create Backup
+                        </button>
+                    </div>
+                    
+                    <div class="backup-info">
+                        <div class="backup-stats">
+                            <div class="stat-item">
+                                <h4>Last Backup</h4>
+                                <p>25/03/2024 14:30</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>Backup Size</h4>
+                                <p>245 MB</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>Total Backups</h4>
+                                <p>12</p>
+                            </div>
+                        </div>
+
+                        <div class="backup-schedule">
+                            <h3>Automatic Backup Schedule</h3>
+                            <div class="form-group">
+                                <label>Backup Frequency</label>
+                                <select id="backupFrequency">
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly" selected>Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Retention Period (days)</label>
+                                <input type="number" id="retentionPeriod" value="30">
+                            </div>
+                        </div>
+
+                        <div class="backup-history">
+                            <h3>Backup History</h3>
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Size</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>25/03/2024 14:30</td>
+                                        <td>Full</td>
+                                        <td>245 MB</td>
+                                        <td><span class="status success">Success</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info" onclick="downloadBackup(1)">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" onclick="deleteBackup(1)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>18/03/2024 14:30</td>
+                                        <td>Full</td>
+                                        <td>238 MB</td>
+                                        <td><span class="status success">Success</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info" onclick="downloadBackup(2)">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" onclick="deleteBackup(2)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Security -->
+                <section id="security" class="admin-section">
+                    <div class="section-header">
+                        <h2>Security Management</h2>
+                    </div>
+                    
+                    <div class="security-overview">
+                        <div class="security-stats">
+                            <div class="security-card">
+                                <h4>Login Attempts Today</h4>
+                                <p>45</p>
+                                <span class="trend normal">Normal</span>
+                            </div>
+                            <div class="security-card">
+                                <h4>Failed Logins</h4>
+                                <p>3</p>
+                                <span class="trend warning">Warning</span>
+                            </div>
+                            <div class="security-card">
+                                <h4>Active Sessions</h4>
+                                <p>8</p>
+                                <span class="trend good">Good</span>
+                            </div>
+                        </div>
+
+                        <div class="security-actions">
+                            <h3>Security Actions</h3>
+                            <div class="action-buttons">
+                                <button class="btn btn-warning" onclick="lockSystem()">
+                                    <i class="fas fa-lock"></i> Lock System
+                                </button>
+                                <button class="btn btn-danger" onclick="forceLogout()">
+                                    <i class="fas fa-sign-out-alt"></i> Force Logout All
+                                </button>
+                                <button class="btn btn-info" onclick="changePassword()">
+                                    <i class="fas fa-key"></i> Change Admin Password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- System Logs -->
+                <section id="logs" class="admin-section">
+                    <div class="section-header">
+                        <h2>System Logs</h2>
+                        <button class="btn btn-danger" onclick="clearLogs()">
+                            <i class="fas fa-trash"></i> Clear Logs
+                        </button>
+                    </div>
+                    
+                    <div class="log-filters">
+                        <select id="logLevel">
+                            <option value="all">All Levels</option>
+                            <option value="info">Info</option>
+                            <option value="warning">Warning</option>
+                            <option value="error">Error</option>
+                        </select>
+                        <input type="date" id="logDate">
+                        <button class="btn btn-primary" onclick="filterLogs()">Filter</button>
+                    </div>
+
+                    <div class="logs-container">
+                        <div class="log-entry info">
+                            <span class="log-time">2024-03-25 14:30:22</span>
+                            <span class="log-level">INFO</span>
+                            <span class="log-message">User pierre@ayikb.rw logged in successfully</span>
+                        </div>
+                        <div class="log-entry warning">
+                            <span class="log-time">2024-03-25 14:15:10</span>
+                            <span class="log-level">WARNING</span>
+                            <span class="log-message">Failed login attempt from IP 192.168.1.100</span>
+                        </div>
+                        <div class="log-entry info">
+                            <span class="log-time">2024-03-25 13:45:33</span>
+                            <span class="log-level">INFO</span>
+                            <span class="log-message">Backup completed successfully</span>
+                        </div>
+                        <div class="log-entry error">
+                            <span class="log-time">2024-03-25 12:30:15</span>
+                            <span class="log-level">ERROR</span>
+                            <span class="log-message">Database connection timeout</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Maintenance -->
+                <section id="maintenance" class="admin-section">
+                    <div class="section-header">
+                        <h2>System Maintenance</h2>
+                    </div>
+                    
+                    <div class="maintenance-tools">
+                        <div class="maintenance-card">
+                            <h3>Database Maintenance</h3>
+                            <p>Optimize and clean database</p>
+                            <button class="btn btn-primary" onclick="optimizeDatabase()">
+                                <i class="fas fa-tools"></i> Optimize Database
+                            </button>
+                        </div>
+
+                        <div class="maintenance-card">
+                            <h3>Cache Clear</h3>
+                            <p>Clear system cache and temporary files</p>
+                            <button class="btn btn-warning" onclick="clearCache()">
+                                <i class="fas fa-broom"></i> Clear Cache
+                            </button>
+                        </div>
+
+                        <div class="maintenance-card">
+                            <h3>System Update</h3>
+                            <p>Check for system updates</p>
+                            <button class="btn btn-info" onclick="checkUpdates()">
+                                <i class="fas fa-sync"></i> Check Updates
+                            </button>
+                        </div>
+
+                        <div class="maintenance-card">
+                            <h3>System Restart</h3>
+                            <p>Restart system services</p>
+                            <button class="btn btn-danger" onclick="restartSystem()">
+                                <i class="fas fa-power-off"></i> Restart System
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="system-status">
+                        <h3>System Status</h3>
+                        <div class="status-grid">
+                            <div class="status-item">
+                                <span class="status-label">Database</span>
+                                <span class="status-indicator good">Online</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Web Server</span>
+                                <span class="status-indicator good">Online</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Backup Service</span>
+                                <span class="status-indicator good">Running</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Email Service</span>
+                                <span class="status-indicator warning">Warning</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ohereza Umukozi</h3>
+                <span class="close" onclick="closeModal('addUserModal')">&times;</span>
+            </div>
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label>Izina ry'Umukozi:</label>
+                    <input type="text" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefoni:</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Akazi:</label>
+                    <input type="text" name="position" required>
+                </div>
+                <div class="form-group">
+                    <label>Role:</label>
+                    <select name="role" required>
+                        <option value="user">User</option>
+                        <option value="manager">Manager</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('addUserModal')">Kureka</button>
+                    <button type="submit" class="btn btn-primary">Ohereza</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="access_control.js"></script>
+    <script>
+        // Authentication check - Only real admin users can access
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const currentUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+            
+            if (!currentUser) {
+                // No user logged in - redirect to login
+                alert('Nta muntu wamaze kwinjira. Mwongereza kuri login page.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(currentUser);
+                
+                // Check if user has admin privileges
+                if (user.role !== 'admin' && user.role !== 'ceo') {
+                    // User is not admin - redirect to appropriate page
+                    alert('Nta burenganzira bwo kuyikurikira iyi paji. Urasubira kuri dashboard.');
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+                
+                // User is authenticated admin - proceed
+                console.log('Admin user authenticated:', user.fullName, 'Role:', user.role);
+                
+                // Add logout button to navigation
+                addLogoutButton();
+                
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                alert('Ikibazo cyagenwe kuri session. Mwongereza kwinjira.');
+                localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            }
+        });
+
+        function addLogoutButton() {
+            const navMenu = document.querySelector('.nav-menu');
+            if (navMenu) {
+                // Create logout button
+                const logoutLi = document.createElement('li');
+                logoutLi.innerHTML = '<a href="#" onclick="manualLogout()" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a>';
+                navMenu.appendChild(logoutLi);
+            }
+        }
+
+        function manualLogout() {
+            if (confirm('Uziye ko ushaka gusohoka?')) {
+                // Clear user session
+                localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('currentUser');
+                
+                // Show logout message
+                alert('Wasohotse neza muri sisitemu!');
+                
+                // Redirect to login page
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1000);
+            }
+        }
+
+        // User Management Functions
+        function viewUser(userId) {
+            // Find user data
+            const users = [
+                { id: 1, name: 'Jean Pierre Nsengiyumva', email: 'jean@ayikb.rw', position: 'Project Manager', role: 'admin', status: 'active', phone: '+250 788 123 456', joinDate: '2023-01-15' },
+                { id: 2, name: 'Alice Mukamana', email: 'alice@ayikb.rw', position: 'Farmer', role: 'user', status: 'active', phone: '+250 788 123 457', joinDate: '2023-02-20' },
+                { id: 3, name: 'Marie Mukamana', email: 'marie@ayikb.rw', position: 'Agriculture Worker', role: 'user', status: 'active', phone: '+250 788 123 458', joinDate: '2023-03-10' }
+            ];
+            
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                const userInfo = `
+                    <div style="padding: 20px; background: #f8f9fa; border-radius: 8px; margin: 10px 0;">
+                        <h3><i class="fas fa-user"></i> User Information</h3>
+                        <p><strong>Izina:</strong> ${user.name}</p>
+                        <p><strong>Email:</strong> ${user.email}</p>
+                        <p><strong>Telefoni:</strong> ${user.phone}</p>
+                        <p><strong>Akazi:</strong> ${user.position}</p>
+                        <p><strong>Urwego:</strong> ${user.role}</p>
+                        <p><strong>Imimerere:</strong> ${user.status}</p>
+                        <p><strong>Itariki yinjira:</strong> ${user.joinDate}</p>
+                        <button class="btn btn-secondary" onclick="closeUserInfo()">Funga</button>
+                    </div>
+                `;
+                
+                // Create modal or display info
+                const infoDiv = document.createElement('div');
+                infoDiv.id = 'userInfoModal';
+                infoDiv.innerHTML = userInfo;
+                infoDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: white;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                    z-index: 1000;
+                    max-width: 500px;
+                    width: 90%;
+                `;
+                
+                document.body.appendChild(infoDiv);
+            }
+        }
+
+        function closeUserInfo() {
+            const infoDiv = document.getElementById('userInfoModal');
+            if (infoDiv) {
+                infoDiv.remove();
+            }
+        }
+
+        function editUser(userId) {
+            // Find user data
+            const users = [
+                { id: 1, name: 'Jean Pierre Nsengiyumva', email: 'jean@ayikb.rw', position: 'Project Manager', role: 'admin', status: 'active', phone: '+250 788 123 456' },
+                { id: 2, name: 'Alice Mukamana', email: 'alice@ayikb.rw', position: 'Farmer', role: 'user', status: 'active', phone: '+250 788 123 457' },
+                { id: 3, name: 'Marie Mukamana', email: 'marie@ayikb.rw', position: 'Agriculture Worker', role: 'user', status: 'active', phone: '+250 788 123 458' }
+            ];
+            
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                const editForm = `
+                    <div style="padding: 20px; background: white; border-radius: 8px; margin: 10px 0;">
+                        <h3><i class="fas fa-edit"></i> Hindura Umukozi</h3>
+                        <form id="editUserForm">
+                            <div class="form-group">
+                                <label>Izina:</label>
+                                <input type="text" name="name" value="${user.name}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email:</label>
+                                <input type="email" name="email" value="${user.email}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Telefoni:</label>
+                                <input type="tel" name="phone" value="${user.phone}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Akazi:</label>
+                                <input type="text" name="position" value="${user.position}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Urwego:</label>
+                                <select name="role" required>
+                                    <option value="user" ${user.role === 'user' ? 'selected' : ''}>User</option>
+                                    <option value="manager" ${user.role === 'manager' ? 'selected' : ''}>Manager</option>
+                                    <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Imimerere:</label>
+                                <select name="status" required>
+                                    <option value="active" ${user.status === 'active' ? 'selected' : ''}>Active</option>
+                                    <option value="inactive" ${user.status === 'inactive' ? 'selected' : ''}>Inactive</option>
+                                    <option value="suspended" ${user.status === 'suspended' ? 'selected' : ''}>Suspended</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="closeEditUser()">Kureka</button>
+                                <button type="submit" class="btn btn-primary">Kubika</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+                
+                // Create modal
+                const editDiv = document.createElement('div');
+                editDiv.id = 'editUserModal';
+                editDiv.innerHTML = editForm;
+                editDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: white;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                    z-index: 1000;
+                    max-width: 500px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                `;
+                
+                document.body.appendChild(editDiv);
+                
+                // Handle form submission
+                document.getElementById('editUserForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Umukozi wahinduwe neza!');
+                    closeEditUser();
+                });
+            }
+        }
+
+        function closeEditUser() {
+            const editDiv = document.getElementById('editUserModal');
+            if (editDiv) {
+                editDiv.remove();
+            }
+        }
+
+        function suspendUser(userId) {
+            if (confirm('Uziye ko ushaka gukuraho umukozi?')) {
+                alert(`Umukozi wagenwe wa ID ${userId} yakurwemo!`);
+                // In real system, this would update the database
+            }
+        }
+
+        function deleteUser(userId) {
+            if (confirm('Uziye ko ushaka gusiba umukozi iyi nkora?')) {
+                alert(`Umukozi wa ID ${userId} yasibwe!`);
+                // In real system, this would delete from database
+            }
+        }
+
+        // Settings Functions
+        function saveSettings() {
+            alert('Ibyahinduwe byakiriye neza!');
+            // In real system, this would save to database
+        }
+
+        // Backup Functions
+        function createBackup() {
+            alert('Backup yarabitswe neza!');
+            // In real system, this would create database backup
+        }
+
+        function restoreBackup() {
+            if (confirm('Uziye ko ushaka kugarura backup?')) {
+                alert('Backup yagarutse neza!');
+                // In real system, this would restore from backup
+            }
+        }
+
+        // Security Functions
+        function updateSecurity() {
+            alert('Ibyo guhungahanya byahinduwe neza!');
+            // In real system, this would update security settings
+        }
+
+        function viewLogs() {
+            alert('Logs zarabonetse!');
+            // In real system, this would show system logs
+        }
+
+        // Maintenance Functions
+        function runMaintenance() {
+            if (confirm('Uziye ko ushaka gutunganya sisitemu?')) {
+                alert('Sisitemu iratunganywa...');
+                // In real system, this would run maintenance tasks
+            }
+        }
+
+        function clearCache() {
+            if (confirm('Uziye ko ushaka gukuraho cache?')) {
+                alert('Cache yasibwe neza!');
+                // In real system, this would clear system cache
+            }
+        }
+    </script>
+</body>
+</html>
